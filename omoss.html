@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Om oss — J&W Quality Hemservice</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/stylen.css" />
+
+  <style>
+    /* Rosa logotyp */
+    .logo-svg .bubble { fill:#ff7eba; }
+    .logo-svg .shine { stroke:#ffe7f2; stroke-width:2; fill:none; }
+
+    /* Typwriter */
+    .tw::after{content:"";animation:blink .8s steps(1) infinite}
+    @keyframes blink{50%{opacity:0}}
+
+    /* Hero */
+    .hero-full{position:relative;height:80vh;background:var(--bg,#ccc) center/cover no-repeat;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff}
+    .hero-full::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45)}
+    .hero-full .hero-content{position:relative;z-index:1;padding:0 1rem}
+    .hero-full h1{font-family:'Playfair Display',serif;font-size:clamp(38px,4vw + 1rem,70px);margin:0 0 .5rem}
+    .hero-full p{font-family:'Inter',sans-serif;font-size:clamp(18px,1.2vw + .3rem,24px);margin:0}
+
+    /* Övriga stilar */
+    :root{ --ink:#111; --muted:#666; --card:#fff; --soft:#f7f5f2; --accent:#2f7d31; --accent-weak:#e9f4ea }
+    .intro{max-width:70ch}
+    .subtle{color:var(--muted)}
+
+    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+    @media (max-width:1000px){ .grid-3,.grid-2{grid-template-columns:1fr} }
+
+    .card.soft{background:var(--card);border-radius:14px;box-shadow:0 10px 24px rgba(0,0,0,.08);padding:18px}
+
+    .badgebar{display:flex;flex-wrap:wrap;gap:10px;margin:.5rem 0 0}
+    .badge{display:inline-flex;align-items:center;gap:.45rem;font-weight:600;border:1.5px solid #e8e6e3;border-radius:999px;padding:.35rem .7rem;background:#fff}
+
+    .statbar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:10px}
+    .stat{background:#fff;border-radius:14px;box-shadow:0 8px 18px rgba(0,0,0,.06);padding:16px;text-align:center}
+    .stat b{display:block;font-size:1.6rem}
+    @media (max-width:900px){ .statbar{grid-template-columns:repeat(2,minmax(0,1fr))} }
+
+    /* Timeline utan gröna punkter */
+    .timeline{position:relative;padding-left:26px}
+    .timeline::before{
+      content:"";
+      position:absolute;
+      left:11px;
+      top:0;
+      bottom:0;
+      width:2px;
+      background:#e8e6e3;
+    }
+    .t-item{
+      position:relative;
+      margin:18px 0;
+    }
+    .t-item::before{
+      content:none !important; /* ← Ta bort grön punkt */
+    }
+    .t-item h4{
+      margin:0 0 .25rem;
+      font-size:1.1rem;
+      font-weight:700;
+    }
+
+    /* Footer */
+    .site-footer{ background:#f3f1ee; border-top:1px solid rgba(0,0,0,.08); padding:28px 0; color:#444; font-family:'Inter',sans-serif }
+    .site-footer .container{ display:flex; flex-direction:column; gap:10px; align-items:center; text-align:center }
+    .trustline{ font-size:.95em; opacity:.95 }
+    .footer-links{ display:flex; gap:18px; align-items:center; justify-content:center; margin-top:6px }
+    .footer-links a{ display:flex; gap:8px; align-items:center; color:inherit; text-decoration:none; opacity:.95 }
+    .footer-links a:hover{ opacity:1; text-decoration:underline }
+    .footer-links svg{ width:18px; height:18px; fill:#444 }
+  </style>
+</head>
+
+<body>
+  <!-- Top line -->
+  <div class="topline">
+    <div class="container">
+      📞 <a href="tel:+46700433157">+46 700 433 157</a> • ✉️
+      <a href="mailto:jw.qualityhemservice@gmail.com">jw.qualityhemservice@gmail.com</a>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="inner container">
+      <a href="index.html" class="logo-wrap">
+        <svg class="logo-svg" viewBox="0 0 260 180">
+          <circle cx="170" cy="90" r="40" class="bubble"/>
+          <path d="M190 75a15 15 0 0 1-22 18" class="shine"/>
+          <circle cx="100" cy="110" r="35" class="bubble"/>
+          <path d="M115 98a10 10 0 0 1-15 12" class="shine"/>
+          <circle cx="120" cy="45" r="18" class="bubble"/>
+          <path d="M127 39a6 6 0 0 1-8 6" class="shine"/>
+          <circle cx="65" cy="150" r="14" class="bubble"/>
+          <path d="M70 145a4 4 0 0 1-5 5" class="shine"/>
+        </svg>
+        <span class="logo-text">J&W Quality Hemservice</span>
+      </a>
+
+      <nav class="nav" id="nav">
+        <a href="index.html">Start</a>
+        <a href="tjanster.html">Tjänster</a>
+        <a class="active" href="omoss.html">Om oss</a>
+        <a href="kontakt.html">Kontakt</a>
+      </nav>
+          <div class="burger" id="burger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+
+  </header>
+
+  <!-- Hero -->
+  <section class="hero-full" style="background-image:url(foto1/om\ oss\ front.jpg)">
+    <div class="hero-content">
+      <h1 id="omossTitle" class="tw"></h1>
+      <p id="omossLead" class="tw"></p>
+    </div>
+  </section>
+  <!-- HERO (ЗАВЖДИ ПОЗА .container) 
+<section class="hero-full kontakt-hero"
+  style="background-image:url('foto1/kontakta oss front.jpg')">
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content center">
+    <h1 class="h1">Kontakt</h1>
+    <p class="lead">Offert, bokning eller frågor — vi svarar snabbt.</p>
+  </div>
+
+</section>-->
+
+<!-- ДАЛІ ВЖЕ container
+<main class="section">
+  <div class="container">
+    …
+  </div>
+</main> -->
+
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h2 class="h2">Om J&W Quality Hemservice</h2>
+        <p class="intro">
+          Vi är ett familjeägt serviceföretag i Stockholm som brinner för ett skinande rent hem och långsiktiga kundrelationer.
+          Vår filosofi är enkel: <b>hög kvalitet, samma personal och tydlig kommunikation</b>.
+        </p>
+
+        <div class="grid-3" style="margin-top:16px">
+          <!-- Värderingar -->
+          <article class="card soft">
+            <h3>Våra värderingar</h3>
+            <ul class="checklist">
+              <li>Kvalitet utan genvägar.</li>
+              <li>Trygghet – fasta rutiner.</li>
+              <li>Pålitlighet.</li>
+              <li>Respekt för kundens hem.</li>
+              <li>Hållbarhet.</li>
+            </ul>
+          </article>
+
+          <!-- Arbetsprocess -->
+          <article class="card soft">
+            <h3>Så arbetar vi</h3>
+
+            <ol class="timeline">
+              <li class="t-item">
+                <h4>Kostnadsfri offert</h4>
+                <p class="subtle">Vi lyssnar på dina behov och förutsättningar.</p>
+              </li>
+
+              <li class="t-item">
+                <h4>Start & upplägg</h4>
+                <p class="subtle">Checklista, rutiner och planerad uppföljning.</p>
+              </li>
+
+              <li class="t-item">
+                <h4>Utförande</h4>
+                <p class="subtle">Samma städare varje gång. Kvalitetssäkring.</p>
+              </li>
+
+              <li class="t-item">
+                <h4>Uppföljning</h4>
+                <p class="subtle">Justeringar vid behov och 24h garanti.</p>
+              </li>
+            </ol>
+          </article>
+
+          <!-- Kvalitet & säkerhet -->
+          <article class="card soft">
+            <h3>Kvalitet & säkerhet</h3>
+            <ul class="checklist">
+              <li>Egenkontroll med dokumentation.</li>
+              <li>Nyckel- och larmrutiner.</li>
+              <li>Ansvarsförsäkring.</li>
+              <li>Hygienrutiner och färgkodning.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="statbar">
+          <div class="stat"><b>4,7/5</b><span class="subtle">kundbetyg</span></div>
+          <div class="stat"><b>Same team</b><span class="subtle">återkommande personal</span></div>
+          <div class="stat"><b>100%</b><span class="subtle">nöjd-kund-garanti</span></div>
+          <div class="stat"><b>Miljö</b><span class="subtle">hållbara metoder</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Miljö -->
+    <section class="section" style="background:#f7f5f2">
+      <div class="container">
+        <div class="grid-2">
+          <article>
+            <h2 class="h2">Hållbar städning</h2>
+            <p>Vi använder skonsamma medel och mikrofiber …</p>
+          </article>
+          <article class="card soft">
+            <h3>Arbetsmiljö & integritet</h3>
+            <ul class="checklist">
+              <li>Tystnadsplikt.</li>
+              <li>Ergonomi.</li>
+              <li>Riskbedömning.</li>
+              <li>Tydlig kommunikation.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team -->
+    <section class="section">
+      <div class="container">
+        <h2 class="h2">Teamet bakom kvaliteten</h2>
+        <div class="grid-3" style="margin-top:16px">
+          <article class="card soft">
+            <h3>Utbildning</h3>
+            <p>Introduktion i metoder, hygien och kundbemötande.</p>
+          </article>
+          <article class="card soft">
+            <h3>Egenkontroll</h3>
+            <p>Checklistor efter varje uppdrag.</p>
+          </article>
+          <article class="card soft">
+            <h3>Kontaktväg</h3>
+            <p>Snabb kontakt via telefon, e-post eller SMS.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+      <div class="container">
+        <h2 class="h2">Vanliga frågor</h2>
+
+        <details class="faq">
+          <summary>Har ni nöjd-kund-garanti?</summary>
+          <p>Ja, 24 timmar.</p>
+        </details>
+
+        <details class="faq">
+          <summary>Kommer samma städare?</summary>
+          <p>Ja, vid återkommande besök.</p>
+        </details>
+
+        <details class="faq">
+          <summary>Miljöanpassat upplägg?</summary>
+          <p>Absolut.</p>
+        </details>
+
+        <details class="faq">
+          <summary>Nycklar och larm?</summary>
+          <p>Hantera enligt trygg rutin.</p>
+        </details>
+
+        <details class="faq">
+          <summary>Visnings- och flyttstädning?</summary>
+          <p>Ja, inklusive fönsterputs.</p>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section">
+      <div class="container">
+        <div class="cta">
+          <div>
+            <h3>Vill du veta mer?</h3>
+            <p class="subtle">Kontakta oss för offert.</p>
+          </div>
+          <a class="btn" href="kontakt.html">Begär offert</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="trustline">F-skatt • Försäkring • Trygga rutiner</div>
+
+      <div class="footer-links">
+        <a href="tel:+46700433157">📞 +46 700 433 157</a>
+        <a href="mailto:jw.qualityhemservice@gmail.com">✉️ E-post</a>
+        <a href="https://www.facebook.com/share/16Vn8WcfPp/">Facebook</a>
+        <a href="https://www.instagram.com/jw_quality_hemservice">Instagram</a>
+      </div>
+
+      <small>© <span id="year"></span> J&W — Quality Hemservice.</small>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    function typeWriter(el,text,speed=90,delay=0){
+      el.textContent="";
+      let i=0;
+      setTimeout(function run(){
+        if(i<text.length){
+          el.textContent+=text[i++];
+          setTimeout(run,speed);
+        }
+      },delay);
+    }
+
+    document.addEventListener("DOMContentLoaded",()=>{
+      typeWriter(document.getElementById("omossTitle"),"Om oss",90,0);
+      typeWriter(document.getElementById("omossLead"),"Personlig service med omtanke",40,800);
+
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      const b=document.getElementById("burgerBtn"), n=document.getElementById("mainNav");
+      b.addEventListener("click",()=>{
+        const o=n.classList.toggle("open");
+        b.setAttribute("aria-expanded",o?"true":"false");
+      });
+    });
+  </script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const burger = document.getElementById("burger");
+    const nav = document.getElementById("nav");
+
+    if (!burger || !nav) return;
+
+    burger.addEventListener("click", () => {
+      nav.classList.toggle("open");
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,523 @@
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tjänster — J&W Quality Hemservice</title>
+
+  <meta name="description"
+    content="Våra tjänster: hemstädning, storstädning, flyttstädning, fönsterputs, miljöstädning, kontorsstädning, företagsstädning, byggstädning, trappstädning, desinficering & hygienstäd, Airbnb-städning och visningsstädning. Fast pris och nöjd-kund-garanti." />
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet" />
+  <link rel="stylesheet" href="css/stylen.css" />
+  
+
+  <style>
+    /* Typwriter blink */
+    .tw::after { content:""; animation: blink .8s steps(1) infinite; }
+    @keyframes blink { 50% { opacity:0 } }
+
+    /* Hero */
+    .hero-full {
+      position: relative;
+      height: 72vh;
+      background: var(--bg, #ccc) center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+    }
+    .hero-full::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.45);
+    }
+    .hero-full .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 0 1rem;
+    }
+    .hero-full h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(38px, 4vw + 1rem, 70px);
+      margin: 0 0 .5rem;
+    }
+    .hero-full p {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(18px, 1.2vw + .3rem, 24px);
+      opacity: .95;
+      margin: 0;
+    }
+
+    /* GRID */
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 22px;
+    }
+    @media(max-width:1000px) {
+      .service-grid { grid-template-columns: 1fr; }
+    }
+
+    /* CARD FIX – gör allt pro och jämnt */
+    .card {
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+      overflow: hidden;
+    }
+
+    .img-cover {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+    }
+
+    .card-body ul {
+      flex: 1;
+      padding-left: 18px;
+      margin: 0 0 10px;
+      line-height: 1.55;
+    }
+
+    /* GRÖNA KNAPPEN FIX — alltid i botten + centrerad */
+    .card-body .btn {
+      margin-top: auto;
+      align-self: center;
+    }
+
+    /* Sektioner */
+    .sect {
+      padding: 42px 0;
+    }
+    .sect h2.h2 { text-align:center; margin-bottom:6px; }
+    .sect .lead { text-align:center; opacity:.9; margin-bottom:22px; }
+
+    /* Info */
+    .info {
+      background: #f7f5f2;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,.08);
+      padding: 18px;
+    }
+
+    /* Footer */
+    .site-footer {
+      background:#f3f1ee;
+      border-top:1px solid rgba(0,0,0,.08);
+      padding:28px 0;
+      color:#444;
+      font-family:'Inter',sans-serif;
+    }
+    .site-footer .container {
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      justify-content:center;
+      text-align:center;
+    }
+    .footer-links {
+      display:flex;
+      gap:18px;
+      justify-content:center;
+      margin-top:6px;
+    }
+    .footer-links a {
+      display:flex;
+      gap:8px;
+      align-items:center;
+      color:#111;
+      font-weight:700;
+      text-decoration:none;
+    }
+    .footer-links svg {
+      width:22px;
+      height:22px;
+      fill:currentColor;
+    }
+        /* 🌸 Rosa bubblor i loggan */
+    .logo-svg .bubble { fill: #ff7eba; }
+    .logo-svg .shine { stroke: #ffe7f2; stroke-width: 2; fill: none; }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topline">
+    <div class="container">
+      📞 <a href="tel:+46700433157">+46 700 433 157</a> • ✉️
+      <a href="mailto:jw.qualityhemservice@gmail.com">jw.qualityhemservice@gmail.com</a>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="inner container">
+      
+       <!-- LOGO (rosa bubblor FIXAD) -->
+      <a href="index.html" class="logo-wrap" aria-label="J&W">
+        <svg class="logo-svg" viewBox="0 0 260 180" aria-hidden="true">
+          <circle cx="170" cy="90" r="40" class="bubble"/>
+          <path d="M190 75a15 15 0 0 1-22 18" class="shine"/>
+          <circle cx="100" cy="110" r="35" class="bubble"/>
+          <path d="M115 98a10 10 0 0 1-15 12" class="shine"/>
+          <circle cx="120" cy="45" r="18" class="bubble"/>
+          <path d="M127 39a6 6 0 0 1-8 6" class="shine"/>
+          <circle cx="65" cy="150" r="14" class="bubble"/>
+          <path d="M70 145a4 4 0 0 1-5 5" class="shine"/>
+        </svg>
+        <span class="logo-text">J&W Quality Hemservice</span>
+      </a>
+
+      
+
+      <!-- NAVIGATION -->
+      <nav class="nav" id="nav">
+        <a href="index.html">Start</a>
+        <a class="active" href="tjanster.html">Tjänster</a>
+        <a href="omoss.html">Om oss</a>
+        <a href="kontakt.html">Kontakt</a>
+      </nav>
+          <div class="burger" id="burger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+
+
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- HERO  -->
+    <section class="hero-full" style="background-image:url(foto1/tjänster\ front.jpg)">
+      <div class="hero-content">
+        <h1 id="tjansterTitle" class="tw"></h1>
+        <p id="tjansterLead" class="tw"></p>
+      </div>
+    </section>
+    
+    <!-- HERO (ЗАВЖДИ ПОЗА .container) 
+<section class="hero-full kontakt-hero"
+  style="background-image:url('foto1/kontakta oss front.jpg')">
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content center">
+    <h1 class="h1">Kontakt</h1>
+    <p class="lead">Offert, bokning eller frågor — vi svarar snabbt.</p>
+  </div>
+
+</section> -->
+
+
+
+    <!-- SERVICE CARDS -->
+    <section class="sect">
+      <div class="container">
+        <h2 class="h2">Våra tjänster</h2>
+        <p class="lead">Professionella städlösningar för hem och företag – flexibelt upplägg, tydliga checklistor och hög kvalitet varje gång.</p>
+
+        <!-- GRID ALLA TJÄNSTER -->
+        <div class="service-grid">
+
+          <!-- CARD 1 -->
+          <article class="card">
+            <img class="img-cover" src="foto1/benefits.jpg" alt="Hemstädning" />
+            <div class="card-body">
+              <h3>Hemstädning</h3>
+              <p class="intro"><b>Vardagen blir enklare.</b> Återkommande städning av ditt hem.</p>
+              <ul>
+                <li>Dammning av öppna ytor</li>
+                <li>Golvrengöring</li>
+                <li>Kök: häll/bänkar</li>
+                <li>Badrumsrengöring</li>
+                <li>Bäddning vid önskemål</li>
+              </ul>
+              <a class="btn" href="kontakt.html">Begär offert</a>
+            </div>
+          </article>
+
+          <!-- CARD 2 -->
+          <article class="card">
+            <img class="img-cover" src="foto1/storstäda1.jpg" alt="Storstädning" />
+            <div class="card-body">
+              <h3>Storstädning</h3>
+              <p class="intro"><b>Djuprengöring.</b> Perfekt vid säsongsbyte eller återställning.</p>
+              <ul>
+                <li>Detaljstädning</li>
+                <li>Kök: invändigt</li>
+                <li>Badrum: fogar & avkalkning</li>
+                <li>Rengöring under möbler</li>
+              </ul>
+              <a class="btn" href="kontakt.html">Boka storstädning</a>
+            </div>
+          </article>
+
+          <!-- CARD 3 -->
+          <article class="card">
+            <img class="img-cover" src="foto1/flytstädning.jpeg" alt="Flyttstädning" />
+            <div class="card-body">
+              <h3>Flyttstädning</h3>
+              <p class="intro"><b>Fast pris & garanti.</b> Besiktningsgodkänd städning.</p>
+              <ul>
+                <li>Kök: ugn, skåp</li>
+                <li>Fönsterputs</li>
+                <li>Badrum: golvbrunn</li>
+                <li>Element & lister</li>
+              </ul>
+              <a class="btn" href="kontakt.html">Offert flyttstäd</a>
+            </div>
+          </article>
+
+          <!-- CARD 4 -->
+          <article class="card">
+            <img class="img-cover" src="foto1/fonsterputs.jpg" alt="Fönsterputs" />
+            <div class="card-body">
+              <h3>Fönsterputs</h3>
+              <p class="intro"><b>Kristallklart resultat.</b> Streckfri putsning.</p>
+              <ul>
+                <li>Grundputs</li>
+                <li>Säsongspaket</li>
+                <li>Höga partier</li>
+              </ul>
+              <a class="btn" href="kontakt.html">Boka puts</a>
+            </div>
+          </article>
+
+          <!-- CARD 5 -->
+          <article class="card">
+            <img class="img-cover" src="foto1/miljöstädning.jpg" alt="Miljöstädning" />
+            <div class="card-body">
+              <h3>Miljöstädning</h3>
+              <p class="intro"><b>Rent med omtanke.</b> Miljövänliga metoder.</p>
+              <ul>
+                <li>pH-anpassad dosering</li>
+                <li>Mikrofiber</li>
+                <li>Återvinning</li>
+              </ul>
+              <a class="btn" href="kontakt.html">Miljöupplägg</a>
+            </div>
+          </article>
+
+          <!-- CARD 6 -->
+          <article class="card">
+            <img class="img-cover" src="foto1/kontostädning.jpeg" alt="Kontorsstädning" />
+            <div class="card-body">
+              <h3>Kontorsstädning</h3>
+              <p class="intro"><b>Trivsam arbetsmiljö.</b> Flexibla tider.</p>
+              <ul>
+                <li>Mötesrum</li>
+                <li>Pentry</li>
+                <li>Sanitära utrymmen</li>
+              </ul>
+              <a class="btn" href="kontakt.html">Företag</a>
+            </div>
+          </article>
+
+          <!-- CARD 7 -->
+          <article class="card">
+            <img class="img-cover" src="foto1/företagsrädning.jpeg" alt="Företagsstädning" />
+            <div class="card-body">
+              <h3>Företagsstädning</h3>
+              <p class="intro"><b>Representativt intryck.</b></p>
+              <ul>
+                <li>Kundytor & entréer</li>
+                <li>Personalutrymmen</li>
+                <li>Glas & speglar</li>
+              </ul>
+              <a class="btn" href="kontakt.html">Företagsförfrågan</a>
+            </div>
+          </article>
+
+          <!-- CARD 8 -->
+          <article class="card">
+            <img class="img-cover" src="foto1/byggstädning.webp" alt="Byggstädning" />
+            <div class="card-body">
+              <h3>Byggstädning</h3>
+              <p class="intro"><b>Efter renovering.</b></p>
+              <ul>
+                <li>Grovstäd & finstäd</li>
+                <li>Borttagning av byggrester</li>
+                <li>Fönsterputs</li>
+              </ul>
+              <a class="btn" href="kontakt.html">Byggstäd</a>
+            </div>
+          </article>
+
+          <!-- CARD 9 -->
+          <article class="card">
+            <img class="img-cover" src="foto1/trappa2.jpeg" alt="Trappstädning" />
+            <div class="card-body">
+              <h3>Trappstädning</h3>
+              <p class="intro"><b>Första intrycket räknas.</b></p>
+              <ul>
+                <li>Entréer</li>
+                <li>Hiss & räcken</li>
+                <li>Mattor</li>
+              </ul>
+              <a class="btn" href="kontakt.html">Trapphus</a>
+            </div>
+          </article>
+
+          <!-- CARD 10 -->
+          <article class="card">
+            <img class="img-cover" src="foto1/Desinficering & Hygienstäd.webp" alt="Desinficering" />
+            <div class="card-body">
+              <h3>Desinficering & Hygienstäd</h3>
+              <p class="intro"><b>Extra kontaktytor.</b></p>
+              <ul>
+                <li>Handtag & knappar</li>
+                <li>Dokumenterad egenkontroll</li>
+                <li>Diskreta team</li>
+              </ul>
+              <a class="btn" href="kontakt.html">Hygienplan</a>
+            </div>
+          </article>
+
+          <!-- CARD 11 -->
+          <article class="card">
+            <img class="img-cover" src="foto1/Städning för uthyrning (Airbnb) 22.png" alt="Airbnb" />
+            <div class="card-body">
+              <h3>Städning för uthyrning (Airbnb)</h3>
+              <p class="intro"><b>Snabba byten.</b></p>
+              <ul>
+                <li>Bäddning & textilier</li>
+                <li>Foto-rapport</li>
+                <li>Flexibla tider</li>
+              </ul>
+              <a class="btn" href="kontakt.html">Starta samarbete</a>
+            </div>
+          </article>
+
+          <!-- CARD 12 -->
+          <article class="card">
+            <img class="img-cover" src="foto1/visning23.png" alt="Visningsstädning" />
+            <div class="card-body">
+              <h3>Visningsstädning</h3>
+              <p class="intro"><b>Säljande finish.</b></p>
+              <ul>
+                <li>Glans på ytor</li>
+                <li>Lätt styling</li>
+                <li>Fönsterputs</li>
+              </ul>
+              <a class="btn" href="kontakt.html">Inför visning</a>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- EXTRA CTA -->
+         <div style="text-align: center; margin-top: 22px">
+         <a class="btn" href="kontakt.html">Begär kostnadsfri offert</a>
+       </div>
+
+
+      </div>
+    </section>
+
+    <!-- RUT INFO -->
+    <section class="sect">
+      <div class="container info">
+        <h3 style="margin:0 0 6px;">RUT-avdrag – spara upp till 50%</h3>
+        <p style="margin:0;">
+          Många av våra privattjänster omfattas av RUT-avdraget. Vi gör avdraget direkt på fakturan – du betalar bara din del.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+
+      <div class="trustline">
+        <b>F-skatt registrerad</b> • Ansvarsförsäkring • Nyckelrutiner • RUT-avdrag
+      </div>
+
+      <div class="footer-links">
+
+        <a href="tel:+46700433157">
+          <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.8 15.8 0 006.6 6.6l2.2-2.2a1 1 0 011-.25 11.2 11.2 0 003.5.56 1 1 0 011 1v3.6a1 1 0 01-1 1A18.6 18.6 0 013 5a1 1 0 011-1h3.6a1 1 0 011 1 11.2 11.2 0 00.56 3.5 1 1 0 01-.25 1z"/></svg>
+          +46 700 433 157
+        </a>
+
+        <a href="mailto:jw.qualityhemservice@gmail.com">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5z"/></svg>
+          jw.qualityhemservice@gmail.com
+        </a>
+
+        <a href="https://www.facebook.com/share/16Vn8WcfPp/" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M13 22v-9h3l1-4h-4V7a1 1 0 011-1h3V2h-3a5 5 0 00-5 5v2H7v4h2v9h4z"/></svg>
+          Facebook
+        </a>
+
+        <a href="https://www.instagram.com/jw_quality_hemservice" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 5a5 5 0 100 10 5 5 0 000-10zm6.5-.9a1.1 1.1 0 10-2.2 0 1.1 1.1 0 002.2 0zM12 9a3 3 0 110 6 3 3 0 010-6z"/></svg>
+          Instagram
+        </a>
+
+      </div>
+
+      <small>© <span id="year"></span> J&W — Quality Hemservice</small>
+
+    </div>
+  </footer>
+
+  <script>
+    /* Typewriter script */
+    function typeWriter(el, text, speed=70, delay=0){
+      if(!el) return;
+      el.textContent='';
+      let i=0;
+      setTimeout(function run(){
+        if(i<text.length){
+          el.textContent += text[i++];
+          setTimeout(run, speed);
+        }
+      }, delay);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      typeWriter(document.getElementById("tjansterTitle"), "Tjänster", 80, 0);
+      typeWriter(document.getElementById("tjansterLead"),
+        "Hemstädning • Storstädning • Flyttstädning • Fönsterputs • Miljöstädning • Kontorsstädning • Företagsstädning • Byggstädning • Trappstädning • Desinficering • Airbnb • Visningsstädning",
+        24, 600);
+
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      const b = document.getElementById("burgerBtn"),
+            n = document.getElementById("mainNav");
+      b.addEventListener("click", () => {
+        const o = n.classList.toggle("open");
+        b.setAttribute("aria-expanded", o ? "true" : "false");
+      });
+
+      const path = location.pathname.split("/").pop() || "index.html";
+      document.querySelectorAll(".nav a").forEach((a)=>{
+        a.classList.toggle("active", a.getAttribute("href") === path);
+      });
+    });
+  </script>
+
+
+</body>
+</html>
