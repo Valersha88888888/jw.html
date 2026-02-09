@@ -377,7 +377,7 @@ img {
   border-radius: 14px;
   border: 1.5px solid rgba(0,0,0,0.18);
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 16PX;
   background: #fff;
 }
 
@@ -416,8 +416,8 @@ img {
 
 /* Button */
 .kontakt-form .btn {
-  justify-self: flex-start;
-  margin-top: 10px;
+  justify-self: center;
+  margin-top: 20px;
 }
 
 /* ================= MOBILE ================= */
