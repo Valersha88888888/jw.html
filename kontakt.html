@@ -124,64 +124,80 @@
         <div class="kontakt-form">
           <h2>Kontakta oss</h2>
 
-        <form<form
+          <form
   id="contactForm"
   name="kontakt"
   method="POST"
   data-netlify="true"
-  novalidate
+  netlify-honeypot="website"
 >
+
   <input type="hidden" name="form-name" value="kontakt">
 
-  id="contactForm"
-  name="kontakt"
-  method="POST"
-  data-netlify="true"
-  novalidate
->
-  <input type="hidden" name="form-name" value="kontakt">
+  <label>
+    Namn *
+    <input type="text" name="name" required>
+  </label>
+
+  <label>
+    Telefonnummer *
+    <input type="tel" name="phone" required>
+  </label>
+
+  <label>
+    E-post *
+    <input type="email" name="email" required>
+  </label>
+
+  <label>
+    Ort
+    <input type="text" name="city">
+  </label>
+
+  <label>
+    Postnummer
+    <input type="text" name="zip">
+  </label>
+
+  <label>
+    Välj tjänst *
+    <select name="service" required>
+      <option value="" disabled selected>Välj tjänst …</option>
+      <option>Hemstädning</option>
+      <option>Storstädning</option>
+      <option>Flyttstädning</option>
+      <option>Fönsterputs</option>
+      <option>Miljöstädning</option>
+      <option>Kontorsstädning</option>
+      <option>Företagsstädning</option>
+      <option>Byggstädning</option>
+      <option>Trappstädning</option>
+      <option>Desinficering & Hygienstäd</option>
+      <option>Airbnb-städning</option>
+      <option>Visningsstädning</option>
+    </select>
+  </label>
+
+  <label>
+    Meddelande
+    <textarea name="message" rows="5"></textarea>
+  </label>
+
+  <!-- honeypot -->
+  <input type="text" name="website" style="display:none">
+
+  <label class="checkbox">
+    <input type="checkbox" name="consent" required>
+    Jag samtycker till att mina uppgifter behandlas.
+  </label>
+
+  <small>Vi återkommer normalt inom 24 timmar.</small>
+
+  <button class="btn" type="submit">Skicka förfrågan</button>
+
+</form>
 
 
-            <label>Namn *<input type="text" name="name" required></label>
-            <label>Telefonnummer *<input type="tel" name="phone" required></label>
-            <label>E-post *<input type="email" name="email" required></label>
-            <label>Ort<input type="text" name="city"></label>
-            <label>Postnummer<input type="text" name="zip"></label>
-
-            <label>
-              Välj tjänst *
-              <select name="service" required>
-                <option value="" disabled selected>Välj tjänst …</option>
-                <option>Hemstädning</option>
-                <option>Storstädning</option>
-                <option>Flyttstädning</option>
-                <option>Fönsterputs</option>
-                <option>Miljöstädning</option>
-                <option>Kontorsstädning</option>
-                <option>Företagsstädning</option>
-                <option>Byggstädning</option>
-                <option>Trappstädning</option>
-                <option>Desinficering & Hygienstäd</option>
-                <option>Airbnb-städning</option>
-                <option>Visningsstädning</option>
-              </select>
-            </label>
-
-            <label>Meddelande<textarea name="message" rows="5"></textarea></label>
-
-            <input type="text" name="website" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off">
-
-            <label class="checkbox">
-            <input type="checkbox" name="consent" required>
-
-              Jag samtycker till att mina uppgifter behandlas för att hantera min förfrågan.
-            </label>
-
-            <small class="hint">Vi återkommer normalt inom 24 timmar.</small>
-            <button class="btn" type="submit">Skicka förfrågan</button>
-            <p id="contact_status" style="margin-top:10px;font-weight:700;"></p>
-
-          </form>
         </div>
 
         <div class="kontakt-info">
@@ -280,46 +296,6 @@ document.getElementById("reviewForm")?.addEventListener("submit", async (e) => {
 });
 </script>
 
-<script>
-document.getElementById("contactForm")?.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const form = e.target;
-  const status = document.getElementById("contact_status");
-
-  const formData = Object.fromEntries(new FormData(form).entries());
-
-  // 🔑 MAPPNING TILL BACKEND (VIKTIG DEL)
-  const data = {
-    namn: formData.name,
-    telefon: formData.phone,
-    email: formData.email,
-    tjanst: formData.service,
-    meddelande: formData.message,
-  };
-
-  status.textContent = "Skickar…";
-
-  try {
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-
-    const json = await res.json();
-
-    if (json.success) {
-      status.textContent = "✅ Tack! Vi kontaktar dig snart.";
-      form.reset();
-    } else {
-      status.textContent = "❌ Något gick fel. Försök igen.";
-    }
-  } catch (err) {
-    status.textContent = "❌ Serverfel. Försök senare.";
-  }
-});
-</script>
 
 
 </body>
