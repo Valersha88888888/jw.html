@@ -343,6 +343,7 @@
     </div>
   </section>
 
+  <!-- KONTAKT -->
   <section id="kontakt" class="section">
     <div class="container kontakt-grid">
 
@@ -390,7 +391,7 @@
               <option>Företagsstädning</option>
               <option>Byggstädning</option>
               <option>Trappstädning</option>
-              <option>Desinficering & Hygienstäd</option>
+              <option>Desinficering &amp; Hygienstäd</option>
               <option>Airbnb-städning</option>
               <option>Visningsstädning</option>
             </select>
@@ -398,24 +399,21 @@
 
           <label>
             Meddelande
-            <textarea name="message" rows="5" placeholder="t.ex. antal kvm, fönster, önskat datum"></textarea>
+            <textarea name="message" rows="5"></textarea>
           </label>
 
-          <!-- Honeypot (anti-spam) -->
-          <input type="text" name="website" style="position:absolute;left:-9999px;opacity:0" tabindex="-1"
-            autocomplete="off" aria-hidden="true">
+          <!-- Honeypot -->
+          <input type="text" name="website" tabindex="-1" autocomplete="off"
+            style="position:absolute;left:-9999px;opacity:0">
 
           <label class="checkbox">
             <input type="checkbox" required>
             Jag samtycker till att mina uppgifter behandlas för att hantera min förfrågan.
           </label>
 
-          <small class="hint">
-            Vi återkommer normalt inom 24 timmar.
-          </small>
+          <small class="hint">Vi återkommer normalt inom 24 timmar.</small>
 
           <button class="btn" type="submit">Skicka förfrågan</button>
-
           <p id="contact_status" style="margin-top:10px;font-weight:700;"></p>
 
         </form>
@@ -423,7 +421,7 @@
 
       <!-- KONTAKTINFO -->
       <div class="kontakt-info">
-        <h2>Kontakt & adress</h2>
+        <h2>Kontakt &amp; adress</h2>
 
         <p><strong>Telefon:</strong><br>
           <a href="tel:+46700433157">+46 700 433 157</a>
@@ -450,6 +448,9 @@
     </div>
   </section>
 
+  </main>
+
+
 
   <!-- FOOTER -->
   <footer class="site-footer">
@@ -461,21 +462,82 @@
     </div>
   </footer>
 
-  <!-- ✅ ENDA SCRIPT -->
-  <script>
-    function typeWriter(el, text, speed = 80, delay = 0) {
-      if (!el) return;
-      el.textContent = "";
-      let i = 0;
-      setTimeout(function run() {
-        if (i < text.length) {
-          el.textContent += text[i++];
-          setTimeout(run, speed);
-        }
-      }, delay);
-    }
 
+
+
+  <!-- SCRIPTS -->
+  <script>
+
+    /* 🛑 HARD STOP FOR DUPLICATE BURGER HANDLERS */
+    (() => {
+      const burger = document.getElementById("burger");
+      if (!burger) return;
+
+      const cleanBurger = burger.cloneNode(true);
+      burger.parentNode.replaceChild(cleanBurger, burger);
+    })();
+  </script>
+
+  <script>
     document.addEventListener("DOMContentLoaded", () => {
+      const burger = document.getElementById("burger");
+      const nav = document.getElementById("nav");
+
+      if (!burger || !nav) return;
+
+      // öppna / stäng meny
+      burger.addEventListener("click", () => {
+        nav.classList.toggle("open");
+      });
+
+      // stäng meny + normal navigation
+      nav.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+          nav.classList.remove("open");
+        });
+      });
+    });
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+      /* ========= MOBILE NAV (EN ENDA HANDLER) ========= */
+      const burger = document.getElementById("burger");
+      const nav = document.getElementById("nav");
+
+      if (burger && nav) {
+        burger.addEventListener("click", (e) => {
+          e.stopPropagation();
+          nav.classList.toggle("open");
+        });
+
+        // stäng menyn efter klick
+        nav.querySelectorAll("a").forEach(link => {
+          link.addEventListener("click", () => {
+            nav.classList.remove("open");
+          });
+        });
+      }
+
+      /* ========= FOOTER YEAR ========= */
+      const year = document.getElementById("year");
+      if (year) year.textContent = new Date().getFullYear();
+
+      /* ========= TYPEWRITER ========= */
+      function typeWriter(el, text, speed = 70, delay = 0) {
+        if (!el) return;
+        el.textContent = "";
+        let i = 0;
+        setTimeout(function run() {
+          if (i < text.length) {
+            el.textContent += text[i++];
+            setTimeout(run, speed);
+          }
+        }, delay);
+      }
+
+      /* ========= HERO TEXT (STARTSIDAN) ========= */
       typeWriter(
         document.getElementById("heroTitle"),
         "J&W Quality Hemservice",
@@ -485,88 +547,116 @@
 
       typeWriter(
         document.getElementById("heroLead"),
-        "Hemstädning • Storstädning • Flyttstädning • Fönsterputs • Miljöstädning • Kontorsstädning • Företagsstädning • Byggstädning • Trappstädning • Desinficering • Airbnb • Visningsstädning",
-        24,
+        "Professionell städservice i Stockholm – hemstädning, flyttstädning, storstädning, fönsterputs och företagsstädning.",
+        26,
         600
       );
 
-      const burger = document.getElementById("burger");
-      const nav = document.getElementById("nav");
-      if (burger && nav) burger.addEventListener("click", () => nav.classList.toggle("open"));
+    });
+  </script>
 
-      const year = document.getElementById("year");
-      if (year) year.textContent = new Date().getFullYear();
+
+
+
+
+  <script>
+    document.getElementById("reviewForm")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      const status = document.getElementById("rev_status");
+
+      // honeypot
+      if (form.website && form.website.value) return;
+
+      const data = {
+        name: form.name.value.trim(),
+        rating: form.rating.value,
+        message: form.message.value.trim()
+      };
+
+      status.textContent = "Skickar…";
+
+      try {
+        const res = await fetch("https://DIN-BACKEND-URL/api/contact", {
+
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const json = await res.json();
+
+        if (json.ok) {
+          status.textContent = "Tack! Ditt omdöme har skickats ⭐";
+          form.reset();
+        } else {
+          status.textContent = "Något gick fel. Försök igen.";
+        }
+      } catch (err) {
+        status.textContent = "Serverfel. Försök senare.";
+      }
+    });
+  </script>
+
+  <script>
+    document.getElementById("contactForm")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      const status = document.getElementById("contact_status");
+
+      const formData = Object.fromEntries(new FormData(form).entries());
+
+      // 🔑 MAPPNING TILL BACKEND (VIKTIG DEL)
+      const data = {
+        namn: formData.name,
+        telefon: formData.phone,
+        email: formData.email,
+        tjanst: formData.service,
+        meddelande: formData.message,
+      };
+
+      status.textContent = "Skickar…";
+
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        const json = await res.json();
+
+        if (json.success) {
+          status.textContent = "✅ Tack! Vi kontaktar dig snart.";
+          form.reset();
+        } else {
+          status.textContent = "❌ Något gick fel. Försök igen.";
+        }
+      } catch (err) {
+        status.textContent = "❌ Serverfel. Försök senare.";
+      }
     });
   </script>
   <script>
-document.getElementById("reviewForm")?.addEventListener("submit", async (e) => {
-  e.preventDefault();
+    document.addEventListener("DOMContentLoaded", () => {
+      const burger = document.getElementById("burger");
+      const nav = document.getElementById("nav");
 
-  const form = e.target;
-  const status = document.getElementById("rev_status");
+      if (!burger || !nav) return;
 
-  // honeypot
-  if (form.website && form.website.value) return;
+      burger.addEventListener("click", () => {
+        nav.classList.toggle("open");
+      });
 
-  const data = {
-    name: form.name.value.trim(),
-    rating: form.rating.value,
-    message: form.message.value.trim()
-  };
-
-  status.textContent = "Skickar…";
-
-  try {
-    const res = await fetch("/api/send-review", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
+      nav.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+          nav.classList.remove("open");
+        });
+      });
     });
-
-    const json = await res.json();
-
-    if (json.ok) {
-      status.textContent = "Tack! Ditt omdöme har skickats ⭐";
-      form.reset();
-    } else {
-      status.textContent = "Något gick fel. Försök igen.";
-    }
-  } catch (err) {
-    status.textContent = "Serverfel. Försök senare.";
-  }
-});
-</script>
-<script>
-document.getElementById("contactForm")?.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const form = e.target;
-  const status = document.getElementById("contact_status");
-
-  const data = Object.fromEntries(new FormData(form).entries());
-
-  status.textContent = "Skickar…";
-
-  try {
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-
-    const json = await res.json();
-
-    if (json.ok) {
-      status.textContent = "✅ Tack! Vi kontaktar dig snart.";
-      form.reset();
-    } else {
-      status.textContent = "❌ Något gick fel. Försök igen.";
-    }
-  } catch (e) {
-    status.textContent = "❌ Serverfel. Försök senare.";
-  }
-});
-</script>
+  </script>
 
 
 </body>

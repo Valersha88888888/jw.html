@@ -336,10 +336,14 @@ img {
 }
 
 .kontakt-form {
-  background: #fff;
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 20px 45px rgba(0,0,0,0.08);
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 64px;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.06),
+    0 30px 80px rgba(0,0,0,0.04);
 }
 
 /* Grid för inputs */
@@ -367,27 +371,34 @@ img {
   flex-direction: column;
   gap: 6px;
 }
+.kontakt-form h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.8rem;
+  margin-bottom: 24px;
+}
+
 
 /* Inputs & textarea */
 .kontakt-form input,
 .kontakt-form textarea,
 .kontakt-form select {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 14px;
-  border: 1.5px solid rgba(0,0,0,0.18);
-  font-family: inherit;
-  font-size: 1rem;
-  background: #fff;
+  border-radius: 16px;
+  border: 1.5px solid rgba(0,0,0,0.12);
+  background: #fafafa;
+}
+
+.kontakt-form input::placeholder,
+.kontakt-form textarea::placeholder {
+  color: #999;
 }
 
 /* Focus */
 .kontakt-form input:focus,
 .kontakt-form textarea:focus,
 .kontakt-form select:focus {
-  outline: none;
+  background: #fff;
   border-color: #a8cd2a;
-  box-shadow: 0 0 0 3px rgba(168,205,42,0.25);
+  box-shadow: 0 0 0 4px rgba(168,205,42,0.2);
 }
 
 /* Textarea */
@@ -416,8 +427,16 @@ img {
 
 /* Button */
 .kontakt-form .btn {
-  justify-self: flex-start;
-  margin-top: 10px;
+  padding: 16px 34px;
+  font-size: 1.05rem;
+  border-radius: 999px;
+  box-shadow: 0 12px 28px rgba(168,205,42,0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.kontakt-form .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(168,205,42,0.45);
 }
 
 /* ================= MOBILE ================= */
@@ -460,8 +479,10 @@ img {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 80px;
-  align-items: center;
+ align-items: flex-start;
+  background: linear-gradient(180deg, #f7f5f2 0%, #f2efe9 100%);
 }
+
 
 .kontakt-logo {
   display: flex;
@@ -549,6 +570,347 @@ img {
 main,
 section,
 footer {
+  position: relative;
+  z-index: 1;
+}
+/* =========================================================
+   ADD-ONLY DESIGN TWEAKS (SAFE)
+   Ingen kod tas bort – endast förbättring
+   ========================================================= */
+
+/* Samla fokus runt kontaktformuläret */
+#kontakt {
+  padding-top: 120px;
+  padding-bottom: 120px;
+}
+
+/* Gör layouten lugnare och mer centrerad */
+#kontakt .kontakt-grid {
+  justify-content: center;
+}
+
+/* Ge formuläret lite mer visuell tyngd */
+.kontakt-form {
+  position: relative;
+  z-index: 2;
+}
+
+/* Skapa mjuk bakgrund bakom formuläret (mycket diskret) */
+#kontakt::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(168,205,42,0.08) 0%,
+    rgba(168,205,42,0.00) 60%
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Mobil: mindre luft men samma känsla */
+@media (max-width: 768px) {
+  #kontakt {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+}
+/* =========================================================
+   ADD-ONLY: VISUAL ALIGN FIX
+   Inget tas bort – endast position/rytm justeras
+   ========================================================= */
+
+/* Dra upp kontaktsektionen visuellt */
+#kontakt {
+  margin-top: -120px;
+}
+
+/* Behåll luft nedåt så det inte känns trångt */
+#kontakt {
+  padding-bottom: 140px;
+}
+
+/* Se till att formuläret alltid ligger över bakgrunden */
+#kontakt .kontakt-form {
+  position: relative;
+  z-index: 3;
+}
+
+/* Mobil: mildare justering */
+@media (max-width: 900px) {
+  #kontakt {
+    margin-top: -60px;
+  }
+}
+/* =========================================================
+   ADD-ONLY: MAKE CONTACT FORM BIGGER
+   ========================================================= */
+
+/* Större kort */
+.kontakt-form {
+  max-width: 680px;       /* var 520px */
+  padding: 56px;         /* mer luft */
+}
+
+/* Större rubrik */
+.kontakt-form h2 {
+  font-size: 2.2rem;
+}
+
+/* Större inputs & select */
+.kontakt-form input,
+.kontakt-form textarea,
+.kontakt-form select {
+  padding: 18px 20px;
+  font-size: 1.05rem;
+}
+
+/* Större textarea */
+.kontakt-form textarea {
+  min-height: 160px;
+}
+
+/* Större checkbox-text */
+.kontakt-form .checkbox {
+  font-size: 1rem;
+}
+
+/* Större knapp */
+.kontakt-form .btn {
+  font-size: 1.15rem;
+  padding: 18px 42px;
+}
+
+/* Mobil – fortfarande stort men balanserat */
+@media (max-width: 768px) {
+  .kontakt-form {
+    max-width: 100%;
+    padding: 40px 28px;
+  }
+}
+/* =========================================================
+   ADD-ONLY: FINAL SIZE & BALANCE TWEAK
+   ========================================================= */
+
+/* Gör hela kontaktkortet ännu större */
+.kontakt-form {
+  max-width: 760px;     /* var 680px */
+  padding: 64px;       /* ännu luftigare */
+}
+
+/* Förbättra rubrikens radbrytning & tyngd */
+.kontakt-form h2 {
+  font-size: 2.6rem;
+  line-height: 1.15;
+  max-width: 12ch;     /* snyggare radlängd */
+}
+
+/* Gör fälten ännu mer “touch-vänliga” */
+.kontakt-form input,
+.kontakt-form textarea,
+.kontakt-form select {
+  padding: 20px 22px;
+  font-size: 1.1rem;
+}
+
+/* Textarea – mer plats att skriva */
+.kontakt-form textarea {
+  min-height: 180px;
+}
+
+/* Knappen ännu tydligare */
+.kontakt-form .btn {
+  font-size: 1.2rem;
+  padding: 20px 48px;
+}
+
+/* Mobil – stort men kontrollerat */
+@media (max-width: 768px) {
+  .kontakt-form {
+    max-width: 100%;
+    padding: 44px 28px;
+  }
+
+  .kontakt-form h2 {
+    font-size: 2.1rem;
+    max-width: none;
+  }
+}
+/* =========================================================
+   ADD-ONLY: EXTRA LARGE CONTACT FORM
+   ========================================================= */
+
+/* ЩЕ більша картка */
+.kontakt-form {
+  max-width: 900px;   /* було ~760px */
+  padding: 80px;     /* більше повітря */
+}
+
+/* Велика, елегантна рубрика */
+.kontakt-form h2 {
+  font-size: 3rem;
+  line-height: 1.15;
+}
+
+/* Великі поля вводу */
+.kontakt-form input,
+.kontakt-form textarea,
+.kontakt-form select {
+  padding: 22px 26px;
+  font-size: 1.2rem;
+  border-radius: 18px;
+}
+
+/* Текстове поле – ще більше */
+.kontakt-form textarea {
+  min-height: 220px;
+}
+
+/* Checkbox – читабельніша */
+.kontakt-form .checkbox {
+  font-size: 1.05rem;
+}
+
+/* Кнопка – солідна */
+.kontakt-form .btn {
+  font-size: 1.3rem;
+  padding: 22px 56px;
+}
+
+/* =========================================================
+   FINAL: CONTACT FORM SIZE (SINGLE SOURCE OF TRUTH)
+   ========================================================= */
+
+.kontakt-form {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 80px;
+  background: #ffffff;
+  border-radius: 28px;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.06),
+    0 40px 100px rgba(0,0,0,0.08);
+}
+
+.kontakt-form h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 3rem;
+  line-height: 1.15;
+  margin-bottom: 32px;
+}
+
+.kontakt-form input,
+.kontakt-form textarea,
+.kontakt-form select {
+  padding: 22px 26px;
+  font-size: 1.2rem;
+  border-radius: 18px;
+}
+
+.kontakt-form textarea {
+  min-height: 220px;
+}
+
+.kontakt-form .checkbox {
+  font-size: 1.05rem;
+}
+
+.kontakt-form .btn {
+  font-size: 1.3rem;
+  padding: 22px 56px;
+  border-radius: 999px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .kontakt-form {
+    max-width: 100%;
+    padding: 48px 28px;
+  }
+
+  .kontakt-form h2 {
+    font-size: 2.2rem;
+  }
+}
+/* 🔒 MOBILE NAV SAFETY LAYER */
+.header,
+.nav {
+  position: relative;
+  z-index: 10000;
+}
+
+.nav.open {
+  z-index: 10001;
+}
+/* 🔧 FIX: hero får inte blockera klick */
+.hero-full {
+  pointer-events: auto;
+}
+
+.hero-overlay {
+  pointer-events: none;
+}
+/* 🔒 NAVIGATION CLICK FIX */
+.header,
+.header * {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 9999;
+}
+
+.hero-full,
+.hero-overlay {
+  pointer-events: none;
+}
+
+/* 🔒 CLICK SAFETY – kontakt.html */
+.header {
+  position: relative;
+  z-index: 10000;
+}
+
+.header * {
+  pointer-events: auto;
+}
+
+.hero-full,
+.hero-overlay {
+  pointer-events: none;
+}
+/* =========================================================
+   🔥 FINAL CLICK FIX — SINGLE SOURCE OF TRUTH
+   Måste ligga ABSOLUT SIST i filen
+   ========================================================= */
+
+/* Header och navigation SKA ALLTID gå att klicka */
+.header,
+.header * {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 100000;
+}
+
+/* Mobilmeny över allt */
+.nav.open {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100001;
+}
+
+/* Hero får ALDRIG fånga klick */
+.hero-full,
+.hero-full *,
+.hero-overlay {
+  pointer-events: none !important;
+}
+
+/* Resten av sidan ska fungera normalt */
+main,
+section,
+footer {
+  pointer-events: auto;
   position: relative;
   z-index: 1;
 }
