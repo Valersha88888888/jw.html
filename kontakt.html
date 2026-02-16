@@ -12,11 +12,7 @@
     rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
-<script>
-(function(){
-  emailjs.init("kuKF1p7OSrGeG2i_G");  // <-- din Public Key här
-})();
-</script>
+
 
 
   <!-- CSS -->
@@ -268,7 +264,6 @@
   <!-- SCRIPTS -->
 
 <!-- SCRIPTS -->
-
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script>
@@ -277,7 +272,7 @@ document.addEventListener("DOMContentLoaded", function () {
   /* =========================
      INIT EMAILJS
   ========================= */
-  emailjs.init("kuKF1p7OSrGeG2i_G"); // DIN PUBLIC KEY
+  emailjs.init("kuKF1p7OSrGeG2i_G"); // Public Key
 
 
   /* =========================
@@ -290,19 +285,24 @@ document.addEventListener("DOMContentLoaded", function () {
     contactForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
+      // Honeypot skydd
       if (contactForm.website && contactForm.website.value !== "") return;
 
       contactStatus.textContent = "Skickar...";
+      contactStatus.style.color = "#333";
 
       emailjs.sendForm(
         "service_exp9y7q",
-        "template_CONTACT", // <-- BYT till din riktiga template
+        "template_trofh3q",   // ✅ RÄTT TEMPLATE ID
         contactForm
-      ).then(function () {
+      )
+      .then(function () {
         contactStatus.textContent = "✅ Tack! Vi kontaktar dig snart.";
         contactStatus.style.color = "green";
         contactForm.reset();
-      }).catch(function () {
+      })
+      .catch(function (error) {
+        console.error("EmailJS error:", error);
         contactStatus.textContent = "❌ Något gick fel. Försök igen.";
         contactStatus.style.color = "red";
       });
@@ -323,16 +323,20 @@ document.addEventListener("DOMContentLoaded", function () {
       if (reviewForm.website && reviewForm.website.value !== "") return;
 
       reviewStatus.textContent = "Skickar...";
+      reviewStatus.style.color = "#333";
 
       emailjs.sendForm(
         "service_exp9y7q",
-        "template_REVIEW", // <-- BYT till din review-template
+        "template_trofh3q",   // ✅ samma template
         reviewForm
-      ).then(function () {
+      )
+      .then(function () {
         reviewStatus.textContent = "⭐ Tack för ditt omdöme!";
         reviewStatus.style.color = "green";
         reviewForm.reset();
-      }).catch(function () {
+      })
+      .catch(function (error) {
+        console.error("EmailJS error:", error);
         reviewStatus.textContent = "❌ Något gick fel.";
         reviewStatus.style.color = "red";
       });
@@ -352,7 +356,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     nav.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", () => {
+      link.addEventListener("click", function () {
         nav.classList.remove("open");
       });
     });
@@ -368,6 +372,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+
+ 
 
 </body>
 
