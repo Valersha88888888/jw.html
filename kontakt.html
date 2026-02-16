@@ -10,6 +10,14 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;600;800&display=swap"
     rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+(function(){
+  emailjs.init("kuKF1p7OSrGeG2i_G");  // <-- din Public Key här
+})();
+</script>
+
 
   <!-- CSS -->
   <link rel="stylesheet" href="css/stylen.css" />
@@ -370,43 +378,40 @@ document.getElementById("reviewForm")?.addEventListener("submit", async (e) => {
 /* =========================
    CONTACT FORM
    ========================= */
-document.getElementById("contactForm")?.addEventListener("submit", async (e) => {
+<script>
+document.getElementById("contactForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
-  const form = e.target;
+  const form = this;
   const status = document.getElementById("contact_status");
 
-  const formData = Object.fromEntries(new FormData(form).entries());
-
-  const data = {
-    namn: formData.name,
-    telefon: formData.phone,
-    email: formData.email,
-    tjanst: formData.service,
-    meddelande: formData.message
-  };
+  // Honeypot (spam protection)
+  if (form.website.value !== "") {
+    return;
+  }
 
   status.textContent = "Skickar…";
+  status.style.color = "#333";
 
   try {
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
+    await emailjs.sendForm(
+      "service_exp9y7q",   // <-- din Service ID
+      "DIN_TEMPLATE_ID",   // <-- din Template ID
+      form
+    );
 
-    const json = await res.json();
+    status.textContent = "✅ Tack! Vi kontaktar dig snart.";
+    status.style.color = "green";
+    form.reset();
 
-    status.textContent = json.success
-      ? "✅ Tack! Vi kontaktar dig snart."
-      : "❌ Något gick fel. Försök igen.";
-
-    if (json.success) form.reset();
-  } catch {
+  } catch (error) {
     status.textContent = "❌ Serverfel. Försök senare.";
+    status.style.color = "red";
+    console.error(error);
   }
 });
 </script>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const burger = document.getElementById("burger");
