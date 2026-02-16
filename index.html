@@ -471,8 +471,8 @@
 
 
   <!-- SCRIPTS -->
- <!-- EMAILJS SDK -->
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -550,10 +550,35 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   }
- 
 
 
+  /* =========================
+     BURGER MENU
+  ========================= */
+  const burger = document.getElementById("burger");
+  const nav = document.getElementById("nav");
 
+  if (burger && nav) {
+    burger.addEventListener("click", function () {
+      nav.classList.toggle("open");
+    });
+
+    nav.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", function () {
+        nav.classList.remove("open");
+      });
+    });
+  }
+
+
+  /* =========================
+     FOOTER YEAR
+  ========================= */
+  const year = document.getElementById("year");
+  if (year) year.textContent = new Date().getFullYear();
+
+});
+</script>
 
 
 
