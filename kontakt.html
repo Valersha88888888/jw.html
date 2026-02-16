@@ -268,27 +268,89 @@
   <!-- SCRIPTS -->
 
 <!-- SCRIPTS -->
+
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 
   /* =========================
-     MOBIL NAV – ENDA SANNINGEN
-     ========================= */
+     INIT EMAILJS
+  ========================= */
+  emailjs.init("kuKF1p7OSrGeG2i_G"); // DIN PUBLIC KEY
+
+
+  /* =========================
+     CONTACT FORM
+  ========================= */
+  const contactForm = document.getElementById("contactForm");
+  const contactStatus = document.getElementById("contact_status");
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      if (contactForm.website && contactForm.website.value !== "") return;
+
+      contactStatus.textContent = "Skickar...";
+
+      emailjs.sendForm(
+        "service_exp9y7q",
+        "template_CONTACT", // <-- BYT till din riktiga template
+        contactForm
+      ).then(function () {
+        contactStatus.textContent = "✅ Tack! Vi kontaktar dig snart.";
+        contactStatus.style.color = "green";
+        contactForm.reset();
+      }).catch(function () {
+        contactStatus.textContent = "❌ Något gick fel. Försök igen.";
+        contactStatus.style.color = "red";
+      });
+    });
+  }
+
+
+  /* =========================
+     REVIEW FORM
+  ========================= */
+  const reviewForm = document.getElementById("reviewForm");
+  const reviewStatus = document.getElementById("rev_status");
+
+  if (reviewForm) {
+    reviewForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      if (reviewForm.website && reviewForm.website.value !== "") return;
+
+      reviewStatus.textContent = "Skickar...";
+
+      emailjs.sendForm(
+        "service_exp9y7q",
+        "template_REVIEW", // <-- BYT till din review-template
+        reviewForm
+      ).then(function () {
+        reviewStatus.textContent = "⭐ Tack för ditt omdöme!";
+        reviewStatus.style.color = "green";
+        reviewForm.reset();
+      }).catch(function () {
+        reviewStatus.textContent = "❌ Något gick fel.";
+        reviewStatus.style.color = "red";
+      });
+    });
+  }
+
+
+  /* =========================
+     BURGER MENU
+  ========================= */
   const burger = document.getElementById("burger");
   const nav = document.getElementById("nav");
 
   if (burger && nav) {
-
-    // säkerställ att inget gammalt lever kvar
-    burger.onclick = null;
-
-    burger.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+    burger.addEventListener("click", function () {
       nav.classList.toggle("open");
     });
 
-    // stäng menyn + tillåt navigation
     nav.querySelectorAll("a").forEach(link => {
       link.addEventListener("click", () => {
         nav.classList.remove("open");
@@ -296,142 +358,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+
   /* =========================
-     ÅR I FOOTER
-     ========================= */
+     FOOTER YEAR
+  ========================= */
   const year = document.getElementById("year");
   if (year) year.textContent = new Date().getFullYear();
 
-  /* =========================
-     TYPEWRITER (om finns)
-     ========================= */
-  function typeWriter(el, text, speed = 70, delay = 0) {
-    if (!el) return;
-    el.textContent = "";
-    let i = 0;
-    setTimeout(function run() {
-      if (i < text.length) {
-        el.textContent += text[i++];
-        setTimeout(run, speed);
-      }
-    }, delay);
-  }
-
-  typeWriter(
-    document.getElementById("heroTitle"),
-    "Kontakt",
-    80,
-    0
-  );
-
-  typeWriter(
-    document.getElementById("heroLead"),
-    "Offert, bokning eller frågor — vi svarar snabbt.",
-    26,
-    600
-  );
-
 });
 </script>
-
-<script>
-/* =========================
-   REVIEW FORM
-   ========================= */
-document.getElementById("reviewForm")?.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const form = e.target;
-  const status = document.getElementById("rev_status");
-
-  if (form.website && form.website.value) return;
-
-  const data = {
-    name: form.name.value.trim(),
-    rating: form.rating.value,
-    message: form.message.value.trim()
-  };
-
-  status.textContent = "Skickar…";
-
-  try {
-    const res = await fetch("https://DIN-BACKEND-URL/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
-
-    const json = await res.json();
-
-    status.textContent = json.ok
-      ? "Tack! Ditt omdöme har skickats ⭐"
-      : "Något gick fel. Försök igen.";
-
-    if (json.ok) form.reset();
-  } catch {
-    status.textContent = "Serverfel. Försök senare.";
-  }
-});
-</script>
-
-<script>
-/* =========================
-   CONTACT FORM
-   ========================= */
-<script>
-document.getElementById("contactForm").addEventListener("submit", async function(e) {
-  e.preventDefault();
-
-  const form = this;
-  const status = document.getElementById("contact_status");
-
-  // Honeypot (spam protection)
-  if (form.website.value !== "") {
-    return;
-  }
-
-  status.textContent = "Skickar…";
-  status.style.color = "#333";
-
-  try {
-    await emailjs.sendForm(
-      "service_exp9y7q",   // <-- din Service ID
-      "DIN_TEMPLATE_ID",   // <-- din Template ID
-      form
-    );
-
-    status.textContent = "✅ Tack! Vi kontaktar dig snart.";
-    status.style.color = "green";
-    form.reset();
-
-  } catch (error) {
-    status.textContent = "❌ Serverfel. Försök senare.";
-    status.style.color = "red";
-    console.error(error);
-  }
-});
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const burger = document.getElementById("burger");
-  const nav = document.getElementById("nav");
-
-  if (!burger || !nav) return;
-
-  burger.addEventListener("click", () => {
-    nav.classList.toggle("open");
-  });
-
-  nav.querySelectorAll("a").forEach(link => {
-    link.addEventListener("click", () => {
-      nav.classList.remove("open");
-    });
-  });
-});
-</script>
-
-
 
 
 </body>
