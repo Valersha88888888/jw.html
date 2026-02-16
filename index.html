@@ -480,11 +480,11 @@ document.addEventListener("DOMContentLoaded", function () {
   /* =========================
      INIT EMAILJS
   ========================= */
-  emailjs.init("kuKF1p7OSrGeG2i_G"); // DIN PUBLIC KEY
+  emailjs.init("kuKF1p7OSrGeG2i_G");
 
 
   /* =========================
-     MOBILE NAV (EN ENDA HANDLER)
+     MOBILE NAV
   ========================= */
   const burger = document.getElementById("burger");
   const nav = document.getElementById("nav");
@@ -510,7 +510,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* =========================
-     TYPEWRITER (STARTSIDAN)
+     TYPEWRITER
   ========================= */
   function typeWriter(el, text, speed = 70, delay = 0) {
     if (!el) return;
@@ -540,7 +540,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* =========================
-     CONTACT FORM (EmailJS)
+     CONTACT FORM
   ========================= */
   const contactForm = document.getElementById("contactForm");
   const contactStatus = document.getElementById("contact_status");
@@ -554,17 +554,17 @@ document.addEventListener("DOMContentLoaded", function () {
       contactStatus.textContent = "Skickar...";
       contactStatus.style.color = "#333";
 
-    emailjs.sendForm(
-  "service_exp9y7q",
-  "template_nqfdyzj",
-  contactForm
-)
-
-      ).then(function () {
+      emailjs.sendForm(
+        "service_exp9y7q",
+        "template_nqfdyzj",
+        contactForm
+      )
+      .then(function () {
         contactStatus.textContent = "✅ Tack! Vi kontaktar dig snart.";
         contactStatus.style.color = "green";
         contactForm.reset();
-      }).catch(function (error) {
+      })
+      .catch(function (error) {
         contactStatus.textContent = "❌ Något gick fel. Försök igen.";
         contactStatus.style.color = "red";
         console.error(error);
@@ -574,7 +574,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* =========================
-     REVIEW FORM (EmailJS)
+     REVIEW FORM
   ========================= */
   const reviewForm = document.getElementById("reviewForm");
   const reviewStatus = document.getElementById("rev_status");
@@ -590,13 +590,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
       emailjs.sendForm(
         "service_exp9y7q",
-        "template_REVIEW", // <-- BYT till din review template
+        "template_trofh3q",   // ← använd din riktiga review template
         reviewForm
-      ).then(function () {
+      )
+      .then(function () {
         reviewStatus.textContent = "⭐ Tack för ditt omdöme!";
         reviewStatus.style.color = "green";
         reviewForm.reset();
-      }).catch(function (error) {
+      })
+      .catch(function (error) {
         reviewStatus.textContent = "❌ Något gick fel.";
         reviewStatus.style.color = "red";
         console.error(error);
@@ -606,6 +608,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+
 
 
 
