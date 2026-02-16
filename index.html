@@ -305,7 +305,7 @@
       </div>
     </section>
 
-  </main>
+
   <!-- FORMULÄR FÖR NYTT OMDÖME -->
   <section class="section" id="skriv-omdome">
     <div class="container">
@@ -471,7 +471,7 @@
 
 
   <!-- SCRIPTS -->
- <!-- EmailJS -->
+ <!-- EMAILJS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script>
@@ -480,63 +480,9 @@ document.addEventListener("DOMContentLoaded", function () {
   /* =========================
      INIT EMAILJS
   ========================= */
-  emailjs.init("kuKF1p7OSrGeG2i_G");
-
-
-  /* =========================
-     MOBILE NAV
-  ========================= */
-  const burger = document.getElementById("burger");
-  const nav = document.getElementById("nav");
-
-  if (burger && nav) {
-    burger.addEventListener("click", function () {
-      nav.classList.toggle("open");
-    });
-
-    nav.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", function () {
-        nav.classList.remove("open");
-      });
-    });
-  }
-
-
-  /* =========================
-     FOOTER YEAR
-  ========================= */
-  const year = document.getElementById("year");
-  if (year) year.textContent = new Date().getFullYear();
-
-
-  /* =========================
-     TYPEWRITER
-  ========================= */
-  function typeWriter(el, text, speed = 70, delay = 0) {
-    if (!el) return;
-    el.textContent = "";
-    let i = 0;
-    setTimeout(function run() {
-      if (i < text.length) {
-        el.textContent += text[i++];
-        setTimeout(run, speed);
-      }
-    }, delay);
-  }
-
-  typeWriter(
-    document.getElementById("heroTitle"),
-    "J&W Quality Hemservice",
-    80,
-    0
-  );
-
-  typeWriter(
-    document.getElementById("heroLead"),
-    "Professionell städservice i Stockholm – hemstädning, flyttstädning, storstädning, fönsterputs och företagsstädning.",
-    26,
-    600
-  );
+  (function(){
+    emailjs.init("kuKF1p7OSrGeG2i_G"); // DIN PUBLIC KEY
+  })();
 
 
   /* =========================
@@ -546,28 +492,26 @@ document.addEventListener("DOMContentLoaded", function () {
   const contactStatus = document.getElementById("contact_status");
 
   if (contactForm) {
-    contactForm.addEventListener("submit", function (e) {
+    contactForm.addEventListener("submit", function(e) {
       e.preventDefault();
 
-      if (contactForm.website && contactForm.website.value !== "") return;
-
-      contactStatus.textContent = "Skickar...";
+      contactStatus.innerHTML = "Skickar...";
       contactStatus.style.color = "#333";
 
       emailjs.sendForm(
-        "service_exp9y7q",
-        "template_nqfdyzj",
-        contactForm
+        "service_exp9y7q",          // SERVICE ID
+        "template_xxxxx",           // 🔴 BYT TILL DIN RIKTIGA TEMPLATE ID
+        this
       )
-      .then(function () {
-        contactStatus.textContent = "✅ Tack! Vi kontaktar dig snart.";
+      .then(function() {
+        contactStatus.innerHTML = "✅ Tack! Vi kontaktar dig snart.";
         contactStatus.style.color = "green";
         contactForm.reset();
       })
-      .catch(function (error) {
-        contactStatus.textContent = "❌ Något gick fel. Försök igen.";
+      .catch(function(error) {
+        console.error("EmailJS error:", error);
+        contactStatus.innerHTML = "❌ Något gick fel. Kontrollera Template ID.";
         contactStatus.style.color = "red";
-        console.error(error);
       });
     });
   }
@@ -580,34 +524,36 @@ document.addEventListener("DOMContentLoaded", function () {
   const reviewStatus = document.getElementById("rev_status");
 
   if (reviewForm) {
-    reviewForm.addEventListener("submit", function (e) {
+    reviewForm.addEventListener("submit", function(e) {
       e.preventDefault();
 
-      if (reviewForm.website && reviewForm.website.value !== "") return;
-
-      reviewStatus.textContent = "Skickar...";
+      reviewStatus.innerHTML = "Skickar...";
       reviewStatus.style.color = "#333";
 
       emailjs.sendForm(
-        "service_exp9y7q",
-        "template_trofh3q",   // ← använd din riktiga review template
-        reviewForm
+        "service_exp9y7q",          // SERVICE ID
+        "template_yyyyy",           // 🔴 BYT TILL DIN REVIEW TEMPLATE
+        this
       )
-      .then(function () {
-        reviewStatus.textContent = "⭐ Tack för ditt omdöme!";
+      .then(function() {
+        reviewStatus.innerHTML = "⭐ Tack för ditt omdöme!";
         reviewStatus.style.color = "green";
         reviewForm.reset();
       })
-      .catch(function (error) {
-        reviewStatus.textContent = "❌ Något gick fel.";
+      .catch(function(error) {
+        console.error("EmailJS error:", error);
+        reviewStatus.innerHTML = "❌ Något gick fel.";
         reviewStatus.style.color = "red";
-        console.error(error);
       });
     });
   }
 
 });
 </script>
+
+ 
+
+
 
 
 
