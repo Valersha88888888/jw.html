@@ -14,6 +14,15 @@
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;600;800&display=swap"
     rel="stylesheet">
 
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+(function(){
+emailjs.init("kuKF1p7OSrGeG2i_G");
+
+})();
+</script>
+
+
   <!-- CSS -->
   <link rel="stylesheet" href="css/stylen.css">
 </head>
@@ -348,76 +357,78 @@
     <div class="container kontakt-grid">
 
       <!-- FORMULÄR -->
-      <div class="kontakt-form">
-        <h2>Kontakta oss</h2>
+  <div class="kontakt-form">
+  <h2>Kontakta oss</h2>
 
-        <form id="contactForm" novalidate>
+  <form id="contactForm" novalidate>
 
-          <label>
-            Namn *
-            <input type="text" name="name" required>
-          </label>
+    <label>
+      Namn *
+      <input type="text" name="name" required>
+    </label>
 
-          <label>
-            Telefonnummer *
-            <input type="tel" name="phone" required>
-          </label>
+    <label>
+      Telefonnummer *
+      <input type="tel" name="phone" required>
+    </label>
 
-          <label>
-            E-post *
-            <input type="email" name="email" required>
-          </label>
+    <label>
+      E-post *
+      <input type="email" name="email" required>
+    </label>
 
-          <label>
-            Ort
-            <input type="text" name="city">
-          </label>
+    <label>
+      Ort
+      <input type="text" name="city">
+    </label>
 
-          <label>
-            Postnummer
-            <input type="text" name="zip">
-          </label>
+    <label>
+      Postnummer
+      <input type="text" name="zip">
+    </label>
 
-          <label>
-            Välj tjänst *
-            <select name="service" required>
-              <option value="" disabled selected>Välj tjänst …</option>
-              <option>Hemstädning</option>
-              <option>Storstädning</option>
-              <option>Flyttstädning</option>
-              <option>Fönsterputs</option>
-              <option>Miljöstädning</option>
-              <option>Kontorsstädning</option>
-              <option>Företagsstädning</option>
-              <option>Byggstädning</option>
-              <option>Trappstädning</option>
-              <option>Desinficering &amp; Hygienstäd</option>
-              <option>Airbnb-städning</option>
-              <option>Visningsstädning</option>
-            </select>
-          </label>
+    <label>
+      Välj tjänst *
+      <select name="service" required>
+        <option value="" disabled selected>Välj tjänst …</option>
+        <option>Hemstädning</option>
+        <option>Storstädning</option>
+        <option>Flyttstädning</option>
+        <option>Fönsterputs</option>
+        <option>Miljöstädning</option>
+        <option>Kontorsstädning</option>
+        <option>Företagsstädning</option>
+        <option>Byggstädning</option>
+        <option>Trappstädning</option>
+        <option>Desinficering &amp; Hygienstäd</option>
+        <option>Airbnb-städning</option>
+        <option>Visningsstädning</option>
+      </select>
+    </label>
 
-          <label>
-            Meddelande
-            <textarea name="message" rows="5"></textarea>
-          </label>
+    <label>
+      Meddelande
+      <textarea name="message" rows="5"></textarea>
+    </label>
 
-          <!-- Honeypot -->
-          <input type="text" name="website" tabindex="-1" autocomplete="off"
-            style="position:absolute;left:-9999px;opacity:0">
+    <!-- Honeypot (anti spam) -->
+    <input type="text" name="website" tabindex="-1" autocomplete="off"
+      style="position:absolute;left:-9999px;opacity:0">
 
-          <label class="checkbox">
-            <input type="checkbox" required>
-            Jag samtycker till att mina uppgifter behandlas för att hantera min förfrågan.
-          </label>
+    <label class="checkbox">
+      <input type="checkbox" name="consent" required>
+      Jag samtycker till att mina uppgifter behandlas för att hantera min förfrågan.
+    </label>
 
-          <small class="hint">Vi återkommer normalt inom 24 timmar.</small>
+    <small class="hint">Vi återkommer normalt inom 24 timmar.</small>
 
-          <button class="btn" type="submit">Skicka förfrågan</button>
-          <p id="contact_status" style="margin-top:10px;font-weight:700;"></p>
+    <button class="btn" type="submit">Skicka förfrågan</button>
 
-        </form>
-      </div>
+    <p id="contact_status" style="margin-top:10px;font-weight:700;"></p>
+
+  </form>
+</div>
+
 
       <!-- KONTAKTINFO -->
       <div class="kontakt-info">
@@ -609,36 +620,7 @@
       const formData = Object.fromEntries(new FormData(form).entries());
 
       // 🔑 MAPPNING TILL BACKEND (VIKTIG DEL)
-      const data = {
-        namn: formData.name,
-        telefon: formData.phone,
-        email: formData.email,
-        tjanst: formData.service,
-        meddelande: formData.message,
-      };
-
-      status.textContent = "Skickar…";
-
-      try {
-        const res = await fetch("/api/contact", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
-
-        const json = await res.json();
-
-        if (json.success) {
-          status.textContent = "✅ Tack! Vi kontaktar dig snart.";
-          form.reset();
-        } else {
-          status.textContent = "❌ Något gick fel. Försök igen.";
-        }
-      } catch (err) {
-        status.textContent = "❌ Serverfel. Försök senare.";
-      }
-    });
-  </script>
+     
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const burger = document.getElementById("burger");
@@ -657,6 +639,41 @@
       });
     });
   </script>
+
+  <script>
+document.getElementById("contactForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const form = this;
+  const status = document.getElementById("contact_status");
+
+  // Honeypot (spam protection)
+  if (form.website.value !== "") {
+    return;
+  }
+
+  status.textContent = "Skickar…";
+  status.style.color = "#333";
+
+  try {
+    await emailjs.sendForm(
+      "service_exp9y7q",   // <-- din Service ID
+      "DIN_TEMPLATE_ID",   // <-- din Template ID
+      form
+    );
+
+    status.textContent = "✅ Tack! Vi kontaktar dig snart.";
+    status.style.color = "green";
+    form.reset();
+
+  } catch (error) {
+    status.textContent = "❌ Serverfel. Försök senare.";
+    status.style.color = "red";
+    console.error(error);
+  }
+});
+</script>
+
 
 
 </body>
