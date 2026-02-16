@@ -480,9 +480,7 @@ document.addEventListener("DOMContentLoaded", function () {
   /* =========================
      INIT EMAILJS
   ========================= */
-  (function(){
-    emailjs.init("kuKF1p7OSrGeG2i_G"); // DIN PUBLIC KEY
-  })();
+  emailjs.init("kuKF1p7OSrGeG2i_G"); // Public Key
 
 
   /* =========================
@@ -492,25 +490,28 @@ document.addEventListener("DOMContentLoaded", function () {
   const contactStatus = document.getElementById("contact_status");
 
   if (contactForm) {
-    contactForm.addEventListener("submit", function(e) {
+    contactForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      contactStatus.innerHTML = "Skickar...";
+      // Honeypot skydd
+      if (contactForm.website && contactForm.website.value !== "") return;
+
+      contactStatus.textContent = "Skickar...";
       contactStatus.style.color = "#333";
 
       emailjs.sendForm(
-        "service_exp9y7q",          // SERVICE ID
-        "template_xxxxx",           // 🔴 BYT TILL DIN RIKTIGA TEMPLATE ID
-        this
+        "service_exp9y7q",
+        "template_trofh3q",   // ✅ RÄTT TEMPLATE ID
+        contactForm
       )
-      .then(function() {
-        contactStatus.innerHTML = "✅ Tack! Vi kontaktar dig snart.";
+      .then(function () {
+        contactStatus.textContent = "✅ Tack! Vi kontaktar dig snart.";
         contactStatus.style.color = "green";
         contactForm.reset();
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.error("EmailJS error:", error);
-        contactStatus.innerHTML = "❌ Något gick fel. Kontrollera Template ID.";
+        contactStatus.textContent = "❌ Något gick fel. Försök igen.";
         contactStatus.style.color = "red";
       });
     });
@@ -524,33 +525,31 @@ document.addEventListener("DOMContentLoaded", function () {
   const reviewStatus = document.getElementById("rev_status");
 
   if (reviewForm) {
-    reviewForm.addEventListener("submit", function(e) {
+    reviewForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      reviewStatus.innerHTML = "Skickar...";
+      if (reviewForm.website && reviewForm.website.value !== "") return;
+
+      reviewStatus.textContent = "Skickar...";
       reviewStatus.style.color = "#333";
 
       emailjs.sendForm(
-        "service_exp9y7q",          // SERVICE ID
-        "template_yyyyy",           // 🔴 BYT TILL DIN REVIEW TEMPLATE
-        this
+        "service_exp9y7q",
+        "template_trofh3q",   // ✅ samma template
+        reviewForm
       )
-      .then(function() {
-        reviewStatus.innerHTML = "⭐ Tack för ditt omdöme!";
+      .then(function () {
+        reviewStatus.textContent = "⭐ Tack för ditt omdöme!";
         reviewStatus.style.color = "green";
         reviewForm.reset();
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.error("EmailJS error:", error);
-        reviewStatus.innerHTML = "❌ Något gick fel.";
+        reviewStatus.textContent = "❌ Något gick fel.";
         reviewStatus.style.color = "red";
       });
     });
   }
-
-});
-</script>
-
  
 
 
