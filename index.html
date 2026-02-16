@@ -477,200 +477,137 @@ emailjs.init("kuKF1p7OSrGeG2i_G");
 
 
   <!-- SCRIPTS -->
-  <script>
+ <!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
-    /* 🛑 HARD STOP FOR DUPLICATE BURGER HANDLERS */
-    (() => {
-      const burger = document.getElementById("burger");
-      if (!burger) return;
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
-      const cleanBurger = burger.cloneNode(true);
-      burger.parentNode.replaceChild(cleanBurger, burger);
-    })();
-  </script>
+  /* =========================
+     INIT EMAILJS
+  ========================= */
+  emailjs.init("kuKF1p7OSrGeG2i_G"); // DIN PUBLIC KEY
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const burger = document.getElementById("burger");
-      const nav = document.getElementById("nav");
 
-      if (!burger || !nav) return;
+  /* =========================
+     MOBILE NAV (EN ENDA HANDLER)
+  ========================= */
+  const burger = document.getElementById("burger");
+  const nav = document.getElementById("nav");
 
-      // öppna / stäng meny
-      burger.addEventListener("click", () => {
-        nav.classList.toggle("open");
-      });
+  if (burger && nav) {
+    burger.addEventListener("click", function () {
+      nav.classList.toggle("open");
+    });
 
-      // stäng meny + normal navigation
-      nav.querySelectorAll("a").forEach(link => {
-        link.addEventListener("click", () => {
-          nav.classList.remove("open");
-        });
+    nav.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", function () {
+        nav.classList.remove("open");
       });
     });
-  </script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-
-      /* ========= MOBILE NAV (EN ENDA HANDLER) ========= */
-      const burger = document.getElementById("burger");
-      const nav = document.getElementById("nav");
-
-      if (burger && nav) {
-        burger.addEventListener("click", (e) => {
-          e.stopPropagation();
-          nav.classList.toggle("open");
-        });
-
-        // stäng menyn efter klick
-        nav.querySelectorAll("a").forEach(link => {
-          link.addEventListener("click", () => {
-            nav.classList.remove("open");
-          });
-        });
-      }
-
-      /* ========= FOOTER YEAR ========= */
-      const year = document.getElementById("year");
-      if (year) year.textContent = new Date().getFullYear();
-
-      /* ========= TYPEWRITER ========= */
-      function typeWriter(el, text, speed = 70, delay = 0) {
-        if (!el) return;
-        el.textContent = "";
-        let i = 0;
-        setTimeout(function run() {
-          if (i < text.length) {
-            el.textContent += text[i++];
-            setTimeout(run, speed);
-          }
-        }, delay);
-      }
-
-      /* ========= HERO TEXT (STARTSIDAN) ========= */
-      typeWriter(
-        document.getElementById("heroTitle"),
-        "J&W Quality Hemservice",
-        80,
-        0
-      );
-
-      typeWriter(
-        document.getElementById("heroLead"),
-        "Professionell städservice i Stockholm – hemstädning, flyttstädning, storstädning, fönsterputs och företagsstädning.",
-        26,
-        600
-      );
-
-    });
-  </script>
-
-
-
-
-
-  <script>
-    document.getElementById("reviewForm")?.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const form = e.target;
-      const status = document.getElementById("rev_status");
-
-      // honeypot
-      if (form.website && form.website.value) return;
-
-      const data = {
-        name: form.name.value.trim(),
-        rating: form.rating.value,
-        message: form.message.value.trim()
-      };
-
-      status.textContent = "Skickar…";
-
-      try {
-        const res = await fetch("https://DIN-BACKEND-URL/api/contact", {
-
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
-
-        const json = await res.json();
-
-        if (json.ok) {
-          status.textContent = "Tack! Ditt omdöme har skickats ⭐";
-          form.reset();
-        } else {
-          status.textContent = "Något gick fel. Försök igen.";
-        }
-      } catch (err) {
-        status.textContent = "Serverfel. Försök senare.";
-      }
-    });
-  </script>
-
-  <script>
-    document.getElementById("contactForm")?.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const form = e.target;
-      const status = document.getElementById("contact_status");
-
-      const formData = Object.fromEntries(new FormData(form).entries());
-
-      // 🔑 MAPPNING TILL BACKEND (VIKTIG DEL)
-     
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const burger = document.getElementById("burger");
-      const nav = document.getElementById("nav");
-
-      if (!burger || !nav) return;
-
-      burger.addEventListener("click", () => {
-        nav.classList.toggle("open");
-      });
-
-      nav.querySelectorAll("a").forEach(link => {
-        link.addEventListener("click", () => {
-          nav.classList.remove("open");
-        });
-      });
-    });
-  </script>
-
-  <script>
-document.getElementById("contactForm").addEventListener("submit", async function(e) {
-  e.preventDefault();
-
-  const form = this;
-  const status = document.getElementById("contact_status");
-
-  // Honeypot (spam protection)
-  if (form.website.value !== "") {
-    return;
   }
 
-  status.textContent = "Skickar…";
-  status.style.color = "#333";
 
-  try {
-    await emailjs.sendForm(
-      "service_exp9y7q",   // <-- din Service ID
-      "DIN_TEMPLATE_ID",   // <-- din Template ID
-      form
-    );
+  /* =========================
+     FOOTER YEAR
+  ========================= */
+  const year = document.getElementById("year");
+  if (year) year.textContent = new Date().getFullYear();
 
-    status.textContent = "✅ Tack! Vi kontaktar dig snart.";
-    status.style.color = "green";
-    form.reset();
 
-  } catch (error) {
-    status.textContent = "❌ Serverfel. Försök senare.";
-    status.style.color = "red";
-    console.error(error);
+  /* =========================
+     TYPEWRITER (STARTSIDAN)
+  ========================= */
+  function typeWriter(el, text, speed = 70, delay = 0) {
+    if (!el) return;
+    el.textContent = "";
+    let i = 0;
+    setTimeout(function run() {
+      if (i < text.length) {
+        el.textContent += text[i++];
+        setTimeout(run, speed);
+      }
+    }, delay);
   }
+
+  typeWriter(
+    document.getElementById("heroTitle"),
+    "J&W Quality Hemservice",
+    80,
+    0
+  );
+
+  typeWriter(
+    document.getElementById("heroLead"),
+    "Professionell städservice i Stockholm – hemstädning, flyttstädning, storstädning, fönsterputs och företagsstädning.",
+    26,
+    600
+  );
+
+
+  /* =========================
+     CONTACT FORM (EmailJS)
+  ========================= */
+  const contactForm = document.getElementById("contactForm");
+  const contactStatus = document.getElementById("contact_status");
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      if (contactForm.website && contactForm.website.value !== "") return;
+
+      contactStatus.textContent = "Skickar...";
+      contactStatus.style.color = "#333";
+
+      emailjs.sendForm(
+        "service_exp9y7q",
+        "template_CONTACT", // <-- BYT till din riktiga template
+        contactForm
+      ).then(function () {
+        contactStatus.textContent = "✅ Tack! Vi kontaktar dig snart.";
+        contactStatus.style.color = "green";
+        contactForm.reset();
+      }).catch(function (error) {
+        contactStatus.textContent = "❌ Något gick fel. Försök igen.";
+        contactStatus.style.color = "red";
+        console.error(error);
+      });
+    });
+  }
+
+
+  /* =========================
+     REVIEW FORM (EmailJS)
+  ========================= */
+  const reviewForm = document.getElementById("reviewForm");
+  const reviewStatus = document.getElementById("rev_status");
+
+  if (reviewForm) {
+    reviewForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      if (reviewForm.website && reviewForm.website.value !== "") return;
+
+      reviewStatus.textContent = "Skickar...";
+      reviewStatus.style.color = "#333";
+
+      emailjs.sendForm(
+        "service_exp9y7q",
+        "template_REVIEW", // <-- BYT till din review template
+        reviewForm
+      ).then(function () {
+        reviewStatus.textContent = "⭐ Tack för ditt omdöme!";
+        reviewStatus.style.color = "green";
+        reviewForm.reset();
+      }).catch(function (error) {
+        reviewStatus.textContent = "❌ Något gick fel.";
+        reviewStatus.style.color = "red";
+        console.error(error);
+      });
+    });
+  }
+
 });
 </script>
 
