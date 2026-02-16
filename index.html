@@ -14,13 +14,7 @@
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;600;800&display=swap"
     rel="stylesheet">
 
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-<script>
-(function(){
-emailjs.init("kuKF1p7OSrGeG2i_G");
-
-})();
-</script>
+ 
 
 
   <!-- CSS -->
@@ -560,10 +554,12 @@ document.addEventListener("DOMContentLoaded", function () {
       contactStatus.textContent = "Skickar...";
       contactStatus.style.color = "#333";
 
-      emailjs.sendForm(
-        "service_exp9y7q",
-        "template_CONTACT", // <-- BYT till din riktiga template
-        contactForm
+     emailjs.sendForm(
+  "service_exp9y7q",
+  "template_abcd123",
+  contactForm
+)
+
       ).then(function () {
         contactStatus.textContent = "✅ Tack! Vi kontaktar dig snart.";
         contactStatus.style.color = "green";
