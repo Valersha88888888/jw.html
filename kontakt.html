@@ -344,59 +344,62 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  /* =========================
-     BURGER MENU
-  ========================= */
-  const burger = document.getElementById("burger");
-  const nav = document.getElementById("nav");
-
-  if (burger && nav) {
-    burger.addEventListener("click", function () {
-      nav.classList.toggle("open");
-    });
-
-    nav.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", function () {
-        nav.classList.remove("open");
-    
-    });
-  
-
-
  /* =========================
-     ÅR I FOOTER
-     ========================= */
-  const year = document.getElementById("year");
-  if (year) year.textContent = new Date().getFullYear();
+   BURGER MENU
+========================= */
+const burger = document.getElementById("burger");
+const nav = document.getElementById("nav");
 
-  /* =========================
-     TYPEWRITER (om finns)
-     ========================= */
-  function typeWriter(el, text, speed = 70, delay = 0) {
-    if (!el) return;
-    el.textContent = "";
-    let i = 0;
-    setTimeout(function run() {
-      if (i < text.length) {
-        el.textContent += text[i++];
-        setTimeout(run, speed);
-      }
-    }, delay);
-  }
+if (burger && nav) {
+  burger.addEventListener("click", function () {
+    nav.classList.toggle("open");
+  });
 
-  typeWriter(
-    document.getElementById("heroTitle"),
-    "Kontakt",
-    80,
-    0
-  );
+  nav.querySelectorAll("a").forEach(function (link) {
+    link.addEventListener("click", function () {
+      nav.classList.remove("open");
+    });
+  });
+}
 
-  typeWriter(
-    document.getElementById("heroLead"),
-    "Offert, bokning eller frågor — vi svarar snabbt.",
-    26,
-    600
-  );
+
+/* =========================
+   ÅR I FOOTER
+========================= */
+const year = document.getElementById("year");
+if (year) year.textContent = new Date().getFullYear();
+
+
+/* =========================
+   TYPEWRITER
+========================= */
+function typeWriter(el, text, speed = 70, delay = 0) {
+  if (!el) return;
+  el.textContent = "";
+  let i = 0;
+
+  setTimeout(function run() {
+    if (i < text.length) {
+      el.textContent += text[i++];
+      setTimeout(run, speed);
+    }
+  }, delay);
+}
+
+typeWriter(
+  document.getElementById("heroTitle"),
+  "Kontakt",
+  80,
+  0
+);
+
+typeWriter(
+  document.getElementById("heroLead"),
+  "Offert, bokning eller frågor — vi svarar snabbt.",
+  26,
+  600
+);
+
   });
 
 
