@@ -263,8 +263,8 @@
 
 
   <!-- SCRIPTS -->
-  <!-- EmailJS CDN -->
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -304,24 +304,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* =========================
-     TYPEWRITER (ВАЖЛИВО!)
+     TYPEWRITER
   ========================= */
-  function typeWriter(el, text, speed = 70, delay = 0) {
+  function typeWriter(el, text, speed, delay) {
     if (!el) return;
 
     el.textContent = "";
     let i = 0;
 
-    setTimeout(function run() {
-      if (i < text.length) {
-        el.textContent += text.charAt(i);
-        i++;
-        setTimeout(run, speed);
+    setTimeout(function () {
+
+      function write() {
+        if (i < text.length) {
+          el.textContent += text.charAt(i);
+          i++;
+          setTimeout(write, speed);
+        }
       }
+
+      write();
+
     }, delay);
   }
 
-  // 👇 ОСЬ ТІ САМІ БУКВИ ЩО ДРУКУЮТЬСЯ
   typeWriter(
     document.getElementById("heroTitle"),
     "Kontakt",
@@ -348,7 +353,6 @@ document.addEventListener("DOMContentLoaded", function () {
     contactForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      // honeypot skydd (якщо є поле website)
       if (contactForm.website && contactForm.website.value !== "") return;
 
       if (contactStatus) {
@@ -369,6 +373,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         contactForm.reset();
+
       })
       .catch(function (error) {
 
@@ -387,8 +392,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
-  
-  </body> 
-</html>
 
+  </body>
+
+  </html>
 
