@@ -500,9 +500,9 @@ document.addEventListener("DOMContentLoaded", function () {
       contactStatus.style.color = "#333";
 
       emailjs.sendForm(
-        "service_exp9y7q",
-        "template_trofh3q",   // ✅ RÄTT TEMPLATE ID
-        contactForm
+  "service_exp9y7q",
+  "template_contact123",
+  contactForm
       )
       .then(function () {
         contactStatus.textContent = "✅ Tack! Vi kontaktar dig snart.";
@@ -534,9 +534,9 @@ document.addEventListener("DOMContentLoaded", function () {
       reviewStatus.style.color = "#333";
 
       emailjs.sendForm(
-        "service_exp9y7q",
-        "template_trofh3q",   // ✅ samma template
-        reviewForm
+  "service_exp9y7q",
+  "template_review123",
+  reviewForm
       )
       .then(function () {
         reviewStatus.textContent = "⭐ Tack för ditt omdöme!";
@@ -576,12 +576,33 @@ document.addEventListener("DOMContentLoaded", function () {
   ========================= */
   const year = document.getElementById("year");
   if (year) year.textContent = new Date().getFullYear();
+  
+        /* ========= HERO TEXT (STARTSIDAN) ========= */
+      typeWriter(
+        document.getElementById("heroTitle"),
+        "J&W Quality Hemservice",
+        80,
+        0
+      );
+
+      typeWriter(
+        document.getElementById("heroLead"),
+        "Professionell städservice i Stockholm – hemstädning, flyttstädning, storstädning, fönsterputs och företagsstädning.",
+        26,
+        600
+      );
+
+
+  });
 
 });
 </script>
 
-
-
 </body>
-
 </html>
+
+
+
+
+
+
