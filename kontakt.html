@@ -267,49 +267,6 @@
 <!-- SCRIPTS -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-  /* =========================
-     INIT EMAILJS
-  ========================= */
-  emailjs.init("kuKF1p7OSrGeG2i_G"); // Public Key
-
-
-  /* =========================
-     CONTACT FORM
-  ========================= */
-  const contactForm = document.getElementById("contactForm");
-  const contactStatus = document.getElementById("contact_status");
-
-  if (contactForm) {
-    contactForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      // Honeypot skydd
-      if (contactForm.website && contactForm.website.value !== "") return;
-
-      contactStatus.textContent = "Skickar...";
-      contactStatus.style.color = "#333";
-
-      emailjs.sendForm(
-        "service_exp9y7q",
-        "template_trofh3q",   // ✅ RÄTT TEMPLATE ID
-        contactForm
-      )
-      .then(function () {
-        contactStatus.textContent = "✅ Tack! Vi kontaktar dig snart.";
-        contactStatus.style.color = "green";
-        contactForm.reset();
-      })
-      .catch(function (error) {
-        console.error("EmailJS error:", error);
-        contactStatus.textContent = "❌ Något gick fel. Försök igen.";
-        contactStatus.style.color = "red";
-      });
-    });
-  }
-
 
   /* =========================
      REVIEW FORM
@@ -347,7 +304,8 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   }
-
+});
+</script>
   /* BURGER MENU */
   const burger = document.getElementById("burger");
   const nav = document.getElementById("nav");
