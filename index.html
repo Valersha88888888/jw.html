@@ -571,13 +571,24 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  /* =========================
-     FOOTER YEAR
-  ========================= */
-  const year = document.getElementById("year");
-  if (year) year.textContent = new Date().getFullYear();
-  
-        /* ========= HERO TEXT (STARTSIDAN) ========= */
+       /* ========= FOOTER YEAR ========= */
+      const year = document.getElementById("year");
+      if (year) year.textContent = new Date().getFullYear();
+
+      /* ========= TYPEWRITER ========= */
+      function typeWriter(el, text, speed = 70, delay = 0) {
+        if (!el) return;
+        el.textContent = "";
+        let i = 0;
+        setTimeout(function run() {
+          if (i < text.length) {
+            el.textContent += text[i++];
+            setTimeout(run, speed);
+          }
+        }, delay);
+      }
+
+      /* ========= HERO TEXT (STARTSIDAN) ========= */
       typeWriter(
         document.getElementById("heroTitle"),
         "J&W Quality Hemservice",
@@ -592,8 +603,7 @@ document.addEventListener("DOMContentLoaded", function () {
         600
       );
 
-
-  });
+  
 
 });
 </script>
