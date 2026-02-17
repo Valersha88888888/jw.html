@@ -263,50 +263,21 @@
 
 
   <!-- SCRIPTS -->
+  <!-- EmailJS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
-<!-- SCRIPTS -->
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  /* =========================
+     EMAILJS INIT
+  ========================= */
+  emailjs.init("kuKF1p7OSrGeG2i_G");
 
 
   /* =========================
-     REVIEW FORM
+     BURGER MENU
   ========================= */
-  <script>
-document.addEventListener("DOMContentLoaded", function () {
-
-  emailjs.init("kuKF1p7OSrGeG2i_G");
-
-  /* CONTACT FORM */
-  const contactForm = document.getElementById("contactForm");
-  const contactStatus = document.getElementById("contact_status");
-
-  if (contactForm) {
-    contactForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      contactStatus.textContent = "Skickar...";
-      contactStatus.style.color = "#333";
-
-      emailjs.sendForm(
-        "service_exp9y7q",
-        "template_trofh3q"
-        contactForm
-      )
-      .then(function () {
-        contactStatus.textContent = "✅ Tack! Vi kontaktar dig snart.";
-        contactStatus.style.color = "green";
-        contactForm.reset();
-      })
-      .catch(function (error) {
-        console.error(error);
-        contactStatus.textContent = "❌ Något gick fel.";
-        contactStatus.style.color = "red";
-      });
-    });
-  }
-});
-</script>
-  /* BURGER MENU */
   const burger = document.getElementById("burger");
   const nav = document.getElementById("nav");
 
@@ -322,23 +293,35 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  /* FOOTER YEAR */
-  const year = document.getElementById("year");
-  if (year) year.textContent = new Date().getFullYear();
 
-  /* TYPEWRITER */
+  /* =========================
+     FOOTER YEAR
+  ========================= */
+  const year = document.getElementById("year");
+  if (year) {
+    year.textContent = new Date().getFullYear();
+  }
+
+
+  /* =========================
+     TYPEWRITER (ВАЖЛИВО!)
+  ========================= */
   function typeWriter(el, text, speed = 70, delay = 0) {
     if (!el) return;
+
     el.textContent = "";
     let i = 0;
+
     setTimeout(function run() {
       if (i < text.length) {
-        el.textContent += text[i++];
+        el.textContent += text.charAt(i);
+        i++;
         setTimeout(run, speed);
       }
     }, delay);
   }
 
+  // 👇 ОСЬ ТІ САМІ БУКВИ ЩО ДРУКУЮТЬСЯ
   typeWriter(
     document.getElementById("heroTitle"),
     "Kontakt",
@@ -353,13 +336,59 @@ document.addEventListener("DOMContentLoaded", function () {
     600
   );
 
+
+  /* =========================
+     CONTACT FORM
+  ========================= */
+  const contactForm = document.getElementById("contactForm");
+  const contactStatus = document.getElementById("contact_status");
+
+  if (contactForm) {
+
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      // honeypot skydd (якщо є поле website)
+      if (contactForm.website && contactForm.website.value !== "") return;
+
+      if (contactStatus) {
+        contactStatus.textContent = "Skickar...";
+        contactStatus.style.color = "#333";
+      }
+
+      emailjs.sendForm(
+        "service_exp9y7q",
+        "template_z6mw0aa",
+        contactForm
+      )
+      .then(function () {
+
+        if (contactStatus) {
+          contactStatus.textContent = "✅ Tack! Vi kontaktar dig snart.";
+          contactStatus.style.color = "green";
+        }
+
+        contactForm.reset();
+      })
+      .catch(function (error) {
+
+        console.error("EmailJS error:", error);
+
+        if (contactStatus) {
+          contactStatus.textContent = "❌ Något gick fel. Försök igen.";
+          contactStatus.style.color = "red";
+        }
+
+      });
+
+    });
+
+  }
+
 });
 </script>
-
-
-
- 
-
-</body>
-
+  
+  </body> 
 </html>
+
+
