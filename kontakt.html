@@ -313,97 +313,90 @@ document.addEventListener("DOMContentLoaded", function () {
   /* =========================
      REVIEW FORM
   ========================= */
-  const reviewForm = document.getElementById("reviewForm");
-  const reviewStatus = document.getElementById("rev_status");
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
 
-  if (reviewForm) {
-    reviewForm.addEventListener("submit", function (e) {
+  emailjs.init("kuKF1p7OSrGeG2i_G");
+
+  /* CONTACT FORM */
+  const contactForm = document.getElementById("contactForm");
+  const contactStatus = document.getElementById("contact_status");
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      if (reviewForm.website && reviewForm.website.value !== "") return;
-
-      reviewStatus.textContent = "Skickar...";
-      reviewStatus.style.color = "#333";
+      contactStatus.textContent = "Skickar...";
+      contactStatus.style.color = "#333";
 
       emailjs.sendForm(
         "service_exp9y7q",
-        "template_trofh3q",   // ✅ samma template
-        reviewForm
+        "template_trofh3q",
+        contactForm
       )
       .then(function () {
-        reviewStatus.textContent = "⭐ Tack för ditt omdöme!";
-        reviewStatus.style.color = "green";
-        reviewForm.reset();
+        contactStatus.textContent = "✅ Tack! Vi kontaktar dig snart.";
+        contactStatus.style.color = "green";
+        contactForm.reset();
       })
       .catch(function (error) {
-        console.error("EmailJS error:", error);
-        reviewStatus.textContent = "❌ Något gick fel.";
-        reviewStatus.style.color = "red";
+        console.error(error);
+        contactStatus.textContent = "❌ Något gick fel.";
+        contactStatus.style.color = "red";
       });
     });
   }
 
+  /* BURGER MENU */
+  const burger = document.getElementById("burger");
+  const nav = document.getElementById("nav");
 
- /* =========================
-   BURGER MENU
-========================= */
-const burger = document.getElementById("burger");
-const nav = document.getElementById("nav");
-
-if (burger && nav) {
-  burger.addEventListener("click", function () {
-    nav.classList.toggle("open");
-  });
-
-  nav.querySelectorAll("a").forEach(function (link) {
-    link.addEventListener("click", function () {
-      nav.classList.remove("open");
+  if (burger && nav) {
+    burger.addEventListener("click", function () {
+      nav.classList.toggle("open");
     });
-  });
-}
 
+    nav.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        nav.classList.remove("open");
+      });
+    });
+  }
 
-/* =========================
-   ÅR I FOOTER
-========================= */
-const year = document.getElementById("year");
-if (year) year.textContent = new Date().getFullYear();
+  /* FOOTER YEAR */
+  const year = document.getElementById("year");
+  if (year) year.textContent = new Date().getFullYear();
 
+  /* TYPEWRITER */
+  function typeWriter(el, text, speed = 70, delay = 0) {
+    if (!el) return;
+    el.textContent = "";
+    let i = 0;
+    setTimeout(function run() {
+      if (i < text.length) {
+        el.textContent += text[i++];
+        setTimeout(run, speed);
+      }
+    }, delay);
+  }
 
-/* =========================
-   TYPEWRITER
-========================= */
-function typeWriter(el, text, speed = 70, delay = 0) {
-  if (!el) return;
-  el.textContent = "";
-  let i = 0;
+  typeWriter(
+    document.getElementById("heroTitle"),
+    "Kontakt",
+    80,
+    0
+  );
 
-  setTimeout(function run() {
-    if (i < text.length) {
-      el.textContent += text[i++];
-      setTimeout(run, speed);
-    }
-  }, delay);
-}
+  typeWriter(
+    document.getElementById("heroLead"),
+    "Offert, bokning eller frågor — vi svarar snabbt.",
+    26,
+    600
+  );
 
-typeWriter(
-  document.getElementById("heroTitle"),
-  "Kontakt",
-  80,
-  0
-);
-
-typeWriter(
-  document.getElementById("heroLead"),
-  "Offert, bokning eller frågor — vi svarar snabbt.",
-  26,
-  600
-);
-
-  });
-
-
+});
 </script>
+
 
 
  
