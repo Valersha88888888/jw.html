@@ -363,13 +363,40 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  /* =========================
-     FOOTER YEAR
-  ========================= */
+ /* =========================
+     ÅR I FOOTER
+     ========================= */
   const year = document.getElementById("year");
   if (year) year.textContent = new Date().getFullYear();
 
-});
+  /* =========================
+     TYPEWRITER (om finns)
+     ========================= */
+  function typeWriter(el, text, speed = 70, delay = 0) {
+    if (!el) return;
+    el.textContent = "";
+    let i = 0;
+    setTimeout(function run() {
+      if (i < text.length) {
+        el.textContent += text[i++];
+        setTimeout(run, speed);
+      }
+    }, delay);
+  }
+
+  typeWriter(
+    document.getElementById("heroTitle"),
+    "Kontakt",
+    80,
+    0
+  );
+
+  typeWriter(
+    document.getElementById("heroLead"),
+    "Offert, bokning eller frågor — vi svarar snabbt.",
+    26,
+    600
+  );
 </script>
 
 
