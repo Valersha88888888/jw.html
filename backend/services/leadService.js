@@ -15,7 +15,9 @@ function mapLead(row) {
         phone: row.phone,
         email: row.email,
         notes: row.notes,
-        offerNumber: row.offer_number
+        offerNumber: row.offer_number,
+        source: row.source,
+        externalLeadId: row.external_lead_id
     };
 }
 
@@ -44,12 +46,17 @@ async function saveLead(lead) {
             phone,
             email,
             notes,
-            offer_number
+            offer_number,
+            source,
+            external_lead_id
         )
         VALUES (
-            $1, $2, $3, $4, $5, $6,
-            $7, $8, $9, $10, $11, $12
+            $1, $2, $3, $4, $5, $6, $7,
+            $8, $9, $10, $11, $12, $13, $14
         )
+        ON CONFLICT (external_lead_id)
+        WHERE external_lead_id IS NOT NULL
+        DO NOTHING
         RETURNING *
         `,
         [
@@ -60,13 +67,19 @@ async function saveLead(lead) {
             lead.squareMeters || null,
             lead.area || null,
             lead.otherArea || null,
-            lead.name,
+            lead.name || "Okänt namn",
             lead.phone || null,
             lead.email || null,
             lead.notes || null,
-            lead.offerNumber || null
+            lead.offerNumber || null,
+            lead.source || null,
+            lead.externalLeadId || null
         ]
     );
+
+    if (result.rowCount === 0) {
+        return null;
+    }
 
     return mapLead(result.rows[0]);
 }
@@ -102,7 +115,9 @@ async function updateLeadById(id, updatedData) {
             phone = $10,
             email = $11,
             notes = $12,
-            offer_number = $13
+            offer_number = $13,
+            source = $14,
+            external_lead_id = $15
         WHERE id = $1
         `,
         [
@@ -118,7 +133,9 @@ async function updateLeadById(id, updatedData) {
             updatedData.phone ?? existing.phone,
             updatedData.email ?? existing.email,
             updatedData.notes ?? existing.notes,
-            updatedData.offerNumber ?? existing.offerNumber
+            updatedData.offerNumber ?? existing.offerNumber,
+            updatedData.source ?? existing.source,
+            updatedData.externalLeadId ?? existing.externalLeadId
         ]
     );
 }

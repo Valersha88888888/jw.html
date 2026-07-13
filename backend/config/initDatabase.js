@@ -16,8 +16,26 @@ async function initializeDatabase() {
             phone TEXT,
             email TEXT,
             notes TEXT,
-            offer_number TEXT
+            offer_number TEXT,
+            source TEXT,
+            external_lead_id TEXT
         )
+    `);
+
+    await pool.query(`
+        ALTER TABLE leads
+        ADD COLUMN IF NOT EXISTS source TEXT
+    `);
+
+    await pool.query(`
+        ALTER TABLE leads
+        ADD COLUMN IF NOT EXISTS external_lead_id TEXT
+    `);
+
+    await pool.query(`
+        CREATE UNIQUE INDEX IF NOT EXISTS leads_external_lead_id_unique
+        ON leads (external_lead_id)
+        WHERE external_lead_id IS NOT NULL
     `);
 
     console.log("PostgreSQL leads table ready");

@@ -13,20 +13,27 @@ const offerRoutes = require("./routes/offerRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const emailRoutes = require("./routes/emailRoutes");
+const metaWebhookRoutes = require("./routes/metaWebhookRoutes");
 
 const { testDatabaseConnection } = require("./config/db");
 const { initializeDatabase } = require("./config/initDatabase");
 
 const app = express();
-
 const PORT = process.env.PORT || 3000;
 
 app.use(helmet());
 app.use(cors());
-app.use(express.json());
+
+app.use(express.json({
+    verify: (req, res, buffer) => {
+        req.rawBody = buffer;
+    }
+}));
+
 app.use(express.urlencoded({
     extended: true
 }));
+
 app.use(logger);
 
 app.get("/", (req, res) => {
@@ -45,6 +52,7 @@ app.get("/api/test", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/meta", metaWebhookRoutes);
 app.use("/api", leadRoutes);
 app.use("/api", offerRoutes);
 app.use("/api", customerRoutes);
