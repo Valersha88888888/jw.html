@@ -1,12 +1,26 @@
-const fs = require("fs");
+﻿const fs = require("fs");
 const path = require("path");
 
-const logFile = path.join(
+const logDirectory = path.join(
     __dirname,
-    "../logs/application.log"
+    "../logs"
 );
 
+const logFile = path.join(
+    logDirectory,
+    "application.log"
+);
+
+function ensureLogDirectory() {
+    if (!fs.existsSync(logDirectory)) {
+        fs.mkdirSync(logDirectory, {
+            recursive: true
+        });
+    }
+}
+
 function writeLog(level, message) {
+    ensureLogDirectory();
 
     const time = new Date().toLocaleString("sv-SE");
 
@@ -18,40 +32,22 @@ function writeLog(level, message) {
         line,
         "utf8"
     );
-
 }
 
 function info(message) {
-
-    writeLog(
-        "INFO",
-        message
-    );
-
+    writeLog("INFO", message);
 }
 
 function warning(message) {
-
-    writeLog(
-        "WARNING",
-        message
-    );
-
+    writeLog("WARNING", message);
 }
 
 function error(message) {
-
-    writeLog(
-        "ERROR",
-        message
-    );
-
+    writeLog("ERROR", message);
 }
 
 module.exports = {
-
     info,
     warning,
     error
-
 };

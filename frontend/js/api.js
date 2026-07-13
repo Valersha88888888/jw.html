@@ -1,4 +1,4 @@
-﻿const API_URL = "http://localhost:3000/api";
+﻿const API_URL = "https://jw-quality-hemservice-crm.onrender.com/api";
 
 
 function getToken() {
@@ -93,4 +93,5 @@ function logout() {
 
     window.location.href = "login.html";
 
+}
 }
