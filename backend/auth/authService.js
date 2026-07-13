@@ -1,162 +1,70 @@
-const fs = require("fs");
-const path = require("path");
-const bcrypt = require("bcrypt");
+﻿const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const USERS_FILE = path.join(__dirname, "../users.json");
+function getAdminConfig() {
+    const name = process.env.ADMIN_NAME;
+    const email = process.env.ADMIN_EMAIL;
+    const passwordHash = process.env.ADMIN_PASSWORD_HASH;
+    const jwtSecret = process.env.JWT_SECRET;
 
-function getUsers() {
-
-    try {
-
-        const data = fs.readFileSync(USERS_FILE, "utf8");
-
-        if (!data.trim()) {
-
-            return [];
-
-        }
-
-        return JSON.parse(data);
-
-    } catch {
-
-        return [];
-
+    if (!name || !email || !passwordHash || !jwtSecret) {
+        throw new Error("Admin authentication is not configured");
     }
 
-}
-
-function saveUsers(users) {
-
-    fs.writeFileSync(
-
-        USERS_FILE,
-
-        JSON.stringify(users, null, 2)
-
-    );
-
-}
-
-async function createAdmin(name, email, password) {
-
-    const users = getUsers();
-
-    const exists = users.find(
-
-        user => user.email === email
-
-    );
-
-    if (exists) {
-
-        throw new Error("User already exists");
-
-    }
-
-    const hash = await bcrypt.hash(password, 10);
-
-    const user = {
-
-        id: Date.now(),
-
+    return {
         name,
-
-        email,
-
-        password: hash,
-
-        role: "admin",
-
-        createdAt: new Date().toISOString()
-
+        email: email.trim().toLowerCase(),
+        passwordHash,
+        jwtSecret
     };
-
-    users.push(user);
-
-    saveUsers(users);
-
-    return user;
-
 }
 
 async function login(email, password) {
-
-    const users = getUsers();
-
-    const user = users.find(
-
-        u => u.email === email
-
-    );
-
-    if (!user) {
-
-        throw new Error("Invalid credentials");
-
+    if (!email || !password) {
+        throw new Error("Email and password are required");
     }
 
-    const valid = await bcrypt.compare(
+    const admin = getAdminConfig();
+    const normalizedEmail = email.trim().toLowerCase();
 
+    if (normalizedEmail !== admin.email) {
+        throw new Error("Invalid credentials");
+    }
+
+    const validPassword = await bcrypt.compare(
         password,
-
-        user.password
-
+        admin.passwordHash
     );
 
-    if (!valid) {
-
+    if (!validPassword) {
         throw new Error("Invalid credentials");
-
     }
+
+    const user = {
+        id: "admin",
+        name: admin.name,
+        email: admin.email,
+        role: "admin"
+    };
 
     const token = jwt.sign(
-
         {
-
             id: user.id,
-
             email: user.email,
-
             role: user.role
-
         },
-
-        process.env.JWT_SECRET,
-
+        admin.jwtSecret,
         {
-
             expiresIn: "7d"
-
         }
-
     );
 
     return {
-
         token,
-
-        user: {
-
-            id: user.id,
-
-            name: user.name,
-
-            email: user.email,
-
-            role: user.role
-
-        }
-
+        user
     };
-
 }
 
 module.exports = {
-
-    createAdmin,
-
     login
-
 };
