@@ -1,0 +1,14 @@
+﻿backend/.env
+backend/node_modules/
+backend/users.json
+backend/leads.json
+backend/customers.json
+backend/offers.json
+backend/logs/
+backend/offers/
+backend/server-backup.js
+backend/server-step*.js
+backend/test-*.js
+*.log
+.DS_Store
+backend/templates/backup/

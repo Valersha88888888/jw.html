@@ -1,0 +1,269 @@
+/* ===========================
+   J&W CRM Main Layout
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Segoe UI",sans-serif;
+    background:#f5f7fb;
+    color:#2d3748;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+/* ================= Sidebar ================= */
+
+.sidebar{
+
+    width:260px;
+    background:#26293d;
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+
+}
+
+.logo{
+
+    padding:30px 25px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.logo h2{
+
+    font-size:28px;
+    color:#d98adf;
+
+}
+
+.logo p{
+
+    color:#ccc;
+    font-size:13px;
+    margin-top:5px;
+
+}
+
+.menu{
+
+    padding:20px;
+
+}
+
+.menu a{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 16px;
+    margin-bottom:8px;
+    border-radius:10px;
+    transition:.25s;
+
+}
+
+.menu a:hover{
+
+    background:#343955;
+
+}
+
+.menu a.active{
+
+    background:#c77dcb;
+    color:#fff;
+
+}
+
+.logout{
+
+    margin-top:auto;
+    padding:20px;
+    border-top:1px solid rgba(255,255,255,.08);
+
+}
+
+/* ================= Main ================= */
+
+.main{
+
+    margin-left:260px;
+    width:calc(100% - 260px);
+    padding:35px;
+
+}
+
+.header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+
+}
+
+.header h1{
+
+    font-size:32px;
+    color:#2d3748;
+
+}
+
+.header p{
+
+    color:#777;
+    margin-top:5px;
+
+}
+
+.user{
+
+    text-align:right;
+
+}
+
+.user strong{
+
+    display:block;
+    font-size:16px;
+
+}
+
+.user span{
+
+    color:#888;
+    font-size:13px;
+
+}
+
+/* ================= Cards ================= */
+
+.cards{
+
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:30px;
+
+}
+
+.stat{
+
+    background:#fff;
+    border-radius:15px;
+    padding:24px;
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+
+}
+
+.stat h4{
+
+    color:#777;
+    margin-bottom:10px;
+
+}
+
+.stat p{
+
+    font-size:34px;
+    font-weight:bold;
+    color:#c77dcb;
+
+}
+
+/* ================= Content ================= */
+
+.content{
+
+    display:grid;
+    gap:25px;
+
+}
+
+.section{
+
+    background:#fff;
+    border-radius:15px;
+    padding:25px;
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+
+}
+
+.section h2{
+
+    margin-bottom:20px;
+
+}
+
+/* ================= Footer ================= */
+
+.footer{
+
+    margin-top:40px;
+    text-align:center;
+    color:#888;
+    font-size:13px;
+
+}
+
+/* ================= Responsive ================= */
+
+@media(max-width:1100px){
+
+.cards{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+@media(max-width:800px){
+
+.sidebar{
+
+position:relative;
+width:100%;
+
+}
+
+.main{
+
+margin-left:0;
+width:100%;
+
+}
+
+.cards{
+
+grid-template-columns:1fr;
+
+}
+
+.header{
+
+flex-direction:column;
+align-items:flex-start;
+gap:15px;
+
+}
+
+}

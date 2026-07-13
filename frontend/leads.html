@@ -1,0 +1,458 @@
+
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Leads | J&W Quality Hemservice CRM</title>
+
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/leads.css">
+
+</head>
+
+<body>
+
+<div class="app">
+
+<nav class="sidebar">
+
+<div class="logo">
+
+<h2>J&W CRM</h2>
+
+<p>Quality Hemservice</p>
+
+</div>
+
+<div class="menu">
+
+<a href="dashboard.html">
+
+📊 Dashboard
+
+</a>
+
+<a href="leads.html" class="active">
+
+👥 Leads
+
+</a>
+
+<a href="offers.html">
+
+📄 Offerter
+
+</a>
+
+<a href="settings.html">
+
+⚙ Inställningar
+
+</a>
+
+</div>
+
+<div class="logout">
+
+<a href="#" id="logout">
+
+🚪 Logga ut
+
+</a>
+
+</div>
+
+</nav>
+
+<main class="main">
+
+<header class="header">
+
+<div>
+
+<h1>Leads</h1>
+
+<p>Hantera alla inkommande kunder</p>
+
+</div>
+
+<div class="user" id="userName">
+
+</div>
+
+</header>
+
+<section class="toolbar">
+
+<div class="search-box">
+
+<input
+type="text"
+id="searchInput"
+class="input"
+placeholder="Sök namn, telefon eller e-post...">
+
+</div>
+
+<
+
+<select
+id="statusFilter"
+class="select"
+title="Filtrera leads efter status"
+aria-label="Statusfilter">
+
+<option value="">Alla status</option>
+
+<option>Ny</option>
+
+<option>Kontaktad</option>
+
+<option>Bokad</option>
+
+<option>Offert skickad</option>
+
+<option>Kund</option>
+
+</select>
+
+<button
+class="btn btn-primary"
+id="newLeadBtn">
+
++ Ny Lead
+
+</button>
+
+</section>
+
+<section class="card">
+
+<div class="table-responsive">
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>Namn</th>
+
+<th>Telefon</th>
+
+<th>E-post</th>
+
+<th>Ort</th>
+
+<th>Status</th>
+
+<th>Åtgärder</th>
+
+</tr>
+
+</thead>
+
+<tbody id="leadTable">
+
+<tr>
+
+<td colspan="6">
+
+Laddar...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<div
+class="modal"
+id="leadModal">
+
+<div class="modal-content">
+
+<h2 id="modalTitle">
+
+Ny Lead
+
+</h2>
+
+<form id="leadForm">
+
+<div class="grid-2">
+
+<div class="form-group">
+
+<label>Namn</label>
+
+<input
+type="text"
+id="leadName"
+class="input"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Telefon</label>
+
+<input
+type="text"
+id="leadPhone"
+class="input">
+
+</div>
+
+<div class="form-group">
+
+<label>E-post</label>
+
+<input
+type="email"
+id="leadEmail"
+class="input">
+
+</div>
+
+<div class="form-group">
+
+<label>Ort</label>
+
+<input
+type="text"
+id="leadArea"
+class="input">
+
+</div>
+
+<div class="form-group">
+
+<label for="leadStatus">Status</label>
+
+<select
+id="leadStatus"
+class="select">
+
+<option>Ny</option>
+
+<option>Kontaktad</option>
+
+<option>Bokad</option>
+
+<option>Offert skickad</option>
+
+<option>Kund</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Tjänst</label>
+
+<input
+type="text"
+id="leadService"
+class="input">
+
+</div>
+
+<div class="form-group"
+style="grid-column:1/3;">
+
+<label>Anteckningar</label>
+
+<textarea
+id="leadNotes"
+class="textarea"></textarea>
+
+</div>
+
+<div class="actions">
+
+<button
+type="button"
+class="btn btn-secondary"
+id="cancelLead">
+
+Avbryt
+
+</button>
+
+<button
+type="submit"
+class="btn btn-success">
+
+Spara Lead
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+<section class="card">
+
+<h2 class="card-title">
+
+Leadstatistik
+
+</h2>
+
+<div class="grid-4">
+
+<div class="stat">
+
+<h4>Totalt</h4>
+
+<p id="totalLeads">
+
+0
+
+</p>
+
+</div>
+
+<div class="stat">
+
+<h4>Nya</h4>
+
+<p id="newLeads">
+
+0
+
+</p>
+
+</div>
+
+<div class="stat">
+
+<h4>Offerter</h4>
+
+<p id="offerLeads">
+
+0
+
+</p>
+
+</div>
+
+<div class="stat">
+
+<h4>Kunder</h4>
+
+<p id="customerLeads">
+
+0
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="card">
+
+<h2 class="card-title">
+
+Snabbåtgärder
+
+</h2>
+
+<div class="toolbar">
+
+<button
+class="btn btn-primary"
+id="refreshBtn">
+
+🔄 Uppdatera
+
+</button>
+
+<button
+class="btn btn-success"
+id="exportBtn">
+
+📄 Exportera
+
+</button>
+
+<button
+class="btn btn-warning"
+id="mailBtn">
+
+📧 Skicka Mail
+
+</button>
+
+<button
+class="btn btn-secondary"
+id="offerBtn">
+
+📑 Skapa Offert
+
+</button>
+
+</div>
+
+</section>
+
+<footer class="footer">
+
+<p>
+
+J&W Quality Hemservice CRM
+
+</p>
+
+<p>
+
+Version 1.0
+
+</p>
+
+</footer>
+
+</main>
+
+</div>
+
+<div id="loader">
+
+<div class="spinner"></div>
+
+</div>
+
+<div id="toast"></div>
+
+<script src="js/api.js"></script>
+
+<script src="js/ui.js"></script>
+
+<script src="js/leads.js"></script>
+
+</body>
+
+</html>

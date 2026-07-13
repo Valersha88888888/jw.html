@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>J&W Quality Hemservice CRM</title>
+
+<link
+rel="stylesheet"
+href="css/dashboard.css">
+
+</head>
+
+<body>
+
+<nav class="sidebar">
+
+    <div class="logo">
+
+        <h2>J&W CRM</h2>
+
+        <p>Quality Hemservice</p>
+
+    </div>
+
+    <a href="dashboard.html">📊 Dashboard</a>
+
+    <a href="leads.html">👥 Leads</a>
+
+    <a href="offers.html">📄 Offerter</a>
+
+    <a href="calendar.html">📅 Kalender</a>
+
+    <a href="#">📧 Mail</a>
+
+    <a href="#">📱 SMS</a>
+
+    <a href="settings.html">⚙ Inställningar</a>
+
+    <hr>
+
+    <a
+    href="#"
+    id="logout">
+
+        🚪 Logga ut
+
+    </a>
+
+</nav>
+
+<main class="main">
+
+<header>
+
+<div>
+
+<h1>
+
+Dashboard
+
+</h1>
+
+<p>
+
+J&W Quality Hemservice CRM
+
+</p>
+
+</div>
+
+<div id="userName">
+
+</div>
+
+</header>
+
+<section class="cards">
+
+<div class="card">
+
+<h3>
+
+Leads
+
+</h3>
+
+<p id="leadCount">
+
+0
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+
+Offerter
+
+</h3>
+
+<p id="offerCount">
+
+0
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+
+Kunder
+
+</h3>
+
+<p id="customerCount">
+
+0
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+
+Omsättning
+
+</h3>
+
+<p>
+
+0 kr
+
+</p>
+
+</div>
+
+</section>
+
+<section class="grid">
+    <div class="chartBox">
+
+<h2>
+
+Leads per område
+
+</h2>
+
+<canvas id="leadChart"></canvas>
+
+</div>
+
+<div class="tableBox">
+
+<h2>
+
+Senaste Leads
+
+</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Namn</th>
+
+<th>Telefon</th>
+
+<th>Status</th>
+
+<th>Ort</th>
+
+</tr>
+
+</thead>
+
+<tbody id="leadTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="activity">
+
+<h2>
+
+Aktiviteter
+
+</h2>
+
+<ul>
+
+<li>
+
+✅ CRM startad
+
+</li>
+
+<li>
+
+📄 Offertsystem aktivt
+
+</li>
+
+<li>
+
+📧 Mailsystem aktivt
+
+</li>
+
+<li>
+
+🔒 JWT Authentication aktiv
+
+</li>
+
+<li>
+
+📱 SMS väntar på Twilio
+
+</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<footer>
+
+J&W Quality Hemservice CRM
+
+Version 1.0
+
+</footer>
+
+</main>
+
+<div id="loader">
+
+<div class="spinner">
+
+</div>
+
+</div>
+
+<div id="toast">
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="js/api.js"></script>
+
+<script src="js/ui.js"></script>
+
+<script src="js/dashboard.js"></script>
+
+</body>
+
+</html>

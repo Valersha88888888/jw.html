@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Offert {{offerNumber}}</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+
+            font-family:Arial,Helvetica,sans-serif;
+            color:#333;
+            background:white;
+            padding:45px;
+
+        }
+
+        .header{
+
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            border-bottom:3px solid #d97ac6;
+            padding-bottom:20px;
+            margin-bottom:35px;
+
+        }
+
+        .company h1{
+
+            font-size:30px;
+            color:#d97ac6;
+
+        }
+
+        .company p{
+
+            font-size:14px;
+            line-height:1.6;
+
+        }
+
+        .offer-title{
+
+            text-align:right;
+
+        }
+
+        .offer-title h2{
+
+            font-size:34px;
+            color:#444;
+
+        }
+
+        .offer-title p{
+
+            margin-top:8px;
+
+        }
+
+        .section{
+
+            margin-top:35px;
+
+        }
+
+        .section h3{
+
+            background:#d97ac6;
+            color:white;
+            padding:10px;
+            font-size:18px;
+
+        }
+
+        table{
+
+            width:100%;
+            border-collapse:collapse;
+            margin-top:15px;
+
+        }
+
+        td{
+
+            border:1px solid #ddd;
+            padding:12px;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+<div class="company">
+
+<h1>J&W Quality Hemservice</h1>
+
+<p>
+
+Org.nr: XXXXXXXX-XXXX<br>
+
+Telefon: +46 76 909 02 40<br>
+
+E-post: jw.qualityhemservice@gmail.com<br>
+
+Stockholm
+
+</p>
+
+</div>
+
+<div class="offer-title">
+
+<h2>OFFERT</h2>
+
+<p><strong>Nr:</strong> {{offerNumber}}</p>
+
+<p><strong>Datum:</strong> {{date}}</p>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<h3>Kundinformation</h3>
+
+<table>
+
+<tr>
+
+<td><strong>Namn</strong></td>
+
+<td>{{name}}</td>
+
+</tr>
+
+<tr>
+
+<td><strong>Telefon</strong></td>
+
+<td>{{phone}}</td>
+
+</tr>
+
+<tr>
+
+<td><strong>E-post</strong></td>
+
+<td>{{email}}</td>
+
+</tr>
+
+<tr>
+
+<td><strong>Tjänst</strong></td>
+
+<td>{{serviceType}}</td>
+
+</tr>
+
+</table>
+
+</div>
+<div class="section">
+
+    <h3>Specifikation</h3>
+
+    <table>
+
+        <thead>
+
+            <tr style="background:#f7f7f7;">
+
+                <td><strong>Tjänst</strong></td>
+
+                <td><strong>Beskrivning</strong></td>
+
+                <td style="text-align:right;"><strong>Pris</strong></td>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>{{serviceType}}</td>
+
+                <td>
+
+                    Professionell städservice enligt överenskommelse.
+
+                </td>
+
+                <td style="text-align:right;">
+
+                    {{price}} kr
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div class="section">
+
+    <h3>Prisöversikt</h3>
+
+    <table>
+
+        <tr>
+
+            <td>Ordinarie pris</td>
+
+            <td style="text-align:right;">
+
+                {{price}} kr
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>RUT-avdrag</td>
+
+            <td style="text-align:right;">
+
+                Enligt Skatteverkets regler
+
+            </td>
+
+        </tr>
+
+        <tr style="background:#f7f7f7;">
+
+            <td>
+
+                <strong>Att betala</strong>
+
+            </td>
+
+            <td style="text-align:right;">
+
+                <strong>{{price}} kr</strong>
+
+            </td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+<div class="section">
+
+    <h3>Detta ingår</h3>
+
+    <table>
+
+        <tr>
+
+            <td>
+
+                ✓ Professionell städning
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+
+                ✓ Ansvarsförsäkring
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+
+                ✓ Utbildad personal
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+
+                ✓ Miljövänliga produkter vid behov
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+
+                ✓ Kundgaranti
+
+            </td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+<div class="section">
+
+    <h3>Villkor</h3>
+
+    <table>
+
+        <tr>
+
+            <td>
+
+Denna offert gäller i 30 dagar från offertdatum.
+
+Arbetet utförs enligt överenskommen tid.
+
+Eventuella tilläggsarbeten offereras separat.
+
+Betalning sker mot faktura enligt överenskommelse.
+
+            </td>
+
+        </tr>
+
+    </table>
+
+</div>
+<div class="section">
+
+    <h3>Kontakt</h3>
+
+    <table>
+
+        <tr>
+
+            <td>
+
+                <strong>J&W Quality Hemservice</strong><br><br>
+
+                📞 +46 76 909 02 40<br>
+
+                📧 jw.qualityhemservice@gmail.com<br>
+
+                🌐 www.jwqualityhemservice.se<br>
+
+                📍 Stockholm
+
+            </td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+<div
+style="
+margin-top:70px;
+display:flex;
+justify-content:space-between;
+">
+
+<div>
+
+_____________________________
+
+<br>
+
+Kund
+
+</div>
+
+<div>
+
+_____________________________
+
+<br>
+
+J&W Quality Hemservice
+
+</div>
+
+</div>
+
+<div
+style="
+margin-top:60px;
+font-size:12px;
+color:#777;
+text-align:center;
+border-top:1px solid #dddddd;
+padding-top:20px;
+line-height:1.8;
+">
+
+Denna offert har skapats automatiskt av
+
+J&W Quality Hemservice CRM.
+
+<br><br>
+
+Tack för att ni valde J&W Quality Hemservice.
+
+Vi ser fram emot att hjälpa er med ett professionellt resultat.
+
+</div>
+
+</body>
+
+</html>

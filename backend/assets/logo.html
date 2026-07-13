@@ -1,0 +1,108 @@
+﻿<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>J&W â€” Quality Hemservice</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --brand-gray:#626a6d;   /* ÑÑ–Ñ€Ð¸Ð¹ Ñ‚ÐµÐºÑÑ‚ */
+    --bg:#f7f5f2;
+
+  --brand-pink:#e9b7c7; /* Ñ€Ð¾Ð¶ÐµÐ²Ð¸Ð¹ */
+  --white:#fff;
+ }
+
+.bubbles{ width:clamp(110px,26vw,200px); display:block; margin:0 auto 24px; }
+
+/* ÐšÐ¾Ð»Ñ–Ñ€ Ñ– Ð±Ð»Ð¸ÑÐº */
+.bubble{ fill:var(--brand-pink); stroke:none; }
+.shine { fill:var(--white); opacity:.55; stroke:none; }
+
+/* Ð”Ð¾Ð·Ð²Ð¾Ð»ÑÑ”Ð¼Ð¾ Ñ€ÑƒÑ…Ð°Ñ‚Ð¸ ÐºÐ¾Ð¶Ð½Ñƒ Ð±ÑƒÐ»ÑŒÐ±Ð°ÑˆÐºÑƒ Ñ‡ÐµÑ€ÐµÐ· CSS */
+.bubbles g{
+  transform-box: fill-box;           /* Ð²Ð°Ð¶Ð»Ð¸Ð²Ð¾ Ð´Ð»Ñ ÐºÐ¾Ñ€ÐµÐºÑ‚Ð½Ð¾Ð³Ð¾ origin */
+  transform-origin: center;
+}
+.b1{ transform: translate(var(--b1-x), var(--b1-y)) scale(var(--b1-scale)); }
+.b2{ transform: translate(var(--b2-x), var(--b2-y)) scale(var(--b2-scale)); }
+.b3{ transform: translate(var(--b3-x), var(--b3-y)) scale(var(--b3-scale)); }
+.b4{ transform: translate(var(--b4-x), var(--b4-y)) scale(var(--b4-scale)); }
+
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--bg);
+    display:grid; place-items:center; padding:40px 16px;
+  }
+
+  .logo{ text-align:center; color:var(--brand-gray); }
+
+  /* Ð‘Ð£Ð›Ð¬Ð‘ÐÐ¨ÐšÐ˜ */
+  .bubbles {
+  width: clamp(150px, 26vw, 200px);
+  display:block;
+  margin: 80px auto 1px; /* â¬…ï¸ Ð·Ð±Ñ–Ð»ÑŒÑˆ Ð²ÐµÑ€Ñ…Ð½Ñ–Ð¹ Ð²Ñ–Ð´ÑÑ‚ÑƒÐ¿, Ð·Ð¼ÐµÐ½Ñˆ Ð½Ð¸Ð¶Ð½Ñ–Ð¹ */
+}
+
+
+
+  .bubble{ fill: var(--brand-pink); stroke: none; }
+  .shine{  fill: var(--white); opacity:.55; stroke: none; }
+
+  /* Ð¡Ð›ÐžÐ’Ðž-Ð‘Ð Ð•ÐÐ” */
+  .brand{
+    font-family:"Playfair Display", serif;
+    font-weight:800;
+    letter-spacing:.02em;
+    font-size:clamp(48px, 7.2vw, 92px);
+    line-height:1;
+    margin:8px 0 2px;
+    color:var(--brand-gray);
+  }
+
+  /* Ð¢Ð•Ð“Ð›ÐÐ™Ð */
+  .tag{
+    font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-weight:800;
+    letter-spacing:.20em;
+    text-transform:uppercase;
+    color:var(--brand-gray);
+    font-size:clamp(12px, 1.6vw, 20px);
+    margin-top:8px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="logo" aria-label="J&W  Quality â€” logotyp med bubblor">
+    <!-- Ð‘Ð£Ð›Ð¬Ð‘ÐÐ¨ÐšÐ˜ ÐÐ ÐŸÐ•Ð Ð•Ð¥Ð Ð•Ð¡Ð¢ -->
+    <svg class="bubbles" viewBox="0 0 260 180" role="img" aria-hidden="true">
+      <!-- Ð²ÐµÐ»Ð¸ÐºÐ° Ð¿Ñ€Ð°Ð²Ð° -->
+      <circle cx="170" cy="90" r="40" class="bubble"/>
+      <path d="M190 75a15 15 0 0 1-22 18" class="shine"/>
+
+      <!-- Ð²ÐµÐ»Ð¸ÐºÐ° Ð»Ñ–Ð²Ð° -->
+      <circle cx="100" cy="110" r="35" class="bubble"/>
+      <path d="M115 98a10 10 0 0 1-15 12" class="shine"/>
+
+      <!-- Ð¼Ð°Ð»ÐµÐ½ÑŒÐºÐ° Ð²ÐµÑ€Ñ…Ð½Ñ -->
+      <circle cx="120" cy="45" r="18" class="bubble"/>
+      <path d="M127 39a6 6 0 0 1-8 6" class="shine"/>
+
+      <!-- Ð¼Ð°Ð»ÐµÐ½ÑŒÐºÐ° Ð½Ð¸Ð¶Ð½Ñ -->
+      <circle cx="65" cy="150" r="14" class="bubble"/>
+      <path d="M70 145a4 4 0 0 1-5 5" class="shine"/>
+
+
+    </svg>
+
+    <!-- Ð‘Ð Ð•ÐÐ” Ð¢Ð Ð¢Ð•Ð“Ð›ÐÐ™Ð -->
+    <div class="brand">J&amp;W</div>
+    <div class="tag"> Quality HEMSERVICE </div>
+  </div>
+
+</body>
+</html>

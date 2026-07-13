@@ -1,0 +1,450 @@
+
+/* ==========================================
+   J&W CRM - Leads
+========================================== */
+
+.table-responsive{
+
+    overflow-x:auto;
+
+}
+
+.table{
+
+    width:100%;
+    border-collapse:collapse;
+
+}
+
+.table thead{
+
+    background:#d78ddf;
+    color:#fff;
+
+}
+
+.table th{
+
+    padding:16px;
+    text-align:left;
+    font-size:14px;
+    letter-spacing:.4px;
+
+}
+
+.table td{
+
+    padding:16px;
+    border-bottom:1px solid #ececec;
+    vertical-align:middle;
+
+}
+
+.table tbody tr{
+
+    transition:.25s;
+
+}
+
+.table tbody tr:hover{
+
+    background:#faf5fc;
+
+}
+
+.table td:last-child{
+
+    white-space:nowrap;
+
+}
+
+.table button{
+
+    margin-right:6px;
+
+}
+
+.search-box{
+
+    flex:1;
+
+}
+
+.search-box input{
+
+    width:100%;
+
+}
+
+.toolbar{
+
+    display:flex;
+    gap:15px;
+    align-items:center;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+
+}
+
+.toolbar select{
+
+    width:220px;
+
+}
+
+.modal{
+
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,.45);
+    z-index:9999;
+
+}
+
+.modal.active{
+
+    display:flex;
+
+}
+
+.modal-content{
+
+    width:850px;
+    max-width:96%;
+    background:#fff;
+    border-radius:14px;
+    padding:35px;
+    box-shadow:0 12px 35px rgba(0,0,0,.18);
+
+}
+
+.modal-content h2{
+
+    margin-bottom:25px;
+
+}
+
+.form-group{
+
+    margin-bottom:18px;
+
+}
+
+.form-group label{
+
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+
+}
+
+.actions{
+
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    margin-top:30px;
+
+}
+
+.stat{
+
+    text-align:center;
+
+}
+
+.stat h4{
+
+    color:#777;
+    margin-bottom:12px;
+
+}
+
+.stat p{
+
+    font-size:34px;
+    font-weight:700;
+    color:#c77dcb;
+
+}
+
+/* ==========================================
+   Status badges
+========================================== */
+
+.status{
+
+    display:inline-block;
+    padding:6px 12px;
+    border-radius:30px;
+    font-size:12px;
+    font-weight:600;
+    text-align:center;
+
+}
+
+.status-new{
+
+    background:#dbeafe;
+    color:#2563eb;
+
+}
+
+.status-contact{
+
+    background:#fef3c7;
+    color:#b45309;
+
+}
+
+.status-booked{
+
+    background:#ede9fe;
+    color:#6d28d9;
+
+}
+
+.status-offer{
+
+    background:#fee2e2;
+    color:#dc2626;
+
+}
+
+.status-customer{
+
+    background:#dcfce7;
+    color:#15803d;
+
+}
+
+/* ==========================================
+   Action buttons
+========================================== */
+
+.action-buttons{
+
+    display:flex;
+    gap:8px;
+
+}
+
+.action-buttons button{
+
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    transition:.25s;
+    font-size:16px;
+
+}
+
+.view-btn{
+
+    background:#dbeafe;
+
+}
+
+.view-btn:hover{
+
+    background:#bfdbfe;
+
+}
+
+.edit-btn{
+
+    background:#fef3c7;
+
+}
+
+.edit-btn:hover{
+
+    background:#fde68a;
+
+}
+
+.offer-btn{
+
+    background:#dcfce7;
+
+}
+
+.offer-btn:hover{
+
+    background:#bbf7d0;
+
+}
+
+.mail-btn{
+
+    background:#ede9fe;
+
+}
+
+.mail-btn:hover{
+
+    background:#ddd6fe;
+
+}
+
+.delete-btn{
+
+    background:#fee2e2;
+
+}
+
+.delete-btn:hover{
+
+    background:#fecaca;
+
+}
+
+/* ==========================================
+   Empty state
+========================================== */
+
+.empty{
+
+    text-align:center;
+    padding:60px;
+    color:#999;
+
+}
+
+.empty h3{
+
+    margin-top:20px;
+    margin-bottom:10px;
+
+}
+
+.empty p{
+
+    font-size:14px;
+
+}
+
+/* ==========================================
+   Loader
+========================================== */
+
+#loader{
+
+    position:fixed;
+    inset:0;
+    background:rgba(255,255,255,.75);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:10000;
+
+}
+
+.spinner{
+
+    width:55px;
+    height:55px;
+    border:6px solid #eee;
+    border-top:6px solid #c77dcb;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+/* ==========================================
+   Animation
+========================================== */
+
+.card{
+
+    /* animation removed */
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ==========================================
+   Responsive
+========================================== */
+
+@media(max-width:900px){
+
+.toolbar{
+
+    flex-direction:column;
+    align-items:stretch;
+
+}
+
+.toolbar select{
+
+    width:100%;
+
+}
+
+.modal-content{
+
+    padding:20px;
+
+}
+
+.table th,
+.table td{
+
+    padding:12px;
+    font-size:13px;
+
+}
+
+.actions{
+
+    flex-direction:column;
+
+}
+
+.actions button{
+
+    width:100%;
+
+}
+
+}
+
+/* ==========================================
+   Stable table layout during data loading
+========================================== */
+
+.card .table-responsive {
+    min-height: 300px;
+}

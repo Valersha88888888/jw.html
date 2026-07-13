@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Offerter | J&W Quality Hemservice CRM</title>
+
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/offers.css">
+
+</head>
+
+<body>
+
+<div class="app">
+
+<nav class="sidebar">
+
+<div class="logo">
+
+<h2>J&W CRM</h2>
+
+<p>Quality Hemservice</p>
+
+</div>
+
+<div class="menu">
+
+<a href="dashboard.html">
+
+📊 Dashboard
+
+</a>
+
+<a href="leads.html">
+
+👥 Leads
+
+</a>
+
+<a href="offers.html" class="active">
+
+📄 Offerter
+
+</a>
+
+<a href="customers.html">
+
+👤 Kunder
+
+</a>
+
+<a href="settings.html">
+
+⚙ Inställningar
+
+</a>
+
+</div>
+
+<div class="logout">
+
+<a href="#" id="logout">
+
+🚪 Logga ut
+
+</a>
+
+</div>
+
+</nav>
+
+<main class="main">
+
+<header class="header">
+
+<div>
+
+<h1>Offerter</h1>
+
+<p>Hantera företagets offerter</p>
+
+</div>
+
+<div id="userName" class="user">
+
+</div>
+
+</header>
+
+<section class="toolbar">
+
+<div class="search-box">
+
+<input
+type="text"
+id="searchInput"
+class="input"
+placeholder="Sök offert...">
+
+</div>
+
+<label for="statusFilter" class="sr-only">
+Statusfilter
+</label>
+
+<select
+id="statusFilter"
+class="select"
+title="Filtrera offerter efter status"
+aria-label="Statusfilter">
+
+<option value="">Alla status</option>
+
+<option>Utkast</option>
+
+<option>Skickad</option>
+
+<option>Godkänd</option>
+
+<option>Nekad</option>
+
+</select>
+
+<button
+class="btn btn-primary"
+id="newOfferBtn">
+
++ Ny Offert
+
+</button>
+
+</section>
+
+<section class="card">
+
+<div class="table-responsive">
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>Nr</th>
+
+<th>Kund</th>
+
+<th>Telefon</th>
+
+<th>Datum</th>
+
+<th>Pris</th>
+
+<th>Status</th>
+
+<th>Åtgärder</th>
+
+</tr>
+
+</thead>
+
+<tbody id="offerTable">
+
+<tr>
+
+<td colspan="7">
+
+Laddar offerter...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<div class="modal" id="offerModal">
+
+<div class="modal-content">
+
+<h2 id="modalTitle">
+
+Ny Offert
+
+</h2>
+
+<form id="offerForm">
+
+<div class="grid-2">
+
+<div class="form-group">
+
+<label>Kund</label>
+
+<input
+type="text"
+id="customerName"
+class="input"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Telefon</label>
+
+<input
+type="text"
+id="customerPhone"
+class="input">
+
+</div>
+
+<div class="form-group">
+
+<label>E-post</label>
+
+<input
+type="email"
+id="customerEmail"
+class="input">
+
+</div>
+
+<div class="form-group">
+
+<label>Adress</label>
+
+<input
+type="text"
+id="customerAddress"
+class="input">
+
+</div>
+
+<div class="form-group">
+
+<label>Tjänst</label>
+
+<input
+type="text"
+id="service"
+class="input">
+
+</div>
+
+<div class="form-group">
+
+<label>Pris (kr)</label>
+
+<input
+type="number"
+id="price"
+class="input">
+
+</div>
+
+<div class="form-group">
+
+<label>ROT-avdrag</label>
+
+<input
+type="number"
+id="rot"
+class="input"
+value="0">
+
+</div>
+
+<div class="form-group">
+
+<label>Moms (%)</label>
+
+<input
+type="number"
+id="vat"
+class="input"
+value="25">
+
+</div>
+
+<div class="form-group">
+
+<label>Status</label>
+<label for="offerStatus">
+Status
+</label>
+
+<select
+id="offerStatus"
+class="select"
+title="Offertstatus"
+aria-label="Offertstatus">
+
+<option>Utkast</option>
+
+<option>Skickad</option>
+
+<option>Godkänd</option>
+
+<option>Nekad</option>
+
+</select>
+
+</div>
+
+<div
+class="form-group"
+style="grid-column:1/3;">
+
+<label>Anteckningar</label>
+
+<textarea
+id="notes"
+class="textarea"
+rows="6"></textarea>
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<button
+type="button"
+class="btn btn-secondary"
+id="cancelOffer">
+
+Avbryt
+
+</button>
+
+<button
+type="button"
+class="btn btn-warning"
+id="previewOffer">
+
+📄 Förhandsvisa PDF
+
+</button>
+
+<button
+type="submit"
+class="btn btn-success">
+
+💾 Spara offert
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+<section class="cards">
+
+<div class="stat">
+
+<h4>
+
+Totalt antal offerter
+
+</h4>
+
+<p id="offerCount">
+
+0
+
+</p>
+
+</div>
+
+<div class="stat">
+
+<h4>
+
+Skickade
+
+</h4>
+
+<p id="sentCount">
+
+0
+
+</p>
+
+</div>
+
+<div class="stat">
+
+<h4>
+
+Godkända
+
+</h4>
+
+<p id="acceptedCount">
+
+0
+
+</p>
+
+</div>
+
+<div class="stat">
+
+<h4>
+
+Totalt offertvärde
+
+</h4>
+
+<p id="offerValue">
+
+0 kr
+
+</p>
+
+</div>
+
+</section>
+
+<footer class="footer">
+
+<p>
+
+J&amp;W Quality Hemservice CRM
+
+</p>
+
+<p>
+
+Version 1.0
+
+</p>
+
+</footer>
+
+</main>
+
+</div>
+
+<div id="loader">
+
+<div class="spinner"></div>
+
+</div>
+
+<div id="toast"></div>
+
+<script src="js/api.js"></script>
+
+<script src="js/ui.js"></script>
+
+<script src="js/offers.js"></script>
+
+</body>
+
+</html>
