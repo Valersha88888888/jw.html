@@ -1,0 +1,367 @@
+﻿*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+    background:#f5f7fb;
+
+    color:#333;
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+.sidebar{
+
+    width:260px;
+
+    background:#22263a;
+
+    color:white;
+
+    padding:30px 20px;
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    bottom:0;
+
+    overflow:auto;
+
+}
+
+.sidebar h2{
+
+    text-align:center;
+
+    margin-bottom:40px;
+
+    color:white;
+
+}
+
+.sidebar a{
+
+    display:block;
+
+    padding:14px 18px;
+
+    margin-bottom:10px;
+
+    text-decoration:none;
+
+    color:white;
+
+    border-radius:8px;
+
+    transition:none;
+
+}
+
+.sidebar a:hover{
+
+    background:#d97ac6;
+
+}
+
+.main{
+
+    margin-left:260px;
+
+    flex:1;
+
+    padding:35px;
+
+}
+
+header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:35px;
+
+}
+
+header h1{
+
+    font-size:32px;
+
+}
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(180px,1fr));
+
+    gap:20px;
+
+    margin-bottom:40px;
+
+}
+
+.card{
+
+    background:white;
+
+    border-radius:14px;
+
+    padding:30px;
+
+    box-shadow:
+
+    0 8px 25px rgba(0,0,0,.08);
+
+}
+
+.card h3{
+
+    color:#777;
+
+    margin-bottom:15px;
+
+}
+
+.card p{
+
+    font-size:34px;
+
+    color:#d97ac6;
+
+    font-weight:bold;
+
+}
+
+.tableBox{
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:14px;
+
+    box-shadow:
+
+    0 8px 25px rgba(0,0,0,.08);
+
+}
+
+.tableBox h2{
+
+    margin-bottom:20px;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+th{
+
+    background:#d97ac6;
+
+    color:white;
+
+    padding:14px;
+
+    text-align:left;
+
+}
+
+td{
+
+    padding:14px;
+
+    border-bottom:1px solid #eee;
+
+}
+
+tr:hover{
+
+    background:#fafafa;
+
+}
+
+.toast{
+
+    position:fixed;
+
+    right:25px;
+
+    bottom:25px;
+
+    background:#28a745;
+
+    color:white;
+
+    padding:16px 22px;
+
+    border-radius:8px;
+
+    opacity:0;
+
+    transition:.3s;
+
+    z-index:9999;
+
+}
+
+.toast.show{
+
+    opacity:1;
+
+}
+
+.toast.error{
+
+    background:#d52f2f;
+
+}
+
+#loader{
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(255,255,255,.6);
+
+    z-index:9998;
+
+}
+
+.spinner{
+
+    width:55px;
+
+    height:55px;
+
+    border:6px solid #ddd;
+
+    border-top:6px solid #d97ac6;
+
+    border-radius:50%;
+
+    animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+@media(max-width:900px){
+
+.sidebar{
+
+width:100%;
+
+height:auto;
+
+position:relative;
+
+}
+
+.main{
+
+margin-left:0;
+
+}
+
+.cards{
+
+grid-template-columns:1fr;
+
+}
+
+}
+.chartBox{
+
+background:white;
+
+padding:30px;
+
+border-radius:15px;
+
+margin-top:30px;
+
+box-shadow:
+
+0 10px 30px rgba(0,0,0,.08);
+
+}
+
+.chartBox canvas{
+
+width:100%;
+
+height:400px;
+
+}
+
+/* ==========================================
+   Stable layout during data loading
+========================================== */
+
+.chartBox {
+    height: 420px;
+}
+
+.chartBox canvas {
+    display: block;
+}
+
+.tableBox {
+    min-height: 280px;
+}
+
+
+/* ==========================================
+   Desktop statistics grid
+========================================== */
+
+@media (min-width: 1200px) {
+    .cards {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
