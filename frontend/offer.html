@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="sv">
 
 <head>
@@ -7,7 +7,7 @@
 
 <title>Gratis Offert | J&W Quality Hemservice</title>
 
-<link rel="stylesheet" href="css/offer.css?v=2">
+<link rel="stylesheet" href="css/offer.css?v=6">
 </head>
 
 <body>
@@ -425,69 +425,9 @@ Vi lämnar inte uppdraget förrän du är nöjd med resultatet.
 
 </div>
 
-<script>
 
-document
-.getElementById("leadForm")
-.addEventListener("submit", async (e) => {
 
-e.preventDefault();
-
-const form = e.target;
-
-const data = {
-
-serviceType: form.serviceType.value,
-otherService: form.otherService.value,
-
-size: form.size.value,
-
-squareMeters: form.squareMeters.value,
-
-area: form.area.value,
-otherArea: form.otherArea.value,
-
-name: form.name.value,
-phone: form.phone.value,
-email: form.email.value
-
-};
-
-try {
-
-const response = await fetch(
-"/api/public/leads",
-{
-method: "POST",
-headers: {
-"Content-Type": "application/json"
-},
-body: JSON.stringify(data)
-}
-);
-
-if(response.ok){
-
-alert(
-"Tack för din förfrågan! Vi kontaktar dig inom kort."
-);
-
-form.reset();
-
-}
-
-} catch(error){
-
-alert(
-"Kunde inte ansluta till servern."
-);
-
-}
-
-});
-
-</script>
-
+<script src="js/offer.js?v=2"></script>
 </body>
 
 
