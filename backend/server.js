@@ -3,12 +3,14 @@
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
+const path = require("path");
 
 const logger = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
 
 const authRoutes = require("./auth/authRoutes");
 const leadRoutes = require("./routes/leadRoutes");
+const publicLeadRoutes = require("./routes/publicLeadRoutes");
 const offerRoutes = require("./routes/offerRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const contactRoutes = require("./routes/contactRoutes");
@@ -34,6 +36,7 @@ app.use(express.urlencoded({
     extended: true
 }));
 
+app.use(express.static(path.join(__dirname, "../frontend")));
 app.use(logger);
 
 app.get("/", (req, res) => {
@@ -53,6 +56,7 @@ app.get("/api/test", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/meta", metaWebhookRoutes);
+app.use("/api/public", publicLeadRoutes);
 app.use("/api", leadRoutes);
 app.use("/api", offerRoutes);
 app.use("/api", customerRoutes);
@@ -82,3 +86,5 @@ async function startServer() {
 }
 
 startServer();
+
+
