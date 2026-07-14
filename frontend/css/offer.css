@@ -1,916 +1,349 @@
-/* =========================================================
-   J&W — Quality Hemservice
-   CLEAN FINAL CSS (NO DUPLICATES)
-   ========================================================= */
+:root {
+  --pink: #e94586;
+  --pink-dark: #c92f6d;
+  --pink-light: #fff1f6;
+  --purple: #bd7ccc;
+  --text: #171923;
+  --muted: #60636d;
+  --border: #eadfe5;
+  --background: #f8f4f6;
+}
 
-/* ================= RESET ================= */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-html,
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  padding: 0;
-  width: 100%;
+  padding: 32px 18px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  line-height: 1.6;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(233,69,134,.10), transparent 28%),
+    radial-gradient(circle at 88% 12%, rgba(189,124,204,.12), transparent 30%),
+    var(--background);
 }
 
-body {
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  background: #f7f5f2;
-  color: #222;
-  line-height: 1.7;
-  font-size: 22px;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-/* ================= TYPOGRAPHY ================= */
-.h1 {
-  font-family: "Playfair Display", serif;
-  font-size: clamp(48px, 7vw, 96px);
-  font-weight: 800;
-  color: #fff;
-  margin: 0 0 16px;
-}
-
-.h2 {
-  font-family: "Playfair Display", serif;
-  font-size: clamp(36px, 4.5vw, 60px);
-  font-weight: 800;
-  margin-bottom: 16px;
-}
-
-.lead {
-  font-size: 1.2rem;
-  font-weight: 600;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-/* ================= LAYOUT ================= */
 .container {
-  max-width: 1480px;
+  width: min(100%, 1050px);
   margin: 0 auto;
-  padding: 0 48px;
-}
-
-.section {
-  padding: 80px 0;
-}
-
-.center {
-  text-align: center;
-}
-
-/* ================= TOPLINE ================= */
-.topline {
-  background: #ecede8;
-  text-align: center;
-  padding: 8px;
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.topline a {
-  color: #000;
-  text-decoration: none;
-}
-
-/* ================= HEADER ================= */
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 9999;
+  padding: 55px;
   background: #fff;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  isolation: isolate;
+  border: 1px solid rgba(233,69,134,.12);
+  border-radius: 28px;
+  box-shadow: 0 22px 60px rgba(68,38,53,.13);
 }
 
-.header .inner.container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 80px;
+.logo-wrapper {
+  margin-bottom: 32px;
+  text-align: center;
 }
 
-/* ================= LOGO ================= */
-.logo-wrap {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  flex-shrink: 0;
+.logo-bubbles {
+  width: 105px;
+  margin: 0 auto -5px;
 }
 
-.logo-svg {
-  width: 64px;
-  height: auto;
+.logo-bubbles svg {
   display: block;
+  width: 100%;
+  height: auto;
 }
 
-/* 🌸 pink bubbles */
-.logo-svg .bubble {
-  fill: #ff7eba;
-}
-
-/* ✨ white shine */
-.logo-svg .shine {
-  fill: none;
-  stroke: #ffffff;
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
-.logo-text {
-  font-family: "Playfair Display", serif;
-  font-weight: 800;
-  white-space: nowrap;
-  color: #3a3e3f;
-}
-
-/* ================= NAV ================= */
-.nav {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.nav a {
-  font-size: 1.05rem;
+.brand {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(62px, 9vw, 88px);
   font-weight: 700;
-  padding: 10px 18px;
-  border-radius: 999px;
-  text-decoration: none;
-  color: #111;
+  line-height: .95;
+  letter-spacing: -4px;
+  color: #555a61;
 }
 
-.nav a.active {
-  background: #000;
+.tag {
+  margin-top: 14px;
+  font-size: clamp(12px, 2vw, 18px);
+  font-weight: 700;
+  letter-spacing: clamp(4px, 1vw, 8px);
+  color: #62666c;
+}
+
+h1 {
+  max-width: 760px;
+  margin: 28px auto 12px;
+  text-align: center;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(42px, 6vw, 68px);
+  line-height: 1.08;
+}
+
+h2 {
+  text-align: center;
+}
+
+.subtitle {
+  max-width: 800px;
+  margin: 0 auto 36px;
+  text-align: center;
+  font-size: clamp(18px, 2.4vw, 24px);
+  color: var(--muted);
+}
+
+.offer-box {
+  margin: 34px 0;
+  padding: 35px;
+  text-align: center;
+  font-size: clamp(20px, 2.5vw, 27px);
+  font-weight: 800;
+  background: linear-gradient(135deg, #f9d5e2, #edb7cf);
+  border: 1px solid rgba(233,69,134,.4);
+  border-radius: 22px;
+  box-shadow: 0 12px 32px rgba(233,69,134,.14);
+}
+
+.offer-small {
+  display: block;
+  max-width: 720px;
+  margin: 5px auto 0;
+  font-size: 15px;
+  font-weight: 400;
+  color: #58434d;
+}
+
+.trust-box {
+  margin-bottom: 38px;
+  padding: 28px 32px;
+  font-size: 18px;
+  line-height: 2;
+  background: #fbfafb;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+
+.cta-box {
+  margin: 44px 0;
+  padding: 44px 30px;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(201,47,109,.25);
+}
+
+.cta-box h2 {
+  margin: 0 0 18px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(32px, 4vw, 46px);
   color: #fff;
 }
 
-/* ================= BURGER ================= */
-.burger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
+.cta-text {
+  margin: 0 0 28px;
+  font-size: 18px;
+  line-height: 2;
 }
 
-.burger span {
-  width: 22px;
-  height: 2px;
-  background: #000;
-}
-
-/* ================= HERO ================= */
-.hero-full {
-  position: relative;
-  width: 100%;
-  min-height: 70vh;
-  display: flex;
+.cta-button {
+  display: inline-flex;
+  min-height: 58px;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 0;
+  padding: 0 36px;
+  color: var(--pink-dark);
+  background: #fff;
+  border-radius: 14px;
+  font-size: 18px;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 10px 25px rgba(70,17,40,.18);
 }
 
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  z-index: 0;
-  pointer-events: none; /* 🔥 VIKTIGASTE RADEN */
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2; /* текст НАД overlay */
-  max-width: 900px;
-  padding: 0 24px;
-}
-
-.hero-content p {
-  color: #fff;
-  font-size: clamp(18px, 1.4vw, 26px);
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-/* ================= TJÄNSTER GRID ================= */
-.service-grid {
+.stats-box {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-  align-items: stretch;
+  gap: 18px;
+  margin: 48px 0 65px;
 }
 
-/* ================= CARD ================= */
-.card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background: #fff;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 18px 40px rgba(0,0,0,0.08);
-}
-
-.card .img-cover {
-  height: 260px;
-  object-fit: cover;
-  width: 100%;
-}
-
-.card-body {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 26px;
-}
-
-.card-body ul {
-  margin-bottom: 20px;
-}
-
-.card-body .btn {
-  margin-top: auto;
-  align-self: center;
-}
-
-/* ================= BUTTON ================= */
-.btn {
-  background: #a8cd2a;
-  padding: 14px 28px;
-  border-radius: 14px;
-  font-weight: 800;
-  border: none;
-  cursor: pointer;
-  color: #1b1b1b;
-  font-size: 1.05rem;
-}
-
-.btn:hover {
-  background: #bddf38;
-}
-
-/* ================= FOOTER ================= */
-.site-footer {
+.stat {
+  padding: 28px 18px;
   text-align: center;
-  padding: 24px;
-  background: #f3f1ee;
-  font-size: 12px;
-}
-
-.footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;
-}
-
-.footer-links a {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.95rem;
-  color: #222;
-  text-decoration: none;
-}
-
-.footer-links svg {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
-}
-
-/* ================= MOBILE ================= */
-@media (max-width: 900px) {
-  .service-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 768px) {
-  .container {
-    padding: 0 20px;
-  }
-
-  .nav {
-    display: none;
-  }
-
-  .burger {
-    display: flex;
-  }
-
-  .nav.open {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 16px 0;
-    gap: 10px;
-    border-bottom: 1px solid rgba(0,0,0,0.08);
-  }
-
-  .nav.open a {
-    width: 100%;
-    text-align: center;
-    padding: 14px 0;
-  }
-}
-
-.kontakt-form {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 64px;
-  background: #ffffff;
-  border-radius: 24px;
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.06),
-    0 30px 80px rgba(0,0,0,0.04);
-}
-
-/* Grid för inputs */
-.kontakt-form form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px 24px;
-}
-
-/* Full bredd */
-.kontakt-form form > label,
-.kontakt-form form > textarea,
-.kontakt-form form > select,
-.kontakt-form .checkbox,
-.kontakt-form .btn,
-.kontakt-form small {
-  grid-column: 1 / -1;
-}
-
-/* Labels */
-.kontakt-form label {
-  font-weight: 700;
-  font-size: 0.95rem;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.kontakt-form h2 {
-  font-family: "Playfair Display", serif;
-  font-size: 1.8rem;
-  margin-bottom: 24px;
-}
-
-
-/* Inputs & textarea */
-.kontakt-form input,
-.kontakt-form textarea,
-.kontakt-form select {
-  border-radius: 16px;
-  border: 1.5px solid rgba(0,0,0,0.12);
-  background: #fafafa;
-}
-
-.kontakt-form input::placeholder,
-.kontakt-form textarea::placeholder {
-  color: #999;
-}
-
-/* Focus */
-.kontakt-form input:focus,
-.kontakt-form textarea:focus,
-.kontakt-form select:focus {
-  background: #fff;
-  border-color: #a8cd2a;
-  box-shadow: 0 0 0 4px rgba(168,205,42,0.2);
-}
-
-/* Textarea */
-.kontakt-form textarea {
-  resize: vertical;
-  min-height: 120px;
-}
-
-/* Checkbox */
-.kontakt-form .checkbox {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  font-size: 0.95rem;
-}
-
-.kontakt-form .checkbox input {
-  margin-top: 4px;
-}
-
-/* Hint text */
-.kontakt-form small {
-  font-size: 0.9rem;
-  opacity: 0.7;
-}
-
-/* Button */
-.kontakt-form .btn {
-  padding: 16px 34px;
-  font-size: 1.05rem;
-  border-radius: 999px;
-  box-shadow: 0 12px 28px rgba(168,205,42,0.35);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.kontakt-form .btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 40px rgba(168,205,42,0.45);
-}
-
-/* ================= MOBILE ================= */
-@media (max-width: 768px) {
-  .kontakt-form form {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* === FIX: HERO TEXT VISIBILITY + TYPEWRITER === */
-.tw {
-  color: #fff;
-  opacity: 1;
-  visibility: visible;
-  pointer-events: none; /* 🔥 VIKTIGAST */
-}
-
-
-@keyframes blink {
-  50% { opacity: 0; }
-}
-/* === FIX: LOGO COLORS FORCE === */
-.logo-svg circle,
-.logo-svg path {
-  fill: inherit;
-  stroke: inherit;
-}
-
-.logo-svg .bubble {
-  fill: #ff7eba !important;
-}
-
-.logo-svg .shine {
-  stroke: #ffffff !important;
-  fill: none !important;
-}
-/* ================= KONTAKT – LOGO SIDOPANEL ================= */
-
-.kontakt-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 80px;
- align-items: flex-start;
-  background: linear-gradient(180deg, #f7f5f2 0%, #f2efe9 100%);
-}
-
-
-.kontakt-logo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0.12; /* diskret & elegant */
-}
-
-.kontakt-logo .logo-svg {
-  width: 220px;
-}
-
-/* MOBIL: göm loggan */
-@media (max-width: 900px) {
-  .kontakt-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .kontakt-logo {
-    display: none;
-  }
-}
-
-.hero-content .h1 {
-  font-size: clamp(2.6rem, 6vw, 4.5rem);
-  line-height: 1.1;
-  font-weight: 800;
-}
-
-.hero-content .lead {
-  font-size: clamp(1.1rem, 3.5vw, 1.6rem);
-  margin-top: 16px;
-  max-width: 900px;
-}
-/* ===== HERO TEXT – GLOBAL FIX ===== */
-
-.hero-content .h1 {
-  font-size: clamp(2.6rem, 6vw, 4.5rem);
-  line-height: 1.1;
-  font-weight: 800;
-}
-
-.hero-content .lead {
-  font-size: clamp(1.1rem, 3.5vw, 1.6rem);
-  margin-top: 16px;
-  max-width: 900px;
-}
-
-/* === FIX: inga pseudo-element över hero === */
-.hero::before,
-.hero::after {
-  display: none !important;
-  content: none !important;
-}
-
-/* === HIDE SLIDER DOTS === */
-.swiper-pagination,
-.swiper-pagination-bullets,
-.slick-dots {
-  display: none !important;
-}
-
-/* === FIX: inga pseudo-element över hero === */
-.hero::before,
-.hero::after {
-  display: none !important;
-  content: none !important;
-}
-/* === KRITISK FIX: hero får ALDRIG blockera klick === */
-.hero-full {
-  pointer-events: none;
-}
-
-.hero-full * {
-  pointer-events: none;
-}
-
-/* === men header + nav ska alltid vara klickbara === */
-.header,
-.header * {
-  pointer-events: auto !important;
-}
-
-/* === säkerställ att resten av sidan är klickbar === */
-main,
-section,
-footer {
-  position: relative;
-  z-index: 1;
-}
-/* =========================================================
-   ADD-ONLY DESIGN TWEAKS (SAFE)
-   Ingen kod tas bort – endast förbättring
-   ========================================================= */
-
-/* Samla fokus runt kontaktformuläret */
-#kontakt {
-  padding-top: 120px;
-  padding-bottom: 120px;
-}
-
-/* Gör layouten lugnare och mer centrerad */
-#kontakt .kontakt-grid {
-  justify-content: center;
-}
-
-/* Ge formuläret lite mer visuell tyngd */
-.kontakt-form {
-  position: relative;
-  z-index: 2;
-}
-
-/* Skapa mjuk bakgrund bakom formuläret (mycket diskret) */
-#kontakt::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle at center,
-    rgba(168,205,42,0.08) 0%,
-    rgba(168,205,42,0.00) 60%
-  );
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Mobil: mindre luft men samma känsla */
-@media (max-width: 768px) {
-  #kontakt {
-    padding-top: 80px;
-    padding-bottom: 80px;
-  }
-}
-/* =========================================================
-   ADD-ONLY: VISUAL ALIGN FIX
-   Inget tas bort – endast position/rytm justeras
-   ========================================================= */
-
-/* Dra upp kontaktsektionen visuellt */
-#kontakt {
-  margin-top: -120px;
-}
-
-/* Behåll luft nedåt så det inte känns trångt */
-#kontakt {
-  padding-bottom: 140px;
-}
-
-/* Se till att formuläret alltid ligger över bakgrunden */
-#kontakt .kontakt-form {
-  position: relative;
-  z-index: 3;
-}
-
-/* Mobil: mildare justering */
-@media (max-width: 900px) {
-  #kontakt {
-    margin-top: -60px;
-  }
-}
-/* =========================================================
-   ADD-ONLY: MAKE CONTACT FORM BIGGER
-   ========================================================= */
-
-/* Större kort */
-.kontakt-form {
-  max-width: 680px;       /* var 520px */
-  padding: 56px;         /* mer luft */
-}
-
-/* Större rubrik */
-.kontakt-form h2 {
-  font-size: 2.2rem;
-}
-
-/* Större inputs & select */
-.kontakt-form input,
-.kontakt-form textarea,
-.kontakt-form select {
-  padding: 18px 20px;
-  font-size: 1.05rem;
-}
-
-/* Större textarea */
-.kontakt-form textarea {
-  min-height: 160px;
-}
-
-/* Större checkbox-text */
-.kontakt-form .checkbox {
-  font-size: 1rem;
-}
-
-/* Större knapp */
-.kontakt-form .btn {
-  font-size: 1.15rem;
-  padding: 18px 42px;
-}
-
-/* Mobil – fortfarande stort men balanserat */
-@media (max-width: 768px) {
-  .kontakt-form {
-    max-width: 100%;
-    padding: 40px 28px;
-  }
-}
-/* =========================================================
-   ADD-ONLY: FINAL SIZE & BALANCE TWEAK
-   ========================================================= */
-
-/* Gör hela kontaktkortet ännu större */
-.kontakt-form {
-  max-width: 760px;     /* var 680px */
-  padding: 64px;       /* ännu luftigare */
-}
-
-/* Förbättra rubrikens radbrytning & tyngd */
-.kontakt-form h2 {
-  font-size: 2.6rem;
-  line-height: 1.15;
-  max-width: 12ch;     /* snyggare radlängd */
-}
-
-/* Gör fälten ännu mer “touch-vänliga” */
-.kontakt-form input,
-.kontakt-form textarea,
-.kontakt-form select {
-  padding: 20px 22px;
-  font-size: 1.1rem;
-}
-
-/* Textarea – mer plats att skriva */
-.kontakt-form textarea {
-  min-height: 180px;
-}
-
-/* Knappen ännu tydligare */
-.kontakt-form .btn {
-  font-size: 1.2rem;
-  padding: 20px 48px;
-}
-
-/* Mobil – stort men kontrollerat */
-@media (max-width: 768px) {
-  .kontakt-form {
-    max-width: 100%;
-    padding: 44px 28px;
-  }
-
-  .kontakt-form h2 {
-    font-size: 2.1rem;
-    max-width: none;
-  }
-}
-/* =========================================================
-   ADD-ONLY: EXTRA LARGE CONTACT FORM
-   ========================================================= */
-
-/* ЩЕ більша картка */
-.kontakt-form {
-  max-width: 900px;   /* було ~760px */
-  padding: 80px;     /* більше повітря */
-}
-
-/* Велика, елегантна рубрика */
-.kontakt-form h2 {
-  font-size: 3rem;
-  line-height: 1.15;
-}
-
-/* Великі поля вводу */
-.kontakt-form input,
-.kontakt-form textarea,
-.kontakt-form select {
-  padding: 22px 26px;
-  font-size: 1.2rem;
+  background: #fbf8fa;
+  border: 1px solid var(--border);
   border-radius: 18px;
 }
 
-/* Текстове поле – ще більше */
-.kontakt-form textarea {
-  min-height: 220px;
+.number {
+  font-size: 42px;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--pink);
 }
 
-/* Checkbox – читабельніша */
-.kontakt-form .checkbox {
-  font-size: 1.05rem;
+.label {
+  margin-top: 10px;
+  color: var(--muted);
 }
 
-/* Кнопка – солідна */
-.kontakt-form .btn {
-  font-size: 1.3rem;
-  padding: 22px 56px;
+.why-us,
+.reviews,
+.about-company,
+.benefits-section {
+  margin: 60px 0;
 }
 
-/* =========================================================
-   FINAL: CONTACT FORM SIZE (SINGLE SOURCE OF TRUTH)
-   ========================================================= */
-
-.kontakt-form {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 80px;
-  background: #ffffff;
-  border-radius: 28px;
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.06),
-    0 40px 100px rgba(0,0,0,0.08);
-}
-
-.kontakt-form h2 {
-  font-family: "Playfair Display", serif;
-  font-size: 3rem;
-  line-height: 1.15;
+.why-us h2,
+.reviews > h3,
+.about-company h2,
+.benefits-section h2 {
   margin-bottom: 32px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 4vw, 42px);
+  text-align: center;
 }
 
-.kontakt-form input,
-.kontakt-form textarea,
-.kontakt-form select {
-  padding: 22px 26px;
-  font-size: 1.2rem;
+.why-grid,
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.why-card,
+.benefit-card,
+.review-card {
+  padding: 26px;
+  background: #fff;
+  border: 1px solid var(--border);
   border-radius: 18px;
+  box-shadow: 0 10px 28px rgba(65,37,51,.07);
 }
 
-.kontakt-form textarea {
-  min-height: 220px;
+.why-card h3,
+.benefit-card h3 {
+  margin: 0 0 10px;
+  font-size: 21px;
+  color: var(--pink-dark);
 }
 
-.kontakt-form .checkbox {
-  font-size: 1.05rem;
+.why-card p,
+.benefit-card p {
+  margin: 0;
+  color: var(--muted);
 }
 
-.kontakt-form .btn {
-  font-size: 1.3rem;
-  padding: 22px 56px;
-  border-radius: 999px;
+.review-card {
+  margin-bottom: 16px;
+  text-align: center;
 }
 
-/* MOBILE */
-@media (max-width: 768px) {
-  .kontakt-form {
-    max-width: 100%;
-    padding: 48px 28px;
+.review-card p {
+  margin: 12px auto;
+  max-width: 720px;
+  font-size: 17px;
+  color: var(--muted);
+}
+
+.about-company {
+  padding: 42px;
+  text-align: center;
+  background: #fbf8fa;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+}
+
+.about-company p {
+  max-width: 760px;
+  margin: 0 auto 18px;
+  font-size: 17px;
+  color: var(--muted);
+}
+
+form#leadForm {
+  margin-top: 55px;
+  padding: 42px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 16px 44px rgba(66,38,52,.10);
+}
+
+form#leadForm > label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+input,
+select {
+  display: block;
+  width: 100%;
+  min-height: 56px;
+  padding: 14px 16px;
+  border: 1px solid #d9d1d6;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--pink);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(233,69,134,.12);
+}
+
+button[type="submit"] {
+  width: 100%;
+  min-height: 62px;
+  margin-top: 8px;
+  border: 0;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+  font-size: 20px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(201,47,109,.23);
+}
+
+@media (max-width: 760px) {
+  body {
+    padding: 0;
+    background: #fff;
   }
 
-  .kontakt-form h2 {
-    font-size: 2.2rem;
+  .container {
+    padding: 30px 18px 48px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
-}
-/* 🔒 MOBILE NAV SAFETY LAYER */
-.header,
-.nav {
-  position: relative;
-  z-index: 10000;
-}
 
-.nav.open {
-  z-index: 10001;
-}
-/* 🔧 FIX: hero får inte blockera klick */
-.hero-full {
-  pointer-events: auto;
-}
+  .stats-box,
+  .why-grid,
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
 
-.hero-overlay {
-  pointer-events: none;
-}
-/* 🔒 NAVIGATION CLICK FIX */
-.header,
-.header * {
-  pointer-events: auto !important;
-  position: relative;
-  z-index: 9999;
-}
+  .offer-box,
+  .cta-box,
+  form#leadForm,
+  .about-company {
+    padding: 26px 20px;
+  }
 
-.hero-full,
-.hero-overlay {
-  pointer-events: none;
-}
-
-/* 🔒 CLICK SAFETY – kontakt.html */
-.header {
-  position: relative;
-  z-index: 10000;
-}
-
-.header * {
-  pointer-events: auto;
-}
-
-.hero-full,
-.hero-overlay {
-  pointer-events: none;
-}
-/* =========================================================
-   🔥 FINAL CLICK FIX — SINGLE SOURCE OF TRUTH
-   Måste ligga ABSOLUT SIST i filen
-   ========================================================= */
-
-/* Header och navigation SKA ALLTID gå att klicka */
-.header,
-.header * {
-  pointer-events: auto !important;
-  position: relative;
-  z-index: 100000;
-}
-
-/* Mobilmeny över allt */
-.nav.open {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 100001;
-}
-
-/* Hero får ALDRIG fånga klick */
-.hero-full,
-.hero-full *,
-.hero-overlay {
-  pointer-events: none !important;
-}
-
-/* Resten av sidan ska fungera normalt */
-main,
-section,
-footer {
-  pointer-events: auto;
-  position: relative;
-  z-index: 1;
+  .trust-box {
+    padding: 22px;
+    font-size: 16px;
+  }
 }
