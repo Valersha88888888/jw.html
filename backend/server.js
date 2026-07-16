@@ -1,4 +1,4 @@
-﻿require("dotenv").config();
+require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
@@ -23,7 +23,33 @@ const { initializeDatabase } = require("./config/initDatabase");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            scriptSrc: [
+                "'self'",
+                "https://connect.facebook.net"
+            ],
+
+            connectSrc: [
+                "'self'",
+                "https://connect.facebook.net",
+                "https://www.facebook.com"
+            ],
+
+            imgSrc: [
+                "'self'",
+                "data:",
+                "https://www.facebook.com"
+            ],
+
+            frameSrc: [
+                "'self'",
+                "https://www.facebook.com"
+            ]
+        }
+    }
+}));
 app.use(cors());
 
 app.use(express.json({
