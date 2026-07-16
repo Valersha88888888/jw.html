@@ -1,6 +1,7 @@
 ﻿const { saveLead } = require("../services/leadService");
 const { validateLead } = require("../validators/leadValidator");
 const log = require("../services/logService");
+const { runLeadAutomation } = require("../services/leadAutomationService");
 
 function cleanText(value, maxLength = 500) {
     if (typeof value !== "string") {
@@ -43,6 +44,20 @@ async function createPublicLead(req, res) {
         }
 
         const lead = await saveLead(payload);
+
+        const automationResults =
+            await runLeadAutomation(lead);
+
+        const failedAutomations =
+            automationResults.filter(
+                (result) => result.status === "rejected"
+            );
+
+        if (failedAutomations.length > 0) {
+            log.error(
+                `Public lead notification failures: leadId=${lead.id}; count=${failedAutomations.length}`
+            );
+        }
 
         log.info(
             `Public lead created: ${lead.name} (${lead.email || ""})`
