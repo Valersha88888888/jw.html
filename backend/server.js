@@ -1,4 +1,4 @@
-require("dotenv").config();
+﻿require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
@@ -23,46 +23,63 @@ const { initializeDatabase } = require("./config/initDatabase");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            scriptSrc: [
-                "'self'",
-                "https://connect.facebook.net"
-            ],
+app.use(
+    helmet({
+        contentSecurityPolicy: {
+            directives: {
+                scriptSrc: [
+                    "'self'",
+                    "https://connect.facebook.net",
+                    "https://cdn.jsdelivr.net"
+                ],
 
-            connectSrc: [
-                "'self'",
-                "https://connect.facebook.net",
-                "https://www.facebook.com"
-            ],
+                scriptSrcAttr: [
+                    "'unsafe-inline'"
+                ],
 
-            imgSrc: [
-                "'self'",
-                "data:",
-                "https://www.facebook.com"
-            ],
+                connectSrc: [
+                    "'self'",
+                    "https://connect.facebook.net",
+                    "https://www.facebook.com"
+                ],
 
-            frameSrc: [
-                "'self'",
-                "https://www.facebook.com"
-            ]
+                imgSrc: [
+                    "'self'",
+                    "data:",
+                    "https://www.facebook.com"
+                ],
+
+                frameSrc: [
+                    "'self'",
+                    "https://www.facebook.com"
+                ]
+            }
         }
-    }
-}));
+    })
+);
+
 app.use(cors());
 
-app.use(express.json({
-    verify: (req, res, buffer) => {
-        req.rawBody = buffer;
-    }
-}));
+app.use(
+    express.json({
+        verify: (req, res, buffer) => {
+            req.rawBody = buffer;
+        }
+    })
+);
 
-app.use(express.urlencoded({
-    extended: true
-}));
+app.use(
+    express.urlencoded({
+        extended: true
+    })
+);
 
-app.use(express.static(path.join(__dirname, "../frontend")));
+app.use(
+    express.static(
+        path.join(__dirname, "../frontend")
+    )
+);
+
 app.use(logger);
 
 app.get("/", (req, res) => {
@@ -106,11 +123,14 @@ async function startServer() {
             console.log("====================================");
         });
     } catch (error) {
-        console.error("Server startup failed:", error.message);
+        console.error(
+            "Server startup failed:",
+            error.message
+        );
+
         process.exit(1);
     }
 }
 
 startServer();
-
 

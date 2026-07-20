@@ -43,6 +43,13 @@
                 );
             }
 
+            if (typeof window.fbq === "function") {
+                window.fbq("track", "Lead", {
+                    content_name: "Gratis offert",
+                    content_category: data.serviceType || "Städservice"
+                });
+            }
+
             alert(
                 result.message ||
                 "Tack för din förfrågan! Vi kontaktar dig inom kort."
