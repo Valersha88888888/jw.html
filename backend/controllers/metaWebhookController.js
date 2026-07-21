@@ -29,7 +29,7 @@ function verifyWebhook(req, res) {
 }
 
 function isValidSignature(req) {
-    const appSecret = process.env.META_APP_SECRET;
+    const appSecret = process.env.META_APP_SECRET?.trim();
     const signatureHeader = req.get("x-hub-signature-256");
 
     if (!appSecret || !signatureHeader || !req.rawBody) {
