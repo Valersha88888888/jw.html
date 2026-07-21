@@ -25,13 +25,21 @@ function writeLog(level, message) {
     const time = new Date().toLocaleString("sv-SE");
 
     const line =
-        `[${time}] [${level}] ${message}\n`;
+        `[${time}] [${level}] ${message}`;
 
     fs.appendFileSync(
         logFile,
-        line,
+        `${line}\n`,
         "utf8"
     );
+
+    if (level === "ERROR") {
+        console.error(line);
+    } else if (level === "WARNING") {
+        console.warn(line);
+    } else {
+        console.log(line);
+    }
 }
 
 function info(message) {
