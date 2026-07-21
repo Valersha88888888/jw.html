@@ -42,6 +42,9 @@ function isValidSignature(req) {
             .createHmac("sha256", appSecret)
             .update(req.rawBody)
             .digest("hex");
+         log.info(
+        `Meta signature comparison: expected=${expectedSignature.slice(0, 15)}..., received=${signatureHeader.slice(0, 15)}..., secretLength=${appSecret.length}`
+    );
 
     const expectedBuffer = Buffer.from(expectedSignature);
     const receivedBuffer = Buffer.from(signatureHeader);
