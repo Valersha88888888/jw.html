@@ -99,6 +99,15 @@ async function processLeadIds(leadIds) {
 }
 
 function receiveWebhook(req, res) {
+    log.info(
+        `Meta signature diagnostic: sha256=${Boolean(
+            req.get("x-hub-signature-256")
+        )}, sha1=${Boolean(
+            req.get("x-hub-signature")
+        )}, rawBody=${Boolean(
+            req.rawBody
+        )}, bytes=${req.rawBody ? req.rawBody.length : 0}`
+    );
     if (!isValidSignature(req)) {
         log.error("Invalid Meta webhook signature");
 
