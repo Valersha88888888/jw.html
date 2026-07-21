@@ -1,4 +1,4 @@
-﻿const crypto = require("crypto");
+const crypto = require("crypto");
 
 const { importMetaLead } = require("../services/metaLeadService");
 const log = require("../services/logService");
@@ -42,9 +42,6 @@ function isValidSignature(req) {
             .createHmac("sha256", appSecret)
             .update(req.rawBody)
             .digest("hex");
-         log.info(
-        `Meta signature comparison: expected=${expectedSignature.slice(0, 15)}..., received=${signatureHeader.slice(0, 15)}..., secretLength=${appSecret.length}`
-    );
 
     const expectedBuffer = Buffer.from(expectedSignature);
     const receivedBuffer = Buffer.from(signatureHeader);
@@ -102,15 +99,6 @@ async function processLeadIds(leadIds) {
 }
 
 function receiveWebhook(req, res) {
-    log.info(
-        `Meta signature diagnostic: sha256=${Boolean(
-            req.get("x-hub-signature-256")
-        )}, sha1=${Boolean(
-            req.get("x-hub-signature")
-        )}, rawBody=${Boolean(
-            req.rawBody
-        )}, bytes=${req.rawBody ? req.rawBody.length : 0}`
-    );
     if (!isValidSignature(req)) {
         log.error("Invalid Meta webhook signature");
 

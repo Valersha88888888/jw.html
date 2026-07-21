@@ -349,3 +349,66 @@ button[type="submit"]:disabled {
         border-radius: 16px;
     }
 }
+/* FINAL LOGO FIX */
+
+.logo-wrapper {
+    margin: 0 auto 24px;
+    padding-top: 8px;
+}
+
+.logo-bubbles {
+    width: 84px;
+    height: 82px;
+    margin: 0 auto 6px;
+    overflow: visible;
+}
+
+.logo-bubbles svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    transform: none;
+}
+
+.brand {
+    margin-top: -8px;
+    font-size: clamp(54px, 9vw, 76px);
+    line-height: 0.95;
+}
+
+.tag {
+    margin-top: 14px;
+    font-size: clamp(11px, 2vw, 17px);
+    letter-spacing: clamp(4px, 0.9vw, 8px);
+}
+
+h1 {
+    margin-top: 38px;
+}
+
+@media (max-width: 640px) {
+    .logo-wrapper {
+        padding-top: 4px;
+        margin-bottom: 18px;
+    }
+
+    .logo-bubbles {
+        width: 70px;
+        height: 68px;
+        margin-bottom: 2px;
+    }
+
+    .brand {
+        font-size: 58px;
+    }
+
+    .tag {
+        margin-top: 10px;
+        font-size: 11px;
+        letter-spacing: 4px;
+    }
+
+    h1 {
+        margin-top: 28px;
+    }
+}
