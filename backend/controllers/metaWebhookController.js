@@ -107,6 +107,8 @@ function receiveWebhook(req, res) {
 
     const leadIds = extractLeadIds(req.body);
 
+    log.info(`Meta webhook payload: ${JSON.stringify(req.body)}`);
+
     res.sendStatus(200);
 
     if (leadIds.length === 0) {
