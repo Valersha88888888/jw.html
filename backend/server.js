@@ -1,4 +1,4 @@
-﻿require("dotenv").config();
+require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
@@ -21,6 +21,7 @@ const { testDatabaseConnection } = require("./config/db");
 const { initializeDatabase } = require("./config/initDatabase");
 
 const app = express();
+app.set("trust proxy", 1);
 const PORT = process.env.PORT || 3000;
 
 app.use(
