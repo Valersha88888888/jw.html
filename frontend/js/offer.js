@@ -33,7 +33,7 @@ function updateConditionalFields() {
     }
 
     const showOtherArea =
-        area.value === "Annat omrÃ¥de i Stockholm";
+        area.value === "Annat område i Stockholm";
 
     otherAreaGroup.classList.toggle(
         "hidden",
@@ -108,12 +108,12 @@ form.addEventListener("submit", async (event) => {
         if (!response.ok) {
             throw new Error(
                 result?.message ||
-                "Kunde inte skicka din fÃ¶rfrÃ¥gan."
+                "Kunde inte skicka din förfrågan."
             );
         }
 
         showMessage(
-            "Tack! Din fÃ¶rfrÃ¥gan har skickats. Vi kontaktar dig inom kort.",
+            "Tack! Din förfrågan har skickats. Vi kontaktar dig inom kort.",
             "success"
         );
 
@@ -132,13 +132,13 @@ form.addEventListener("submit", async (event) => {
         );
 
         showMessage(
-            "NÃ¥got gick fel. FÃ¶rsÃ¶k igen eller kontakta oss via telefon.",
+            "Något gick fel. Försök igen eller kontakta oss via telefon.",
             "error"
         );
     } finally {
         submitButton.disabled = false;
         submitButton.textContent =
-            "FÃ… MIN GRATIS OFFERT";
+            "FÅ MIN GRATIS OFFERT";
     }
 });
 
