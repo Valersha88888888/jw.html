@@ -1,5 +1,5 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const menuButton =
+﻿document.addEventListener("DOMContentLoaded", () => {
+    const button =
         document.getElementById("mobileMenuButton");
 
     const sidebar =
@@ -8,47 +8,45 @@ document.addEventListener("DOMContentLoaded", () => {
     const overlay =
         document.getElementById("mobileMenuOverlay");
 
-    if (!menuButton || !sidebar || !overlay) {
+    if (!button || !sidebar || !overlay) {
         return;
     }
 
     const openMenu = () => {
-        sidebar.classList.add("sidebar-open");
-        overlay.classList.add("overlay-visible");
-        document.body.classList.add("menu-open");
+        sidebar.classList.add("crm-sidebar-open");
+        overlay.classList.add("crm-overlay-visible");
+        document.body.classList.add("crm-menu-open");
 
-        menuButton.setAttribute(
+        button.setAttribute(
             "aria-expanded",
             "true"
         );
     };
 
     const closeMenu = () => {
-        sidebar.classList.remove("sidebar-open");
-        overlay.classList.remove("overlay-visible");
-        document.body.classList.remove("menu-open");
+        sidebar.classList.remove("crm-sidebar-open");
+        overlay.classList.remove("crm-overlay-visible");
+        document.body.classList.remove("crm-menu-open");
 
-        menuButton.setAttribute(
+        button.setAttribute(
             "aria-expanded",
             "false"
         );
     };
 
-    menuButton.addEventListener("click", () => {
-        const menuIsOpen =
-            sidebar.classList.contains("sidebar-open");
-
-        if (menuIsOpen) {
+    button.addEventListener("click", () => {
+        if (
+            sidebar.classList.contains(
+                "crm-sidebar-open"
+            )
+        ) {
             closeMenu();
         } else {
             openMenu();
         }
     });
 
-    overlay.addEventListener(
-        "click",
-        closeMenu
-    );
+    overlay.addEventListener("click", closeMenu);
 
     sidebar
         .querySelectorAll("a")

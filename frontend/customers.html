@@ -19,7 +19,23 @@
 
 <div class="app">
 
-<nav class="sidebar">
+<button
+    type="button"
+    class="crm-mobile-menu-button"
+    id="mobileMenuButton"
+    aria-label="&Ouml;ppna meny"
+    aria-controls="mainSidebar"
+    aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
+<div
+    class="crm-mobile-overlay"
+    id="mobileMenuOverlay">
+</div>
+<nav class="sidebar" id="mainSidebar">
 
 <div class="logo">
 
@@ -31,24 +47,38 @@
 
 <div class="menu">
 
-<a href="dashboard.html">📊 Dashboard</a>
+<a href="dashboard.html">
+<span class="crm-menu-icon" aria-hidden="true">&#128202;</span>
+<span>Dashboard</span>
+</a>
 
-<a href="leads.html">👥 Leads</a>
+<a href="leads.html">
+<span class="crm-menu-icon" aria-hidden="true">&#128101;</span>
+<span>Leads</span>
+</a>
 
-<a href="offers.html">📄 Offerter</a>
+<a href="offers.html">
+<span class="crm-menu-icon" aria-hidden="true">&#128196;</span>
+<span>Offerter</span>
+</a>
 
-<a href="customers.html" class="active">👤 Kunder</a>
+<a href="customers.html" class="active">
+<span class="crm-menu-icon" aria-hidden="true">&#128100;</span>
+<span>Kunder</span>
+</a>
 
-<a href="settings.html">⚙ Inställningar</a>
+<a href="settings.html">
+<span class="crm-menu-icon" aria-hidden="true">&#9881;</span>
+<span>Inst&auml;llningar</span>
+</a>
 
 </div>
 
 <div class="logout">
 
 <a href="#" id="logout">
-
-🚪 Logga ut
-
+<span class="crm-menu-icon" aria-hidden="true">&#128682;</span>
+<span>Logga ut</span>
 </a>
 
 </div>
@@ -449,6 +479,8 @@ Version 1.0
 <script src="js/ui.js"></script>
 
 <script src="js/customers.js"></script>
+
+<script src="js/mobile-nav.js"></script>
 
 </body>
 

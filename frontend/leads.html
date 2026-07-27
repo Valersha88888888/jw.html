@@ -23,9 +23,9 @@ content="width=device-width, initial-scale=1.0">
 
 <button
     type="button"
-    class="mobile-menu-button"
+    class="crm-mobile-menu-button"
     id="mobileMenuButton"
-    aria-label="Öppna meny"
+    aria-label="&Ouml;ppna meny"
     aria-controls="mainSidebar"
     aria-expanded="false">
     <span></span>
@@ -34,12 +34,9 @@ content="width=device-width, initial-scale=1.0">
 </button>
 
 <div
-    class="mobile-menu-overlay"
+    class="crm-mobile-overlay"
     id="mobileMenuOverlay">
 </div>
-
-
-
 <nav class="sidebar" id="mainSidebar">
 
 <div class="logo">
@@ -53,27 +50,28 @@ content="width=device-width, initial-scale=1.0">
 <div class="menu">
 
 <a href="dashboard.html">
-
-ðŸ“Š Dashboard
-
+<span class="crm-menu-icon" aria-hidden="true">&#128202;</span>
+<span>Dashboard</span>
 </a>
 
 <a href="leads.html" class="active">
-
-ðŸ‘¥ Leads
-
+<span class="crm-menu-icon" aria-hidden="true">&#128101;</span>
+<span>Leads</span>
 </a>
 
 <a href="offers.html">
+<span class="crm-menu-icon" aria-hidden="true">&#128196;</span>
+<span>Offerter</span>
+</a>
 
-ðŸ“„ Offerter
-
+<a href="customers.html">
+<span class="crm-menu-icon" aria-hidden="true">&#128100;</span>
+<span>Kunder</span>
 </a>
 
 <a href="settings.html">
-
-âš™ InstÃ¤llningar
-
+<span class="crm-menu-icon" aria-hidden="true">&#9881;</span>
+<span>Inst&auml;llningar</span>
 </a>
 
 </div>
@@ -81,9 +79,8 @@ content="width=device-width, initial-scale=1.0">
 <div class="logout">
 
 <a href="#" id="logout">
-
-ðŸšª Logga ut
-
+<span class="crm-menu-icon" aria-hidden="true">&#128682;</span>
+<span>Logga ut</span>
 </a>
 
 </div>
@@ -116,7 +113,7 @@ content="width=device-width, initial-scale=1.0">
 type="text"
 id="searchInput"
 class="input"
-placeholder="SÃ¶k namn, telefon eller e-post...">
+placeholder="S&ouml;k namn, telefon eller e-post...">
 
 </div>
 <select
@@ -169,7 +166,7 @@ id="newLeadBtn">
 
 <th>Status</th>
 
-<th>Ã…tgÃ¤rder</th>
+<th>&Aring;tg&auml;rder</th>
 
 </tr>
 
@@ -280,7 +277,7 @@ class="select">
 
 <div class="form-group">
 
-<label>TjÃ¤nst</label>
+<label>Tj&auml;nst</label>
 
 <input
 type="text"
@@ -329,73 +326,7 @@ Spara Lead
 
 <section class="card">
 
-<h2 class="card-title">
-
-Leadstatistik
-
-</h2>
-
-<div class="grid-4">
-
-<div class="stat">
-
-<h4>Totalt</h4>
-
-<p id="totalLeads">
-
-0
-
-</p>
-
-</div>
-
-<div class="stat">
-
-<h4>Nya</h4>
-
-<p id="newLeads">
-
-0
-
-</p>
-
-</div>
-
-<div class="stat">
-
-<h4>Offerter</h4>
-
-<p id="offerLeads">
-
-0
-
-</p>
-
-</div>
-
-<div class="stat">
-
-<h4>Kunder</h4>
-
-<p id="customerLeads">
-
-0
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<section class="card">
-
-<h2 class="card-title">
-
-SnabbÃ¥tgÃ¤rder
-
-</h2>
+<h2 class="card-title">Snabb&aring;tg&auml;rder</h2>
 
 <div class="toolbar">
 
@@ -403,7 +334,7 @@ SnabbÃ¥tgÃ¤rder
 class="btn btn-primary"
 id="refreshBtn">
 
-ðŸ”„ Uppdatera
+&#8635; Uppdatera
 
 </button>
 
@@ -411,7 +342,7 @@ id="refreshBtn">
 class="btn btn-success"
 id="exportBtn">
 
-ðŸ“„ Exportera
+&#128196; Exportera
 
 </button>
 
@@ -419,7 +350,7 @@ id="exportBtn">
 class="btn btn-warning"
 id="mailBtn">
 
-ðŸ“§ Skicka Mail
+&#9993; Skicka Mail
 
 </button>
 
@@ -427,7 +358,7 @@ id="mailBtn">
 class="btn btn-secondary"
 id="offerBtn">
 
-ðŸ“‘ Skapa Offert
+&#128221; Skapa Offert
 
 </button>
 

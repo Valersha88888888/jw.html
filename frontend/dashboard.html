@@ -19,7 +19,23 @@ href="css/dashboard.css">
 
 <body>
 
-<nav class="sidebar">
+<button
+    type="button"
+    class="crm-mobile-menu-button"
+    id="mobileMenuButton"
+    aria-label="&Ouml;ppna meny"
+    aria-controls="mainSidebar"
+    aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
+<div
+    class="crm-mobile-overlay"
+    id="mobileMenuOverlay">
+</div>
+<nav class="sidebar" id="mainSidebar">
 
     <div class="logo">
 
@@ -271,6 +287,8 @@ Version 1.0
 <script src="js/ui.js"></script>
 
 <script src="js/dashboard.js"></script>
+
+<script src="js/mobile-nav.js"></script>
 
 </body>
 

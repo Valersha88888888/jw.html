@@ -1,0 +1,152 @@
+﻿/* ==================================================
+   Shared mobile CRM navigation
+================================================== */
+
+.crm-mobile-menu-button {
+    display: none;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1400;
+    width: 50px;
+    height: 50px;
+    padding: 11px;
+    border: 0;
+    border-radius: 14px;
+    background: #c17acb;
+    box-shadow: 0 7px 22px rgba(0, 0, 0, .22);
+    cursor: pointer;
+}
+
+.crm-mobile-menu-button span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    margin: 5px 0;
+    border-radius: 5px;
+    background: #fff;
+    transition: transform .25s ease, opacity .2s ease;
+}
+
+.crm-mobile-overlay {
+    display: none;
+}
+
+.crm-menu-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 26px;
+    width: 26px;
+    font-size: 20px;
+    line-height: 1;
+}
+
+@media (max-width: 800px) {
+
+    body.crm-menu-open {
+        overflow: hidden;
+    }
+
+    .crm-mobile-menu-button {
+        display: block;
+    }
+
+    .crm-mobile-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 1250;
+        background: rgba(25, 27, 45, .58);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .25s ease, visibility .25s ease;
+    }
+
+    .crm-mobile-overlay.crm-overlay-visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    #mainSidebar.sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        bottom: 0 !important;
+        z-index: 1300 !important;
+        width: min(82vw, 320px) !important;
+        height: 100vh !important;
+        overflow-y: auto !important;
+        transform: translateX(-105%);
+        transition: transform .25s ease;
+        box-shadow: 10px 0 28px rgba(0, 0, 0, .25);
+    }
+
+    #mainSidebar.sidebar.crm-sidebar-open {
+        transform: translateX(0);
+    }
+
+    #mainSidebar .logo {
+        min-height: 145px;
+        padding: 30px 24px;
+    }
+
+    #mainSidebar .logo h2 {
+        margin: 0;
+        font-size: 28px;
+        line-height: 1.2;
+        white-space: nowrap;
+    }
+
+    #mainSidebar .logo p {
+        margin-top: 8px;
+        font-size: 14px;
+    }
+
+    #mainSidebar .menu {
+        padding: 20px;
+    }
+
+    #mainSidebar .menu a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 56px;
+        padding: 14px 16px;
+        margin-bottom: 8px;
+        border-radius: 12px;
+        font-size: 17px;
+    }
+
+    #mainSidebar .logout a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 54px;
+        padding: 14px 16px;
+    }
+
+    body.crm-menu-open .crm-mobile-menu-button {
+        left: calc(min(82vw, 320px) - 66px);
+        background: #373b59;
+    }
+
+    body.crm-menu-open .crm-mobile-menu-button span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    body.crm-menu-open .crm-mobile-menu-button span:nth-child(2) {
+        opacity: 0;
+    }
+
+    body.crm-menu-open .crm-mobile-menu-button span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    main.main,
+    .main {
+        width: 100% !important;
+        margin-left: 0 !important;
+        padding-top: 88px !important;
+    }
+}

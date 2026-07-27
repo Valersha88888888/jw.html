@@ -588,7 +588,7 @@
     }
 
     .table tbody td:nth-child(6)::before {
-        content: "Åtgärder";
+        content: "\00C5tg\00E4rder";
     }
 
     .table tbody td:last-child {
