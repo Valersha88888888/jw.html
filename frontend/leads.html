@@ -21,7 +21,26 @@ content="width=device-width, initial-scale=1.0">
 
 <div class="app">
 
-<nav class="sidebar">
+<button
+    type="button"
+    class="mobile-menu-button"
+    id="mobileMenuButton"
+    aria-label="Öppna meny"
+    aria-controls="mainSidebar"
+    aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
+<div
+    class="mobile-menu-overlay"
+    id="mobileMenuOverlay">
+</div>
+
+
+
+<nav class="sidebar" id="mainSidebar">
 
 <div class="logo">
 
@@ -35,25 +54,25 @@ content="width=device-width, initial-scale=1.0">
 
 <a href="dashboard.html">
 
-📊 Dashboard
+ðŸ“Š Dashboard
 
 </a>
 
 <a href="leads.html" class="active">
 
-👥 Leads
+ðŸ‘¥ Leads
 
 </a>
 
 <a href="offers.html">
 
-📄 Offerter
+ðŸ“„ Offerter
 
 </a>
 
 <a href="settings.html">
 
-⚙ Inställningar
+âš™ InstÃ¤llningar
 
 </a>
 
@@ -63,7 +82,7 @@ content="width=device-width, initial-scale=1.0">
 
 <a href="#" id="logout">
 
-🚪 Logga ut
+ðŸšª Logga ut
 
 </a>
 
@@ -97,12 +116,9 @@ content="width=device-width, initial-scale=1.0">
 type="text"
 id="searchInput"
 class="input"
-placeholder="Sök namn, telefon eller e-post...">
+placeholder="SÃ¶k namn, telefon eller e-post...">
 
 </div>
-
-<
-
 <select
 id="statusFilter"
 class="select"
@@ -153,7 +169,7 @@ id="newLeadBtn">
 
 <th>Status</th>
 
-<th>Åtgärder</th>
+<th>Ã…tgÃ¤rder</th>
 
 </tr>
 
@@ -264,7 +280,7 @@ class="select">
 
 <div class="form-group">
 
-<label>Tjänst</label>
+<label>TjÃ¤nst</label>
 
 <input
 type="text"
@@ -377,7 +393,7 @@ Leadstatistik
 
 <h2 class="card-title">
 
-Snabbåtgärder
+SnabbÃ¥tgÃ¤rder
 
 </h2>
 
@@ -387,7 +403,7 @@ Snabbåtgärder
 class="btn btn-primary"
 id="refreshBtn">
 
-🔄 Uppdatera
+ðŸ”„ Uppdatera
 
 </button>
 
@@ -395,7 +411,7 @@ id="refreshBtn">
 class="btn btn-success"
 id="exportBtn">
 
-📄 Exportera
+ðŸ“„ Exportera
 
 </button>
 
@@ -403,7 +419,7 @@ id="exportBtn">
 class="btn btn-warning"
 id="mailBtn">
 
-📧 Skicka Mail
+ðŸ“§ Skicka Mail
 
 </button>
 
@@ -411,7 +427,7 @@ id="mailBtn">
 class="btn btn-secondary"
 id="offerBtn">
 
-📑 Skapa Offert
+ðŸ“‘ Skapa Offert
 
 </button>
 
@@ -451,8 +467,10 @@ Version 1.0
 
 <script src="js/ui.js"></script>
 
+<script src="js/mobile-nav.js"></script>
 <script src="js/leads.js"></script>
 
 </body>
 
 </html>
+

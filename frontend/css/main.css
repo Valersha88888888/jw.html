@@ -267,3 +267,102 @@ gap:15px;
 }
 
 }
+/* ==================================================
+   Mobile CRM navigation
+================================================== */
+
+.mobile-menu-button {
+    display: none;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1200;
+    width: 48px;
+    height: 48px;
+    padding: 11px;
+    border: 0;
+    border-radius: 12px;
+    background: #c77dcb;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .18);
+    cursor: pointer;
+}
+
+.mobile-menu-button span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    margin: 5px 0;
+    border-radius: 3px;
+    background: #fff;
+}
+
+.mobile-menu-overlay {
+    display: none;
+}
+
+@media (max-width: 800px) {
+
+    body.menu-open {
+        overflow: hidden;
+    }
+
+    .mobile-menu-button {
+        display: block;
+    }
+
+    .mobile-menu-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 1050;
+        background: rgba(20, 20, 35, .55);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .25s ease, visibility .25s ease;
+    }
+
+    .mobile-menu-overlay.overlay-visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1100;
+        width: min(82vw, 320px);
+        height: 100vh;
+        overflow-y: auto;
+        transform: translateX(-105%);
+        transition: transform .25s ease;
+        box-shadow: 8px 0 24px rgba(0, 0, 0, .2);
+    }
+
+    .sidebar.sidebar-open {
+        transform: translateX(0);
+    }
+
+    .main {
+        width: 100%;
+        margin-left: 0;
+        padding: 82px 16px 24px;
+    }
+
+    .header {
+        margin-bottom: 22px;
+    }
+
+    .header h1 {
+        font-size: 30px;
+    }
+
+    .user {
+        width: 100%;
+    }
+
+    .footer {
+        padding-bottom: 20px;
+    }
+}
+
