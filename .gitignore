@@ -12,3 +12,5 @@ backend/test-*.js
 *.log
 .DS_Store
 backend/templates/backup/
+
+backup/

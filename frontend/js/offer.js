@@ -1,4 +1,4 @@
-﻿const API_URL =
+const API_URL =
     window.location.hostname === "localhost"
         ? "http://localhost:3000/api"
         : "/api";
@@ -7,31 +7,12 @@ const form = document.getElementById("leadForm");
 const submitButton = document.getElementById("submitButton");
 const formMessage = document.getElementById("formMessage");
 
-const serviceType = document.getElementById("serviceType");
-const otherService = document.getElementById("otherService");
-const otherServiceGroup =
-    document.getElementById("otherServiceGroup");
-
 const area = document.getElementById("area");
 const otherArea = document.getElementById("otherArea");
 const otherAreaGroup =
     document.getElementById("otherAreaGroup");
 
-function updateConditionalFields() {
-    const showOtherService =
-        serviceType.value === "Annan tjÃ¤nst";
-
-    otherServiceGroup.classList.toggle(
-        "hidden",
-        !showOtherService
-    );
-
-    otherService.required = showOtherService;
-
-    if (!showOtherService) {
-        otherService.value = "";
-    }
-
+function updateAreaField() {
     const showOtherArea =
         area.value === "Annat område i Stockholm";
 
@@ -53,14 +34,9 @@ function showMessage(message, type) {
         `form-message ${type}`;
 }
 
-serviceType.addEventListener(
-    "change",
-    updateConditionalFields
-);
-
 area.addEventListener(
     "change",
-    updateConditionalFields
+    updateAreaField
 );
 
 form.addEventListener("submit", async (event) => {
@@ -72,16 +48,16 @@ form.addEventListener("submit", async (event) => {
     submitButton.textContent = "SKICKAR...";
 
     const data = {
-        serviceType: form.serviceType.value,
-        otherService: form.otherService.value.trim(),
-        size: form.size.value,
-        squareMeters:
-            form.squareMeters.value.trim(),
+        serviceType: "Städförfrågan",
+        otherService: "",
+        size: "",
+        squareMeters: "",
         area: form.area.value,
         otherArea: form.otherArea.value.trim(),
         name: form.name.value.trim(),
         phone: form.phone.value.trim(),
         email: form.email.value.trim(),
+        notes: "",
         source: "offer-page"
     };
 
@@ -108,23 +84,23 @@ form.addEventListener("submit", async (event) => {
         if (!response.ok) {
             throw new Error(
                 result?.message ||
+                result?.errors?.join(", ") ||
                 "Kunde inte skicka din förfrågan."
             );
         }
 
         showMessage(
-            "Tack! Din förfrågan har skickats. Vi kontaktar dig inom kort.",
+            "Tack! Din förfrågan är mottagen. Vi kontaktar dig så snart som möjligt.",
             "success"
         );
 
-        form.reset();
-        updateConditionalFields();
-
-        if (
-            typeof fbq === "function"
-        ) {
+        if (typeof fbq === "function") {
             fbq("track", "Lead");
         }
+
+        form.reset();
+        updateAreaField();
+
     } catch (error) {
         console.error(
             "Lead submission failed:",
@@ -135,11 +111,12 @@ form.addEventListener("submit", async (event) => {
             "Något gick fel. Försök igen eller kontakta oss via telefon.",
             "error"
         );
+
     } finally {
         submitButton.disabled = false;
         submitButton.textContent =
-            "FÅ MIN GRATIS OFFERT";
+            "FÅ MIN KOSTNADSFRIA OFFERT";
     }
 });
 
-updateConditionalFields();
+updateAreaField();
