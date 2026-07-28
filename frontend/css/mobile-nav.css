@@ -1,4 +1,4 @@
-﻿/* ==================================================
+/* ==================================================
    Shared mobile CRM navigation
 ================================================== */
 
@@ -42,7 +42,7 @@
     line-height: 1;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1024px) {
 
     body.crm-menu-open {
         overflow: hidden;

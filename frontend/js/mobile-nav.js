@@ -1,4 +1,4 @@
-﻿document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
     const button =
         document.getElementById("mobileMenuButton");
 
@@ -69,7 +69,7 @@
     window.addEventListener(
         "resize",
         () => {
-            if (window.innerWidth > 800) {
+            if (window.innerWidth > 1024) {
                 closeMenu();
             }
         }
