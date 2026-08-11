@@ -48,6 +48,7 @@ function updateBankIdButton() {
     const allChecked =
         confirmations.every(
             (checkbox) =>
+                checkbox &&
                 checkbox.checked
         );
 
@@ -62,6 +63,10 @@ function updateBankIdButton() {
 
 confirmations.forEach(
     (checkbox) => {
+        if (!checkbox) {
+            return;
+        }
+
         checkbox.addEventListener(
             "change",
             updateBankIdButton
@@ -131,10 +136,16 @@ async function loadContract() {
 
             confirmations.forEach(
                 (checkbox) => {
+                    if (!checkbox) {
+                        return;
+                    }
+
                     checkbox.disabled = true;
                     checkbox.checked = true;
                 }
             );
+        } else {
+            updateBankIdButton();
         }
 
     } catch (error) {
@@ -223,12 +234,18 @@ function getBankIdHintMessage(hintCode) {
 
 function stopBankIdTimers() {
     if (bankIdCollectTimer) {
-        clearInterval(bankIdCollectTimer);
+        clearInterval(
+            bankIdCollectTimer
+        );
+
         bankIdCollectTimer = null;
     }
 
     if (bankIdQrTimer) {
-        clearInterval(bankIdQrTimer);
+        clearInterval(
+            bankIdQrTimer
+        );
+
         bankIdQrTimer = null;
     }
 }
@@ -250,7 +267,10 @@ async function updateBankIdQr() {
             );
         }
 
-        if (data.qrImage) {
+        if (
+            data &&
+            data.qrImage
+        ) {
             bankIdQrImage.src =
                 data.qrImage;
 
@@ -276,7 +296,13 @@ async function collectBankId() {
             await fetch(
                 `${API_URL}/public/contracts/${encodeURIComponent(token)}/bankid/collect`,
                 {
-                    method: "POST"
+                    method:
+                        "POST",
+
+                    headers: {
+                        Accept:
+                            "application/json"
+                    }
                 }
             );
 
@@ -290,7 +316,10 @@ async function collectBankId() {
             );
         }
 
-        if (data.status === "pending") {
+        if (
+            data.status ===
+            "pending"
+        ) {
             bankIdStatus.textContent =
                 getBankIdHintMessage(
                     data.hintCode
@@ -299,7 +328,10 @@ async function collectBankId() {
             return;
         }
 
-        if (data.status === "complete") {
+        if (
+            data.status ===
+            "complete"
+        ) {
             bankIdRunning = false;
 
             stopBankIdTimers();
@@ -310,7 +342,8 @@ async function collectBankId() {
             bankIdMessage.textContent =
                 "Tack! Din signering är registrerad.";
 
-            bankIdButton.disabled = true;
+            bankIdButton.disabled =
+                true;
 
             bankIdButton.textContent =
                 "Avtalet är signerat";
@@ -321,17 +354,33 @@ async function collectBankId() {
             bankIdOpenApp.hidden =
                 true;
 
+            bankIdSameDevice.hidden =
+                true;
+
+            bankIdOtherDevice.hidden =
+                true;
+
             confirmations.forEach(
                 (checkbox) => {
-                    checkbox.checked = true;
-                    checkbox.disabled = true;
+                    if (!checkbox) {
+                        return;
+                    }
+
+                    checkbox.checked =
+                        true;
+
+                    checkbox.disabled =
+                        true;
                 }
             );
 
             return;
         }
 
-        if (data.status === "failed") {
+        if (
+            data.status ===
+            "failed"
+        ) {
             bankIdRunning = false;
 
             stopBankIdTimers();
@@ -345,6 +394,12 @@ async function collectBankId() {
                 true;
 
             bankIdOpenApp.hidden =
+                true;
+
+            bankIdSameDevice.hidden =
+                true;
+
+            bankIdOtherDevice.hidden =
                 true;
 
             bankIdButton.disabled =
@@ -370,29 +425,6 @@ async function collectBankId() {
     }
 }
 
-function isMobileOrTabletDevice() {
-    const userAgent =
-        navigator.userAgent || "";
-
-    const touchDevice =
-        navigator.maxTouchPoints > 1;
-
-    const mobileUserAgent =
-        /Android|iPhone|iPad|iPod/i.test(
-            userAgent
-        );
-
-    const iPadDesktopMode =
-        navigator.platform === "MacIntel" &&
-        touchDevice;
-
-    return (
-        mobileUserAgent ||
-        iPadDesktopMode
-    );
-}
-
-
 async function startBankId() {
     if (bankIdRunning) {
         return;
@@ -402,7 +434,8 @@ async function startBankId() {
 
     stopBankIdTimers();
 
-    bankIdButton.disabled = true;
+    bankIdButton.disabled =
+        true;
 
     bankIdButton.textContent =
         "BankID-signering pågår...";
@@ -410,12 +443,20 @@ async function startBankId() {
     bankIdMessage.textContent =
         "BankID-signeringen har startats.";
 
-    bankIdSigning.hidden = false;
+    bankIdSigning.hidden =
+        false;
 
-    bankIdSameDevice.hidden = true;
-    bankIdOtherDevice.hidden = true;
-    bankIdOpenApp.hidden = true;
-    bankIdQrContainer.hidden = true;
+    bankIdSameDevice.hidden =
+        true;
+
+    bankIdOtherDevice.hidden =
+        true;
+
+    bankIdOpenApp.hidden =
+        true;
+
+    bankIdQrContainer.hidden =
+        true;
 
     bankIdStatus.textContent =
         "Startar en säker BankID-signering...";
@@ -425,7 +466,9 @@ async function startBankId() {
             await fetch(
                 `${API_URL}/public/contracts/${encodeURIComponent(token)}/bankid/start`,
                 {
-                    method: "POST",
+                    method:
+                        "POST",
+
                     headers: {
                         Accept:
                             "application/json"
@@ -443,52 +486,68 @@ async function startBankId() {
             );
         }
 
-        const sameDevice =
-            isMobileOrTabletDevice();
-
-        if (sameDevice) {
-            bankIdSameDevice.hidden =
-                false;
-
-            bankIdOtherDevice.hidden =
-                true;
-
-            bankIdStatus.textContent =
-                "Öppna BankID-appen på den här enheten.";
-
-            if (
-                data.bankId &&
-                data.bankId.autoStartToken
-            ) {
-                bankIdOpenApp.href =
-                    `https://app.bankid.com/?autostarttoken=${encodeURIComponent(
-                        data.bankId.autoStartToken
-                    )}`;
-
-                bankIdOpenApp.hidden =
-                    false;
-            }
-
-        } else {
-            bankIdSameDevice.hidden =
-                true;
-
-            bankIdOtherDevice.hidden =
-                false;
-
-            bankIdStatus.textContent =
-                "Skanna den rörliga QR-koden med BankID-appen på mobilen.";
-
-            await updateBankIdQr();
-
-            bankIdQrTimer =
-                setInterval(
-                    updateBankIdQr,
-                    1000
-                );
+        if (
+            !data.bankId ||
+            !data.bankId.autoStartToken
+        ) {
+            throw new Error(
+                "BankID returnerade ingen giltig starttoken."
+            );
         }
 
+        /*
+         * UNIVERSAL BANKID FLOW
+         *
+         * Vi visar alltid båda alternativen:
+         *
+         * 1. Öppna BankID på samma telefon/surfplatta.
+         * 2. Skanna QR-koden från en annan enhet.
+         *
+         * Därför behöver vi inte gissa om kunden
+         * använder Android, iPhone, iPad, Windows
+         * eller Mac.
+         */
+
+        bankIdSameDevice.hidden =
+            false;
+
+        bankIdOtherDevice.hidden =
+            false;
+
+        bankIdStatus.textContent =
+            "Öppna BankID på den här enheten eller skanna QR-koden med en annan enhet.";
+
+        bankIdOpenApp.href =
+            `https://app.bankid.com/?autostarttoken=${encodeURIComponent(
+                data.bankId.autoStartToken
+            )}`;
+
+        bankIdOpenApp.hidden =
+            false;
+
+        /*
+         * Starta den rörliga BankID QR-koden.
+         */
+
+        await updateBankIdQr();
+
+        bankIdQrTimer =
+            setInterval(
+                updateBankIdQr,
+                1000
+            );
+
+        /*
+         * Kontrollera BankID-status direkt.
+         */
+
         await collectBankId();
+
+        /*
+         * Fortsätt sedan kontrollera status
+         * varannan sekund tills BankID svarar
+         * complete eller failed.
+         */
 
         bankIdCollectTimer =
             setInterval(
@@ -497,7 +556,8 @@ async function startBankId() {
             );
 
     } catch (error) {
-        bankIdRunning = false;
+        bankIdRunning =
+            false;
 
         stopBankIdTimers();
 
@@ -526,6 +586,7 @@ async function startBankId() {
             "Försök signera med BankID igen";
     }
 }
+
 bankIdButton.addEventListener(
     "click",
     startBankId
