@@ -1,0 +1,33 @@
+﻿services:
+  - type: web
+    name: jw-quality-crm
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: false
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      - key: BANKID_ENV
+        value: test
+
+      - key: BANKID_BASE_URL
+        value: https://appapi2.test.bankid.com/rp/v6.0
+
+      - key: BANKID_CERT_PATH
+        value: ./certs/FPTestcert5_20240610.p12
+
+      - key: BANKID_CA_PATH
+        value: ./certs/bankid-test-root-ca.pem
+
+      - key: BANKID_PROD_BASE_URL
+        value: https://appapi2.bankid.com/rp/v6.0
+
+      - key: BANKID_PROD_CERT_PATH
+        value: ./certs/bankid-production.p12
+
+      - key: BANKID_PROD_CA_PATH
+        value: ./certs/bankid-prod-root-ca.pem
