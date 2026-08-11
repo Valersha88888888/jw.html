@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Avtal | J&W Quality Hemservice CRM</title>
+
+    <link
+        rel="stylesheet"
+        href="css/dashboard.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/mobile-nav.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/contracts.css"
+    >
+</head>
+
+<body>
+
+<button
+    type="button"
+    class="crm-mobile-menu-button"
+    id="mobileMenuButton"
+    aria-label="Öppna meny"
+    aria-controls="mainSidebar"
+    aria-expanded="false"
+>
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
+<div
+    class="crm-mobile-overlay"
+    id="mobileMenuOverlay"
+></div>
+
+<nav
+    class="sidebar"
+    id="mainSidebar"
+>
+    <div class="logo">
+        <h2>J&W CRM</h2>
+        <p>Quality Hemservice</p>
+    </div>
+
+    <a href="dashboard.html">Dashboard</a>
+    <a href="leads.html">Leads</a>
+    <a href="offers.html">Offerter</a>
+    <a href="customers.html">Kunder</a>
+
+    <a
+        href="contracts.html"
+        class="active"
+    >
+        Avtal
+    </a>
+
+    <a href="settings.html">Inställningar</a>
+
+    <hr>
+
+    <a
+        href="#"
+        id="logout"
+    >
+        Logga ut
+    </a>
+</nav>
+
+<main class="main">
+
+    <header>
+        <div>
+            <h1>Avtal</h1>
+
+            <p>
+                Digitala kundavtal för
+                J&W Quality Hemservice
+            </p>
+        </div>
+
+        <div id="userName"></div>
+    </header>
+
+    <section class="contract-toolbar">
+
+        <div>
+            <h2>Alla avtal</h2>
+
+            <p>
+                Skapa, följ och hantera
+                kundavtal.
+            </p>
+        </div>
+
+        <a
+            href="contract-create.html"
+            class="contract-primary-button"
+        >
+            + Skapa nytt avtal
+        </a>
+
+    </section>
+
+    <section class="contract-summary">
+
+        <div class="contract-stat-card">
+            <span>Totalt</span>
+            <strong id="contractsTotal">0</strong>
+        </div>
+
+        <div class="contract-stat-card">
+            <span>Utkast</span>
+            <strong id="contractsDraft">0</strong>
+        </div>
+
+        <div class="contract-stat-card">
+            <span>Skickade</span>
+            <strong id="contractsSent">0</strong>
+        </div>
+
+        <div class="contract-stat-card">
+            <span>Signerade</span>
+            <strong id="contractsSigned">0</strong>
+        </div>
+
+    </section>
+
+    <section class="contract-panel">
+
+        <div class="contract-filter-row">
+
+            <input
+                type="search"
+                id="contractSearch"
+                placeholder="Sök namn, e-post eller avtalsnummer"
+            >
+
+            <select id="contractStatusFilter">
+                <option value="">
+                    Alla statusar
+                </option>
+
+                <option value="draft">
+                    Utkast
+                </option>
+
+                <option value="sent">
+                    Skickat
+                </option>
+
+                <option value="opened">
+                    Öppnat
+                </option>
+
+                <option value="signing">
+                    BankID påbörjat
+                </option>
+
+                <option value="signed">
+                    Signerat
+                </option>
+            </select>
+
+        </div>
+
+        <div
+            id="contractsMessage"
+            class="contract-message"
+        ></div>
+
+        <div class="contract-table-wrapper">
+
+            <table class="contract-table">
+
+                <thead>
+                    <tr>
+                        <th>Avtal</th>
+                        <th>Kund</th>
+                        <th>Startdatum</th>
+                        <th>Tjänst</th>
+                        <th>Status</th>
+                        <th>Skapad</th>
+                        <th>Åtgärder</th>
+                    </tr>
+                </thead>
+
+                <tbody id="contractsTableBody">
+
+                    <tr>
+                        <td
+                            colspan="7"
+                            class="contract-empty"
+                        >
+                            Laddar avtal...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="js/contracts.js"></script>
+<script src="js/mobile-nav.js"></script>
+
+</body>
+</html>

@@ -11,8 +11,10 @@ const errorHandler = require("./middleware/errorHandler");
 const authRoutes = require("./auth/authRoutes");
 const leadRoutes = require("./routes/leadRoutes");
 const publicLeadRoutes = require("./routes/publicLeadRoutes");
+const publicContractRoutes = require("./routes/publicContractRoutes");
 const offerRoutes = require("./routes/offerRoutes");
 const customerRoutes = require("./routes/customerRoutes");
+const contractRoutes = require("./routes/contractRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const emailRoutes = require("./routes/emailRoutes");
 const metaWebhookRoutes = require("./routes/metaWebhookRoutes");
@@ -28,6 +30,7 @@ app.use(
     helmet({
         contentSecurityPolicy: {
             directives: {
+                upgradeInsecureRequests: null,
                 scriptSrc: [
                     "'self'",
                     "https://connect.facebook.net",
@@ -101,37 +104,142 @@ app.get("/api/test", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/meta", metaWebhookRoutes);
 app.use("/api/public", publicLeadRoutes);
+app.use("/api/public", publicContractRoutes);
 app.use("/api", leadRoutes);
 app.use("/api", offerRoutes);
 app.use("/api", customerRoutes);
+app.use("/api", contractRoutes);
 app.use("/api", contactRoutes);
 app.use("/api", emailRoutes);
 
 app.use(errorHandler);
+
+let httpServer = null;
 
 async function startServer() {
     try {
         await testDatabaseConnection();
         await initializeDatabase();
 
-        app.listen(PORT, () => {
-            console.log("");
-            console.log("====================================");
-            console.log(" J&W Quality Hemservice CRM");
-            console.log("====================================");
-            console.log(` Server running on port ${PORT}`);
-            console.log(` http://localhost:${PORT}`);
-            console.log("====================================");
-        });
+        console.log(
+            "Database initialization completed."
+        );
+
+        httpServer = app.listen(
+            PORT,
+            "0.0.0.0"
+        );
+
+        httpServer.ref();
+
+        httpServer.on(
+            "listening",
+            () => {
+                const address =
+                    httpServer.address();
+
+                console.log("");
+                console.log(
+                    "===================================="
+                );
+                console.log(
+                    " J&W Quality Hemservice CRM"
+                );
+                console.log(
+                    "===================================="
+                );
+                console.log(
+                    ` Server running on port ${PORT}`
+                );
+                console.log(
+                    ` http://localhost:${PORT}`
+                );
+                console.log(
+                    ` Network: http://192.168.0.57:${PORT}`
+                );
+                console.log(
+                    "===================================="
+                );
+
+                console.log(
+                    "HTTP server address:",
+                    address
+                );
+            }
+        );
+
+        httpServer.on(
+            "error",
+            (error) => {
+                console.error(
+                    "HTTP SERVER ERROR:"
+                );
+
+                console.error(error);
+            }
+        );
+
+        httpServer.on(
+            "close",
+            () => {
+                console.error(
+                    "HTTP SERVER CLOSED"
+                );
+            }
+        );
+
     } catch (error) {
         console.error(
             "Server startup failed:",
-            error.message
+            error
         );
 
-        process.exit(1);
+        process.exitCode = 1;
     }
 }
 
-startServer();
+process.on(
+    "uncaughtException",
+    (error) => {
+        console.error(
+            "UNCAUGHT EXCEPTION:",
+            error
+        );
+    }
+);
 
+process.on(
+    "unhandledRejection",
+    (reason) => {
+        console.error(
+            "UNHANDLED REJECTION:",
+            reason
+        );
+    }
+);
+
+process.on(
+    "SIGINT",
+    () => {
+        console.log(
+            "Server shutdown requested."
+        );
+
+        if (!httpServer) {
+            process.exit(0);
+            return;
+        }
+
+        httpServer.close(
+            () => {
+                console.log(
+                    "HTTP server stopped safely."
+                );
+
+                process.exit(0);
+            }
+        );
+    }
+);
+
+startServer();

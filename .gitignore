@@ -14,3 +14,27 @@ backend/test-*.js
 backend/templates/backup/
 
 backup/
+
+# BankID certificates
+backend/certs/
+*.p12
+*.pfx
+*.pem
+backend/.env.*
+backend/certs/*.p12
+backend/certs/*.pfx
+backend/generated/
+backend/templates/_old_signed_contract_templates/
+*.before-*.js
+*.before-*.html
+*.before-*.css
+backend/certs/production-request/
+backend/certs/*.key
+backend/certs/*.p10
+backend/check-*.js
+backend/find-*.js
+backend/**/*.before-*.js
+frontend/**/*.before-*.js
+frontend/**/*.before-*.html
+frontend/**/*.before-*.css
+backend/assets/*.before-*.html

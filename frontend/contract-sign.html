@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Ditt avtal | J&W Quality Hemservice
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/contract-sign.css"
+    >
+</head>
+
+<body>
+
+<main class="customer-contract-page">
+
+    <header class="customer-contract-header">
+
+        <img
+            src="images/jw-logo.svg"
+            alt="J&W Quality Hemservice"
+            class="customer-contract-logo"
+        >
+
+        <div>
+            <h1>
+                Avtal om återkommande hemstädning
+            </h1>
+
+            <p id="contractNumber">
+                Laddar avtal...
+            </p>
+        </div>
+
+    </header>
+
+    <section
+        id="contractLoading"
+        class="customer-state"
+    >
+        Laddar ditt avtal...
+    </section>
+
+    <section
+        id="contractError"
+        class="customer-state customer-error"
+        hidden
+    ></section>
+
+    <div
+        id="contractContent"
+        hidden
+    >
+
+        <section class="customer-intro">
+
+            <h2 id="customerGreeting"></h2>
+
+            <p>
+                Läs igenom hela avtalet noggrant
+                innan du fortsätter till signering
+                med BankID.
+            </p>
+
+        </section>
+
+        <section class="important-summary">
+
+            <h2>
+                Viktiga avtalsvillkor
+            </h2>
+
+            <div class="summary-grid">
+
+                <article>
+                    <span>
+                        Introduktionspris
+                    </span>
+
+                    <strong>
+                        149 kr/timme
+                    </strong>
+
+                    <small>
+                        Efter preliminärt RUT.
+                        För de första 3
+                        städtillfällena.
+                    </small>
+                </article>
+
+                <article>
+                    <span>
+                        Ordinarie pris
+                    </span>
+
+                    <strong>
+                        250 kr/timme
+                    </strong>
+
+                    <small>
+                        Efter preliminärt RUT
+                        från städtillfälle 4.
+                    </small>
+                </article>
+
+                <article>
+                    <span>
+                        Bindningstid
+                    </span>
+
+                    <strong>
+                        12 månader
+                    </strong>
+
+                    <small>
+                        Från avtalets
+                        startdatum.
+                    </small>
+                </article>
+
+                <article>
+                    <span>
+                        Efter bindningstid
+                    </span>
+
+                    <strong>
+                        30 dagar
+                    </strong>
+
+                    <small>
+                        Uppsägningstid efter
+                        de första 12 månaderna.
+                    </small>
+                </article>
+
+                <article>
+                    <span>
+                        Ombokning /
+                        avbokning
+                    </span>
+
+                    <strong>
+                        24 timmar
+                    </strong>
+
+                    <small>
+                        Enligt villkoren
+                        i avtalet.
+                    </small>
+                </article>
+
+                <article>
+                    <span>
+                        Företagsgodkännande
+                    </span>
+
+                    <strong>
+                        J&W Quality Hemservice
+                    </strong>
+
+                    <small>
+                        Digitalt
+                        förhandsgodkänt.
+                    </small>
+                </article>
+
+            </div>
+
+        </section>
+
+        <section class="legal-document-wrapper">
+
+            <div class="document-heading">
+
+                <img
+                    src="images/jw-logo.svg"
+                    alt=""
+                >
+
+                <div>
+                    <strong>
+                        J&W Quality Hemservice
+                    </strong>
+
+                    <span id="documentNumber"></span>
+                </div>
+
+            </div>
+
+            <div id="legalContract"></div>
+
+        </section>
+
+        <section class="before-sign">
+
+            <h2>
+                Innan du signerar
+            </h2>
+
+            <p>
+                Bekräfta att du har tagit del
+                av avtalet.
+            </p>
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="confirmRead"
+                >
+
+                <span>
+                    Jag har läst hela avtalet.
+                </span>
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="confirmBinding"
+                >
+
+                <span>
+                    Jag förstår att avtalet har
+                    12 månaders bindningstid.
+                </span>
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="confirmPrice"
+                >
+
+                <span>
+                    Jag förstår att priset är
+                    149 kr/timme för de första
+                    3 städtillfällena och därefter
+                    250 kr/timme efter preliminärt RUT.
+                </span>
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="confirmCancellation"
+                >
+
+                <span>
+                    Jag har tagit del av reglerna
+                    om ombokning och avbokning.
+                </span>
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="confirmWithdrawal"
+                >
+
+                <span>
+                    Jag har tagit del av informationen
+                    om lagstadgad ångerrätt.
+                </span>
+            </label>
+
+            <div class="bankid-area">
+
+                <button
+                    type="button"
+                    id="bankIdButton"
+                    disabled
+                >
+                    <span class="bankid-mark">
+                        BankID
+                    </span>
+
+                    Signera avtalet med BankID
+                </button>
+
+                <p id="bankIdMessage">
+                    Bekräfta samtliga punkter ovan
+                    för att fortsätta.
+                </p>
+
+                <div
+                    id="bankIdSigning"
+                    class="bankid-signing"
+                    hidden
+                >
+                    <div class="bankid-signing-header">
+                        <span class="bankid-signing-badge">
+                            BankID
+                        </span>
+
+                        <div>
+                            <h3>
+                                Signering med BankID
+                            </h3>
+
+                            <p id="bankIdStatus">
+                                Startar BankID...
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        id="bankIdSameDevice"
+                        class="bankid-method"
+                        hidden
+                    >
+                        <h4>
+                            Signera på den här enheten
+                        </h4>
+
+                        <p>
+                            Öppna BankID-appen och slutför signeringen.
+                        </p>
+
+                        <a
+                            id="bankIdOpenApp"
+                            class="bankid-open-app"
+                            href="#"
+                            hidden
+                        >
+                            Öppna BankID och signera
+                        </a>
+                    </div>
+
+                    <div
+                        id="bankIdOtherDevice"
+                        class="bankid-method"
+                        hidden
+                    >
+                        <h4>
+                            Signera med BankID på mobilen
+                        </h4>
+
+                        <p>
+                            Öppna BankID-appen på mobilen och skanna
+                            den rörliga QR-koden.
+                        </p>
+
+                        <div
+                            id="bankIdQrContainer"
+                            class="bankid-qr-container"
+                            hidden
+                        >
+                            <img
+                                id="bankIdQrImage"
+                                alt="Rörlig QR-kod för BankID-signering"
+                            >
+                        </div>
+                    </div>
+
+                    <p class="bankid-security-note">
+                        BankID-signeringen verifieras automatiskt.
+                        Stäng inte sidan innan signeringen är klar.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <footer class="customer-contract-footer">
+
+            <strong>
+                J&W Quality Hemservice
+            </strong>
+
+            <span>
+                Bärkingeplan 23,
+                163 66 Spånga
+            </span>
+
+            <span>
+                +46 70 043 31 57
+            </span>
+
+            <span>
+                jw.qualityhemservice@gmail.com
+            </span>
+
+        </footer>
+
+    </div>
+
+</main>
+
+<script src="js/contract-sign.js"></script>
+
+</body>
+</html>

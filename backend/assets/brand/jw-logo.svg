@@ -1,0 +1,51 @@
+﻿<svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="900"
+    height="220"
+    viewBox="0 0 900 220"
+>
+    <defs>
+        <radialGradient id="bubblePink" cx="30%" cy="25%">
+            <stop offset="0%" stop-color="#ffb7d1"/>
+            <stop offset="55%" stop-color="#f5548e"/>
+            <stop offset="100%" stop-color="#db2f70"/>
+        </radialGradient>
+
+        <linearGradient id="bubbleSoft" x1="0" x2="1">
+            <stop offset="0%" stop-color="#ff8db5"/>
+            <stop offset="100%" stop-color="#ef3f80"/>
+        </linearGradient>
+    </defs>
+
+    <!-- Brand bubbles -->
+    <circle cx="72" cy="106" r="38" fill="url(#bubblePink)"/>
+    <circle cx="132" cy="82" r="32" fill="url(#bubblePink)"/>
+    <circle cx="116" cy="139" r="26" fill="url(#bubbleSoft)"/>
+    <circle cx="64" cy="55" r="15" fill="#f8659c"/>
+    <circle cx="38" cy="145" r="12" fill="#ef3f80"/>
+
+    <!-- Brand name -->
+    <text
+        x="195"
+        y="105"
+        font-family="Georgia, Times New Roman, serif"
+        font-size="62"
+        font-weight="700"
+        fill="#171717"
+    >
+        J&amp;W Quality Hemservice
+    </text>
+
+    <!-- Subtitle -->
+    <text
+        x="200"
+        y="158"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="24"
+        font-weight="600"
+        letter-spacing="3"
+        fill="#ef3f80"
+    >
+        QUALITY HEMSERVICE
+    </text>
+</svg>
