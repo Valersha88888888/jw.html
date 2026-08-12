@@ -208,7 +208,7 @@ async function loadOffers(){
 
         showToast(
 
-            "Kunde inte lÃ¤sa offerter",
+            "Kunde inte läsa offerter",
 
             "error"
 
@@ -415,9 +415,9 @@ function renderStatus(status){
 
             return '<span class="status status-sent">Skickad</span>';
 
-        case "GodkÃ¤nd":
+        case "Godkänd":
 
-            return '<span class="status status-approved">GodkÃ¤nd</span>';
+            return '<span class="status status-approved">Godkänd</span>';
 
         case "Nekad":
 
@@ -465,7 +465,7 @@ function updateStatistics(){
 
         offers.filter(
 
-            o=>o.status==="GodkÃ¤nd"
+            o=>o.status==="Godkänd"
 
         ).length;
 
@@ -911,7 +911,7 @@ function previewOffer(){
 
     showToast(
 
-        "PDF-fÃ¶rhandsvisning kommer i nÃ¤sta steg"
+        "PDF-förhandsvisning kommer i nästa steg"
 
     );
 
@@ -1003,11 +1003,11 @@ async function sendOffer(id){
 
 `Hej ${offer.customerName},
 
-Tack fÃ¶r ert intresse.
+Tack för ert intresse.
 
 Er offert finns bifogad.
 
-Med vÃ¤nliga hÃ¤lsningar
+Med vänliga hälsningar
 
 J&W Quality Hemservice`
 

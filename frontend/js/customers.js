@@ -182,7 +182,7 @@ async function loadCustomers(){
 
         showToast(
 
-            "Kunde inte lÃ¤sa kunder",
+            "Kunde inte läsa kunder",
 
             "error"
 
@@ -790,7 +790,7 @@ ${customer.email || ""}
 Adress:
 ${customer.address || ""}
 
-TjÃ¤nst:
+Tjänst:
 ${customer.service || ""}
 
 Status:
@@ -844,7 +844,7 @@ function createJob(){
 
     showToast(
 
-        "Jobb-modulen byggs i nÃ¤sta steg"
+        "Jobb-modulen byggs i nästa steg"
 
     );
 

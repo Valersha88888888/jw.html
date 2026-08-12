@@ -76,7 +76,7 @@ async function loadDashboard() {
         console.error(err);
 
         showToast(
-            "Kunde inte hÃ¤mta data",
+            "Kunde inte hämta data",
             "error"
         );
 
@@ -136,7 +136,7 @@ function createChart(leads) {
 
     leads.forEach(lead => {
 
-        const area = lead.area || "OkÃ¤nd";
+        const area = lead.area || "Okänd";
 
         count[area] = (count[area] || 0) + 1;
 
