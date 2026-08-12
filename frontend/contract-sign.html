@@ -1,6 +1,5 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="sv">
-
 <head>
     <meta charset="UTF-8">
 
@@ -23,15 +22,22 @@
 
 <main class="customer-contract-page">
 
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
     <header class="customer-contract-header">
 
-        <img
-            src="images/jw-logo.svg"
-            alt="J&W Quality Hemservice"
-            class="customer-contract-logo"
-        >
+        <div class="customer-contract-brand">
+            <img
+                src="images/jw-logo.svg"
+                alt="J&W Quality Hemservice"
+                class="customer-contract-logo"
+            >
+        </div>
 
-        <div>
+        <div class="customer-contract-heading">
+
             <h1>
                 Avtal om återkommande hemstädning
             </h1>
@@ -39,9 +45,15 @@
             <p id="contractNumber">
                 Laddar avtal...
             </p>
+
         </div>
 
     </header>
+
+
+    <!-- =====================================================
+         LOADING
+    ====================================================== -->
 
     <section
         id="contractLoading"
@@ -50,28 +62,46 @@
         Laddar ditt avtal...
     </section>
 
+
+    <!-- =====================================================
+         ERROR
+    ====================================================== -->
+
     <section
         id="contractError"
         class="customer-state customer-error"
         hidden
     ></section>
 
+
+    <!-- =====================================================
+         CONTRACT CONTENT
+    ====================================================== -->
+
     <div
         id="contractContent"
         hidden
     >
+
+        <!-- =================================================
+             INTRO
+        ================================================== -->
 
         <section class="customer-intro">
 
             <h2 id="customerGreeting"></h2>
 
             <p>
-                Läs igenom hela avtalet noggrant
-                innan du fortsätter till signering
-                med BankID.
+                Läs igenom hela avtalet noggrant innan du
+                fortsätter till signering med BankID.
             </p>
 
         </section>
+
+
+        <!-- =================================================
+             IMPORTANT SUMMARY
+        ================================================== -->
 
         <section class="important-summary">
 
@@ -82,6 +112,7 @@
             <div class="summary-grid">
 
                 <article>
+
                     <span>
                         Introduktionspris
                     </span>
@@ -92,12 +123,14 @@
 
                     <small>
                         Efter preliminärt RUT.
-                        För de första 3
-                        städtillfällena.
+                        För de första 3 städtillfällena.
                     </small>
+
                 </article>
 
+
                 <article>
+
                     <span>
                         Ordinarie pris
                     </span>
@@ -110,9 +143,12 @@
                         Efter preliminärt RUT
                         från städtillfälle 4.
                     </small>
+
                 </article>
 
+
                 <article>
+
                     <span>
                         Bindningstid
                     </span>
@@ -122,12 +158,14 @@
                     </strong>
 
                     <small>
-                        Från avtalets
-                        startdatum.
+                        Från avtalets startdatum.
                     </small>
+
                 </article>
 
+
                 <article>
+
                     <span>
                         Efter bindningstid
                     </span>
@@ -140,12 +178,14 @@
                         Uppsägningstid efter
                         de första 12 månaderna.
                     </small>
+
                 </article>
 
+
                 <article>
+
                     <span>
-                        Ombokning /
-                        avbokning
+                        Ombokning / avbokning
                     </span>
 
                     <strong>
@@ -153,12 +193,14 @@
                     </strong>
 
                     <small>
-                        Enligt villkoren
-                        i avtalet.
+                        Enligt villkoren i avtalet.
                     </small>
+
                 </article>
 
+
                 <article>
+
                     <span>
                         Företagsgodkännande
                     </span>
@@ -168,30 +210,42 @@
                     </strong>
 
                     <small>
-                        Digitalt
-                        förhandsgodkänt.
+                        Digitalt förhandsgodkänt.
                     </small>
+
                 </article>
 
             </div>
 
         </section>
 
+
+        <!-- =================================================
+             LEGAL DOCUMENT
+        ================================================== -->
+
         <section class="legal-document-wrapper">
 
             <div class="document-heading">
 
-                <img
-                    src="images/jw-logo.svg"
-                    alt=""
-                >
+                <div class="document-logo-wrapper">
 
-                <div>
+                    <img
+                        src="images/jw-logo.svg"
+                        alt="J&W Quality Hemservice"
+                        class="document-logo"
+                    >
+
+                </div>
+
+                <div class="document-heading-info">
+
                     <strong>
                         J&W Quality Hemservice
                     </strong>
 
                     <span id="documentNumber"></span>
+
                 </div>
 
             </div>
@@ -200,6 +254,11 @@
 
         </section>
 
+
+        <!-- =================================================
+             BEFORE SIGNING
+        ================================================== -->
+
         <section class="before-sign">
 
             <h2>
@@ -207,11 +266,12 @@
             </h2>
 
             <p>
-                Bekräfta att du har tagit del
-                av avtalet.
+                Bekräfta att du har tagit del av avtalet.
             </p>
 
+
             <label>
+
                 <input
                     type="checkbox"
                     id="confirmRead"
@@ -220,9 +280,12 @@
                 <span>
                     Jag har läst hela avtalet.
                 </span>
+
             </label>
 
+
             <label>
+
                 <input
                     type="checkbox"
                     id="confirmBinding"
@@ -232,9 +295,12 @@
                     Jag förstår att avtalet har
                     12 månaders bindningstid.
                 </span>
+
             </label>
 
+
             <label>
+
                 <input
                     type="checkbox"
                     id="confirmPrice"
@@ -246,9 +312,12 @@
                     3 städtillfällena och därefter
                     250 kr/timme efter preliminärt RUT.
                 </span>
+
             </label>
 
+
             <label>
+
                 <input
                     type="checkbox"
                     id="confirmCancellation"
@@ -258,9 +327,12 @@
                     Jag har tagit del av reglerna
                     om ombokning och avbokning.
                 </span>
+
             </label>
 
+
             <label>
+
                 <input
                     type="checkbox"
                     id="confirmWithdrawal"
@@ -270,7 +342,13 @@
                     Jag har tagit del av informationen
                     om lagstadgad ångerrätt.
                 </span>
+
             </label>
+
+
+            <!-- =============================================
+                 BANKID
+            ============================================== -->
 
             <div class="bankid-area">
 
@@ -279,29 +357,36 @@
                     id="bankIdButton"
                     disabled
                 >
+
                     <span class="bankid-mark">
                         BankID
                     </span>
 
                     Signera avtalet med BankID
+
                 </button>
+
 
                 <p id="bankIdMessage">
                     Bekräfta samtliga punkter ovan
                     för att fortsätta.
                 </p>
 
+
                 <div
                     id="bankIdSigning"
                     class="bankid-signing"
                     hidden
                 >
+
                     <div class="bankid-signing-header">
+
                         <span class="bankid-signing-badge">
                             BankID
                         </span>
 
                         <div>
+
                             <h3>
                                 Signering med BankID
                             </h3>
@@ -309,20 +394,27 @@
                             <p id="bankIdStatus">
                                 Startar BankID...
                             </p>
+
                         </div>
+
                     </div>
+
+
+                    <!-- SAME DEVICE -->
 
                     <div
                         id="bankIdSameDevice"
                         class="bankid-method"
                         hidden
                     >
+
                         <h4>
                             Signera på den här enheten
                         </h4>
 
                         <p>
-                            Öppna BankID-appen och slutför signeringen.
+                            Öppna BankID-appen och
+                            slutför signeringen.
                         </p>
 
                         <a
@@ -333,20 +425,25 @@
                         >
                             Öppna BankID och signera
                         </a>
+
                     </div>
+
+
+                    <!-- OTHER DEVICE / QR -->
 
                     <div
                         id="bankIdOtherDevice"
                         class="bankid-method"
                         hidden
                     >
+
                         <h4>
                             Signera med BankID på mobilen
                         </h4>
 
                         <p>
-                            Öppna BankID-appen på mobilen och skanna
-                            den rörliga QR-koden.
+                            Öppna BankID-appen på mobilen
+                            och skanna den rörliga QR-koden.
                         </p>
 
                         <div
@@ -354,22 +451,32 @@
                             class="bankid-qr-container"
                             hidden
                         >
+
                             <img
                                 id="bankIdQrImage"
                                 alt="Rörlig QR-kod för BankID-signering"
                             >
+
                         </div>
+
                     </div>
+
 
                     <p class="bankid-security-note">
                         BankID-signeringen verifieras automatiskt.
                         Stäng inte sidan innan signeringen är klar.
                     </p>
+
                 </div>
 
             </div>
 
         </section>
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
 
         <footer class="customer-contract-footer">
 
@@ -378,8 +485,7 @@
             </strong>
 
             <span>
-                Bärkingeplan 23,
-                163 66 Spånga
+                Bärkingeplan 23, 163 66 Spånga
             </span>
 
             <span>
@@ -396,7 +502,432 @@
 
 </main>
 
+
 <script src="js/contract-sign.js"></script>
 
 </body>
 </html>
+/* =========================================================
+   J&W QUALITY HEMSERVICE
+   FINAL CONTRACT LOGO
+========================================================= */
+
+.customer-contract-header {
+    display: grid;
+
+    grid-template-columns:
+        minmax(320px, 420px)
+        minmax(0, 1fr);
+
+    align-items: center;
+
+    gap: 34px;
+
+    padding:
+        28px
+        32px;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   TOP BRAND AREA
+========================================================= */
+
+.customer-contract-brand {
+    width: 100%;
+
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-start;
+}
+
+
+.customer-contract-logo {
+    display: block;
+
+    width: 100%;
+
+    max-width: 420px;
+
+    height: auto;
+
+    margin: 0;
+
+    padding: 0;
+
+    object-fit: contain;
+
+    object-position:
+        left
+        center;
+}
+
+
+/* =========================================================
+   HEADER TEXT
+========================================================= */
+
+.customer-contract-heading {
+    min-width: 0;
+}
+
+
+.customer-contract-header h1 {
+    margin:
+        0
+        0
+        8px;
+
+    font-size:
+        clamp(
+            26px,
+            3vw,
+            38px
+        );
+
+    line-height:
+        1.12;
+
+    font-weight:
+        800;
+}
+
+
+.customer-contract-header p {
+    margin: 0;
+
+    font-size:
+        18px;
+
+    line-height:
+        1.35;
+
+    color:
+        #706a70;
+}
+
+
+/* =========================================================
+   LOGO INSIDE CONTRACT DOCUMENT
+========================================================= */
+
+.document-heading {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 28px;
+}
+
+
+.document-logo-wrapper {
+    width:
+        min(
+            390px,
+            46%
+        );
+
+    min-width:
+        250px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-start;
+}
+
+
+.document-logo {
+    display: block;
+
+    width: 100%;
+
+    height: auto;
+
+    object-fit: contain;
+
+    object-position:
+        left
+        center;
+}
+
+
+.document-heading-info {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    text-align: right;
+
+    gap: 4px;
+}
+
+
+.document-heading-info strong {
+    font-size:
+        18px;
+
+    font-weight:
+        800;
+}
+
+
+.document-heading-info span {
+    font-size:
+        15px;
+
+    color:
+        #756e75;
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width: 1200px) {
+
+    .customer-contract-header {
+        grid-template-columns:
+            430px
+            minmax(0, 1fr);
+
+        gap:
+            38px;
+    }
+
+
+    .customer-contract-logo {
+        max-width:
+            430px;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .customer-contract-header {
+        grid-template-columns:
+            minmax(280px, 340px)
+            minmax(0, 1fr);
+
+        gap:
+            24px;
+
+        padding:
+            24px;
+    }
+
+
+    .customer-contract-logo {
+        max-width:
+            340px;
+    }
+
+
+    .customer-contract-header h1 {
+        font-size:
+            27px;
+    }
+
+
+    .customer-contract-header p {
+        font-size:
+            16px;
+    }
+
+
+    .document-logo-wrapper {
+        width:
+            min(
+                310px,
+                44%
+            );
+
+        min-width:
+            220px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .customer-contract-header {
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap:
+            18px;
+
+        padding:
+            22px
+            20px;
+    }
+
+
+    .customer-contract-brand {
+        width:
+            100%;
+    }
+
+
+    .customer-contract-logo {
+        width:
+            100%;
+
+        max-width:
+            390px;
+
+        margin:
+            0
+            auto
+            0
+            0;
+    }
+
+
+    .customer-contract-heading {
+        width:
+            100%;
+    }
+
+
+    .customer-contract-header h1 {
+        font-size:
+            24px;
+
+        line-height:
+            1.16;
+    }
+
+
+    .customer-contract-header p {
+        font-size:
+            16px;
+    }
+
+
+    .document-heading {
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+
+        justify-content:
+            flex-start;
+
+        gap:
+            18px;
+    }
+
+
+    .document-logo-wrapper {
+        width:
+            100%;
+
+        min-width:
+            0;
+
+        max-width:
+            360px;
+    }
+
+
+    .document-logo {
+        width:
+            100%;
+
+        max-width:
+            360px;
+    }
+
+
+    .document-heading-info {
+        width:
+            100%;
+
+        align-items:
+            flex-start;
+
+        text-align:
+            left;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .customer-contract-header {
+        padding:
+            20px
+            16px;
+    }
+
+
+    .customer-contract-logo {
+        width:
+            100%;
+
+        max-width:
+            330px;
+    }
+
+
+    .customer-contract-header h1 {
+        font-size:
+            22px;
+    }
+
+
+    .customer-contract-header p {
+        font-size:
+            15px;
+    }
+
+
+    .document-logo-wrapper {
+        max-width:
+            320px;
+    }
+
+
+    .document-logo {
+        max-width:
+            320px;
+    }
+
+}
