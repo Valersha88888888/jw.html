@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Ditt avtal | J&W Quality Hemservice
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/contract-sign.css"
+    >
+</head>
+
+<body>
+
+<main class="customer-contract-page">
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="customer-contract-header">
+
+        <div class="customer-contract-brand">
+            <img
+                src="images/jw-logo.svg"
+                alt="J&W Quality Hemservice"
+                class="customer-contract-logo"
+            >
+        </div>
+
+        <div class="customer-contract-heading">
+
+            <h1>
+                Avtal om återkommande hemstädning
+            </h1>
+
+            <p id="contractNumber">
+                Laddar avtal...
+            </p>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         LOADING
+    ====================================================== -->
+
+    <section
+        id="contractLoading"
+        class="customer-state"
+    >
+        Laddar ditt avtal...
+    </section>
+
+
+    <!-- =====================================================
+         ERROR
+    ====================================================== -->
+
+    <section
+        id="contractError"
+        class="customer-state customer-error"
+        hidden
+    ></section>
+
+
+    <!-- =====================================================
+         CONTRACT CONTENT
+    ====================================================== -->
+
+    <div
+        id="contractContent"
+        hidden
+    >
+
+        <!-- =================================================
+             INTRO
+        ================================================== -->
+
+        <section class="customer-intro">
+
+            <h2 id="customerGreeting"></h2>
+
+            <p>
+                Läs igenom hela avtalet noggrant innan du
+    fortsätter till säker elektronisk signering.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             IMPORTANT SUMMARY
+        ================================================== -->
+
+        <section class="important-summary">
+
+            <h2>
+                Viktiga avtalsvillkor
+            </h2>
+
+            <div class="summary-grid">
+
+                <article>
+
+                    <span>
+                        Introduktionspris
+                    </span>
+
+                    <strong>
+                        149 kr/timme
+                    </strong>
+
+                    <small>
+                        Efter preliminärt RUT.
+                        För de första 3 städtillfällena.
+                    </small>
+
+                </article>
+
+
+                <article>
+
+                    <span>
+                        Ordinarie pris
+                    </span>
+
+                    <strong>
+                        250 kr/timme
+                    </strong>
+
+                    <small>
+                        Efter preliminärt RUT
+                        från städtillfälle 4.
+                    </small>
+
+                </article>
+
+
+                <article>
+
+                    <span>
+                        Bindningstid
+                    </span>
+
+                    <strong>
+                        12 månader
+                    </strong>
+
+                    <small>
+                        Från avtalets startdatum.
+                    </small>
+
+                </article>
+
+
+                <article>
+
+                    <span>
+                        Efter bindningstid
+                    </span>
+
+                    <strong>
+                        30 dagar
+                    </strong>
+
+                    <small>
+                        Uppsägningstid efter
+                        de första 12 månaderna.
+                    </small>
+
+                </article>
+
+
+                <article>
+
+                    <span>
+                        Ombokning / avbokning
+                    </span>
+
+                    <strong>
+                        24 timmar
+                    </strong>
+
+                    <small>
+                        Enligt villkoren i avtalet.
+                    </small>
+
+                </article>
+
+
+                <article>
+
+                    <span>
+                        Företagsgodkännande
+                    </span>
+
+                    <strong>
+                        J&W Quality Hemservice
+                    </strong>
+
+                    <small>
+                        Digitalt förhandsgodkänt.
+                    </small>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             LEGAL DOCUMENT
+        ================================================== -->
+
+        <section class="legal-document-wrapper">
+
+            <div class="document-heading">
+
+                <div class="document-logo-wrapper">
+
+                    <img
+                        src="images/jw-logo.svg"
+                        alt="J&W Quality Hemservice"
+                        class="document-logo"
+                    >
+
+                </div>
+
+                <div class="document-heading-info">
+
+                    <strong>
+                        J&W Quality Hemservice
+                    </strong>
+
+                    <span id="documentNumber"></span>
+
+                </div>
+
+            </div>
+
+            <div id="legalContract"></div>
+
+        </section>
+
+
+        <!-- =================================================
+             BEFORE SIGNING
+        ================================================== -->
+
+        <section class="before-sign">
+
+            <h2>
+                Innan du signerar
+            </h2>
+
+            <p>
+                Bekräfta att du har tagit del av avtalet.
+            </p>
+
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    id="confirmRead"
+                >
+
+                <span>
+                    Jag har läst hela avtalet.
+                </span>
+
+            </label>
+
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    id="confirmBinding"
+                >
+
+                <span>
+                    Jag förstår att avtalet har
+                    12 månaders bindningstid.
+                </span>
+
+            </label>
+
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    id="confirmPrice"
+                >
+
+                <span>
+                    Jag förstår att priset är
+                    149 kr/timme för de första
+                    3 städtillfällena och därefter
+                    250 kr/timme efter preliminärt RUT.
+                </span>
+
+            </label>
+
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    id="confirmCancellation"
+                >
+
+                <span>
+                    Jag har tagit del av reglerna
+                    om ombokning och avbokning.
+                </span>
+
+            </label>
+
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    id="confirmWithdrawal"
+                >
+
+                <span>
+                    Jag har tagit del av informationen
+                    om lagstadgad ångerrätt.
+                </span>
+
+            </label>
+
+<!-- =============================================
+     SECURE ELECTRONIC SIGNING
+============================================== -->
+
+<div
+    class="secure-signing-area"
+    id="secureSigningArea"
+>
+
+    <div class="secure-signing-header">
+
+        <div>
+            <span class="secure-signing-eyebrow">
+                SÄKER ELEKTRONISK SIGNERING
+            </span>
+
+            <h3>
+                Trygg och säker elektronisk signering
+            </h3>
+
+            <p>
+                Följ stegen nedan. Vi verifierar först din
+                e-postadress och guidar dig därefter
+                genom signeringen.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         STEP 1 - OTP
+    ========================================== -->
+
+    <section
+        class="signing-step"
+        id="otpStep"
+    >
+
+        <div class="signing-step-number">
+            <span>Steg</span>
+            <strong>1 av 3</strong>
+        </div>
+
+        <div class="signing-step-content">
+
+            <span class="signing-step-eyebrow">
+                IDENTITETSVERIFIERING
+            </span>
+
+            <h4>
+                Verifiera din e-postadress
+            </h4>
+
+            <p>
+                För din säkerhet behöver vi först kontrollera
+                att du har tillgång till den e-postadress
+                som är registrerad i avtalet.
+
+                När du klickar på knappen nedan skickar vi
+                en sexsiffrig verifieringskod via e-post.
+            </p>
+
+            <button
+                type="button"
+                id="requestOtpButton"
+                class="secure-secondary-button"
+                disabled
+            >
+                Skicka verifieringskod
+            </button>
+
+            <p
+                id="otpRequestMessage"
+                class="signing-message"
+            >
+                Bekräfta samtliga punkter ovan för
+                att fortsätta.
+            </p>
+
+
+            <div
+                id="otpVerifyArea"
+                class="otp-verify-area"
+                hidden
+            >
+
+                <label
+                    for="otpCode"
+                    class="signing-label"
+                >
+                    Verifieringskod
+                </label>
+
+                <input
+                    type="text"
+                    id="otpCode"
+                    inputmode="numeric"
+                    autocomplete="one-time-code"
+                    maxlength="6"
+                    pattern="[0-9]{6}"
+                    placeholder="• • • • • •"
+                    class="otp-input"
+                >
+
+                <button
+                    type="button"
+                    id="verifyOtpButton"
+                    class="secure-primary-button"
+                >
+                    Verifiera kod
+                </button>
+
+                <p
+                    id="otpVerifyMessage"
+                    class="signing-message"
+                ></p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         STEP 2 - SIGNER NAME
+    ========================================== -->
+
+    <section
+        class="signing-step"
+        id="signerStep"
+        hidden
+    >
+
+        <div class="signing-step-number">
+            <span>Steg</span>
+            <strong>2 av 3</strong>
+        </div>
+
+        <div class="signing-step-content">
+
+            <span class="signing-step-eyebrow">
+                BEKRÄFTA DINA UPPGIFTER
+            </span>
+
+            <h4>
+                Bekräfta vem som signerar
+            </h4>
+
+            <p>
+                Ange ditt fullständiga namn. Namnet används
+                tillsammans med verifieringen och den
+                elektroniska signaturen som en del av
+                signeringsbeviset.
+            </p>
+
+            <label
+                for="signerName"
+                class="signing-label"
+            >
+                Fullständigt namn
+            </label>
+
+            <input
+                type="text"
+                id="signerName"
+                autocomplete="name"
+                maxlength="120"
+                class="signer-name-input"
+                placeholder="Förnamn Efternamn"
+            >
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         STEP 3 - SIGNATURE PAD
+    ========================================== -->
+
+    <section
+        class="signing-step"
+        id="signatureStep"
+        hidden
+    >
+
+        <div class="signing-step-number">
+            <span>Steg</span>
+            <strong>3 av 3</strong>
+        </div>
+
+        <div class="signing-step-content">
+
+            <span class="signing-step-eyebrow">
+                ELEKTRONISK SIGNATUR
+            </span>
+
+            <h4>
+                Skriv din signatur
+            </h4>
+
+            <p>
+                Skriv din signatur med fingret, musen eller
+                pekplattan. Din signatur sparas tillsammans
+                med verifieringen och avtalsinformationen.
+            </p>
+
+            <div
+                class="signature-pad-wrapper"
+            >
+
+                <canvas
+                    id="signatureCanvas"
+                    class="signature-canvas"
+                    aria-label="Signaturfält"
+                ></canvas>
+
+            </div>
+
+            <div
+                class="signature-actions"
+            >
+
+                <button
+                    type="button"
+                    id="clearSignatureButton"
+                    class="secure-secondary-button"
+                >
+                    Rensa signatur
+                </button>
+
+            </div>
+
+            <p
+                id="signatureMessage"
+                class="signing-message"
+            >
+                Signera i rutan ovan.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         STEP 4 - FINAL CONSENT
+    ========================================== -->
+
+    <section
+        class="signing-step"
+        id="finalSigningStep"
+        hidden
+    >
+
+        <div class="signing-step-number signing-step-number-final">
+            <span>Klart</span>
+            <strong>3 av 3</strong>
+        </div>
+
+        <div class="signing-step-content">
+
+            <span class="signing-step-eyebrow">
+                SLUTLIG BEKRÄFTELSE
+            </span>
+
+            <h4>
+                Kontrollera och slutför
+            </h4>
+
+            <p class="final-signing-intro">
+                Innan avtalet registreras behöver du
+                bekräfta att du vill ingå avtalet genom
+                din elektroniska signatur.
+            </p>
+
+            <label
+                class="final-signing-confirmation"
+            >
+
+                <input
+                    type="checkbox"
+                    id="confirmElectronicSignature"
+                >
+
+                <span>
+                    Jag bekräftar att uppgifterna är
+                    korrekta och att jag genom min
+                    elektroniska signatur accepterar
+                    detta avtal.
+                </span>
+
+            </label>
+
+            <button
+                type="button"
+                id="signContractButton"
+                class="secure-sign-button"
+                disabled
+            >
+                Jag godkänner och signerar avtalet
+            </button>
+
+            <p
+                id="signingStatus"
+                class="signing-message"
+            ></p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SUCCESS
+    ========================================== -->
+
+    <section
+        id="signingSuccess"
+        class="signing-success"
+        hidden
+    >
+
+        <div class="signing-success-icon">
+            ✓
+        </div>
+
+        <span class="signing-success-eyebrow">
+            SIGNERINGEN ÄR KLAR
+        </span>
+
+        <h3>
+            Tack för ditt förtroende
+        </h3>
+
+        <p class="signing-success-lead">
+            Ditt avtal är nu elektroniskt signerat
+            och registrerat.
+        </p>
+
+        <div class="signing-success-details">
+            <p>
+                En signerad PDF-kopia har skickats
+                till den e-postadress som är
+                registrerad i avtalet.
+            </p>
+
+            <p>
+                När ett mobilnummer finns registrerat
+                skickas även en bekräftelse via SMS.
+            </p>
+        </div>
+
+        <p class="signing-success-thanks">
+            Tack för att du har valt
+            <strong>J&W Quality Hemservice</strong>.
+            Vi ser fram emot ett tryggt och långsiktigt
+            samarbete med dig.
+        </p>
+
+        <strong class="signing-success-welcome">
+            Varmt välkommen till J&W Quality Hemservice!
+        </strong>
+
+    </section>
+
+</div>
+
+
+                  </section>
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <footer class="customer-contract-footer">
+
+            <strong>
+                J&W Quality Hemservice
+            </strong>
+
+            <span>
+                Bärkingeplan 23, 163 66 Spånga
+            </span>
+
+            <span>
+                +46 70 043 31 57
+            </span>
+
+            <span>
+                jw.qualityhemservice@gmail.com
+            </span>
+
+        </footer>
+
+    </div>
+
+</main>
+
+
+<script src="js/contract-sign.js"></script>
+
+</body>
+</html>

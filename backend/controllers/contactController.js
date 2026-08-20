@@ -20,10 +20,10 @@ async function contact(req, res) {
 
             to: "jw.qualityhemservice@gmail.com",
 
-             subject: `Ny kontaktfÃ¶rfrÃ¥gan frÃ¥n ${namn}`,
+             subject: `Ny kontaktförfrågan från ${namn}`,
             html: `
 
-                <h2>Ny kontaktfÃ¶rfrÃ¥gan</h2>
+                <h2>Ny kontaktförfrågan</h2>
 
                 <p><strong>Namn:</strong> ${namn}</p>
 
@@ -31,7 +31,7 @@ async function contact(req, res) {
 
                 <p><strong>Telefon:</strong> ${telefon}</p>
 
-                <p><strong>TjÃ¤nst:</strong> ${tjanst}</p>
+                <p><strong>Tjänst:</strong> ${tjanst}</p>
 
                 <p><strong>Meddelande:</strong></p>
 
