@@ -1,4 +1,4 @@
-﻿function escapeHtml(value) {
+function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -359,7 +359,7 @@ function buildContractHtml(contract) {
             </section>
 
             <section>
-                <h2>17. Elektronisk signering med BankID</h2>
+                <h2>17. Elektronisk signering</h2>
 
                 <p>
                     Innan signeringen ska Kunden ha möjlighet att läsa hela
@@ -367,7 +367,7 @@ function buildContractHtml(contract) {
                 </p>
 
                 <p>
-                    Genom BankID-signeringen bekräftar Kunden sin identitet och
+                    Genom den elektroniska signeringen bekräftar Kunden sin identitet och
                     att Kunden har tagit del av och accepterat avtalsvillkoren.
                 </p>
 
