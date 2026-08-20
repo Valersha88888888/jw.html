@@ -439,16 +439,27 @@
                     Verifieringskod
                 </label>
 
-                <input
-                    type="text"
-                    id="otpCode"
-                    inputmode="numeric"
-                    autocomplete="one-time-code"
-                    maxlength="6"
-                    pattern="[0-9]{6}"
-                    placeholder="• • • • • •"
-                    class="otp-input"
-                >
+                
+                <div class="otp-input-wrapper">
+
+                    <input
+                        type="text"
+                        id="otpCode"
+                        inputmode="numeric"
+                        autocomplete="one-time-code"
+                        maxlength="6"
+                        pattern="[0-9]{6}"
+                        placeholder="000000"
+                        class="otp-input"
+                        aria-label="Sexsiffrig verifieringskod"
+                        enterkeyhint="done"
+                    >
+
+                    <span class="otp-input-help">
+                        Ange den sexsiffriga koden från e-postmeddelandet.
+                    </span>
+
+                </div>
 
                 <button
                     type="button"

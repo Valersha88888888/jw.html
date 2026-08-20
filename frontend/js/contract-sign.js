@@ -1529,3 +1529,50 @@ window.addEventListener(
  */
 
 loadContract();
+/* =========================================================
+   OTP INPUT NORMALIZATION
+========================================================= */
+
+if (otpCode) {
+    otpCode.addEventListener(
+        "input",
+        () => {
+            otpCode.value =
+                String(
+                    otpCode.value || ""
+                )
+                    .replace(
+                        /\D/g,
+                        ""
+                    )
+                    .slice(
+                        0,
+                        6
+                    );
+        }
+    );
+
+    otpCode.addEventListener(
+        "paste",
+        () => {
+            setTimeout(
+                () => {
+                    otpCode.value =
+                        String(
+                            otpCode.value || ""
+                        )
+                            .replace(
+                                /\D/g,
+                                ""
+                            )
+                            .slice(
+                                0,
+                                6
+                            );
+                },
+                0
+            );
+        }
+    );
+}
+

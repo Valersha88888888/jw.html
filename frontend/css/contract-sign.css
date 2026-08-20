@@ -1193,3 +1193,963 @@ body {
     }
 }
 
+
+/* =========================================================
+   PROFESSIONAL OTP VERIFICATION FIELD
+   J&W QUALITY HEMSERVICE
+========================================================= */
+
+.otp-verify-area {
+    width: 100%;
+    max-width: 720px;
+
+    margin-top: 28px;
+    padding: 32px;
+
+    border: 1px solid #ead9df;
+    border-radius: 24px;
+
+    background: #fffafb;
+
+    box-sizing: border-box;
+}
+
+.otp-verify-area .signing-label {
+    display: block;
+
+    margin: 0 0 14px;
+
+    color: #1e2230;
+
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.otp-input-wrapper {
+    display: block;
+
+    width: 100%;
+    max-width: 460px;
+
+    margin: 0 0 20px;
+}
+
+.otp-input {
+    display: block;
+
+    width: 100%;
+    min-width: 0;
+    height: 76px;
+
+    box-sizing: border-box;
+
+    margin: 0;
+    padding: 0 22px;
+
+    border: 2px solid #d9cbd0;
+    border-radius: 18px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #171a26 !important;
+    -webkit-text-fill-color: #171a26;
+
+    caret-color: #c97897;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+
+    letter-spacing: 0.42em;
+    text-align: center;
+
+    font-variant-numeric: tabular-nums;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.otp-input::placeholder {
+    color: #c7bcc0;
+    -webkit-text-fill-color: #c7bcc0;
+
+    opacity: 1;
+
+    font-weight: 500;
+}
+
+.otp-input:hover {
+    border-color: #cfa6b5;
+}
+
+.otp-input:focus {
+    border-color: #c97897;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 4px rgba(201, 120, 151, 0.13),
+        0 12px 30px rgba(30, 34, 48, 0.06);
+}
+
+.otp-input:focus-visible {
+    outline: none;
+}
+
+.otp-input-help {
+    display: block;
+
+    margin-top: 10px;
+
+    color: #777078;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+#verifyOtpButton {
+    min-width: 220px;
+    min-height: 58px;
+
+    padding: 15px 28px;
+
+    border: 0;
+    border-radius: 16px;
+
+    cursor: pointer;
+
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+#otpVerifyMessage {
+    margin-top: 18px;
+
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+#otpVerifyMessage:empty {
+    display: none;
+}
+
+
+/* =========================================================
+   OTP - MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .otp-verify-area {
+        max-width: none;
+
+        margin-top: 22px;
+        padding: 22px 18px;
+
+        border-radius: 20px;
+    }
+
+    .otp-input-wrapper {
+        max-width: none;
+    }
+
+    .otp-input {
+        width: 100%;
+        height: 68px;
+
+        padding:
+            0
+            12px;
+
+        border-radius: 16px;
+
+        font-size: 27px;
+
+        letter-spacing: 0.30em;
+    }
+
+    #verifyOtpButton {
+        width: 100%;
+        min-width: 0;
+
+        min-height: 56px;
+    }
+}
+
+
+/* =========================================================
+   OTP - SMALL PHONE
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .otp-verify-area {
+        padding:
+            20px
+            14px;
+    }
+
+    .otp-input {
+        height: 64px;
+
+        font-size: 24px;
+        letter-spacing: 0.23em;
+    }
+}
+
+/* === BILD 2 SIGNING DESIGN START === */
+
+/* =========================================================
+   J&W QUALITY HEMSERVICE
+   PROFESSIONAL ELECTRONIC SIGNING
+   DESIGN REFERENCE: BILD 2
+========================================================= */
+
+.secure-signing-area {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   SIGNING STEPS
+========================================================= */
+
+.signing-step {
+    display: grid !important;
+    grid-template-columns: 145px minmax(0, 1fr) !important;
+    gap: 34px !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 0 26px !important;
+    padding: 26px !important;
+
+    box-sizing: border-box !important;
+
+    border: 1px solid #eadde2 !important;
+    border-radius: 26px !important;
+
+    background: #ffffff !important;
+
+    box-shadow:
+        0 10px 35px rgba(72, 43, 55, 0.045) !important;
+}
+
+
+.signing-step-number {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    min-height: 220px !important;
+
+    padding: 24px 14px !important;
+
+    border-radius: 24px !important;
+
+    background:
+        linear-gradient(
+            180deg,
+            #fff5f8 0%,
+            #fdf0f4 100%
+        ) !important;
+
+    color: #93455f !important;
+
+    text-align: center !important;
+}
+
+
+.signing-step-number span {
+    display: block !important;
+
+    margin-bottom: 12px !important;
+
+    color: #93455f !important;
+
+    font-size: 14px !important;
+    font-weight: 800 !important;
+
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+}
+
+
+.signing-step-number strong {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    min-width: 68px !important;
+    min-height: 50px !important;
+
+    padding: 8px 14px !important;
+
+    border-radius: 999px !important;
+
+    background: #cc7898 !important;
+
+    color: #ffffff !important;
+
+    font-size: 18px !important;
+    font-weight: 800 !important;
+
+    line-height: 1.1 !important;
+}
+
+
+.signing-step-content {
+    width: 100% !important;
+    min-width: 0 !important;
+
+    padding: 10px 0 !important;
+
+    box-sizing: border-box !important;
+}
+
+
+.signing-step-eyebrow {
+    display: block !important;
+
+    margin-bottom: 9px !important;
+
+    color: #a24d69 !important;
+
+    font-size: 15px !important;
+    font-weight: 800 !important;
+
+    letter-spacing: 0.11em !important;
+}
+
+
+.signing-step-content h4 {
+    margin:
+        0
+        0
+        12px !important;
+
+    color: #171c2b !important;
+
+    font-size: 28px !important;
+    font-weight: 800 !important;
+
+    line-height: 1.2 !important;
+}
+
+
+.signing-step-content > p {
+    max-width: 900px !important;
+
+    margin:
+        0
+        0
+        22px !important;
+
+    color: #5f606b !important;
+
+    font-size: 17px !important;
+
+    line-height: 1.65 !important;
+}
+
+
+/* =========================================================
+   LABELS
+========================================================= */
+
+.signing-label {
+    display: block !important;
+
+    margin:
+        22px
+        0
+        10px !important;
+
+    color: #1b2130 !important;
+
+    font-size: 16px !important;
+    font-weight: 800 !important;
+}
+
+
+/* =========================================================
+   OTP AREA
+========================================================= */
+
+.otp-verify-area {
+    display: block;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin-top: 26px !important;
+    padding: 28px !important;
+
+    box-sizing: border-box !important;
+
+    border: 1px solid #eadde2 !important;
+    border-radius: 22px !important;
+
+    background: #fffafb !important;
+}
+
+
+.otp-verify-area[hidden] {
+    display: none !important;
+}
+
+
+.otp-input-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin-bottom: 18px !important;
+}
+
+
+/* =========================================================
+   OTP INPUT
+   IMPORTANT: ENTERED DIGITS MUST ALWAYS BE VISIBLE
+========================================================= */
+
+#otpCode,
+.otp-input {
+    display: block !important;
+
+    width: 100% !important;
+    max-width: 580px !important;
+    min-width: 320px !important;
+
+    height: 78px !important;
+
+    margin: 0 !important;
+    padding:
+        0
+        28px !important;
+
+    box-sizing: border-box !important;
+
+    border: 2px solid #d7b5c2 !important;
+    border-radius: 17px !important;
+
+    outline: none !important;
+
+    background: #ffffff !important;
+
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+
+    caret-color: #bc5f83 !important;
+
+    opacity: 1 !important;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif !important;
+
+    font-size: 30px !important;
+    font-weight: 800 !important;
+
+    line-height: 78px !important;
+
+    letter-spacing: 0.32em !important;
+
+    text-align: left !important;
+
+    font-variant-numeric:
+        tabular-nums !important;
+
+    appearance: none !important;
+    -webkit-appearance: none !important;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease !important;
+}
+
+
+#otpCode::placeholder,
+.otp-input::placeholder {
+    color: #c7bcc1 !important;
+    -webkit-text-fill-color: #c7bcc1 !important;
+
+    opacity: 1 !important;
+
+    font-weight: 600 !important;
+}
+
+
+#otpCode:hover,
+.otp-input:hover {
+    border-color: #c9829e !important;
+}
+
+
+#otpCode:focus,
+.otp-input:focus {
+    border-color: #c75f87 !important;
+
+    background: #ffffff !important;
+
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+
+    box-shadow:
+        0 0 0 4px rgba(199, 95, 135, 0.13),
+        0 10px 30px rgba(73, 40, 52, 0.07) !important;
+}
+
+
+#otpCode:disabled,
+.otp-input:disabled {
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+
+    opacity: 1 !important;
+
+    background: #f8f5f6 !important;
+}
+
+
+.otp-input-help {
+    display: block !important;
+
+    margin-top: 10px !important;
+
+    color: #70717b !important;
+
+    font-size: 14px !important;
+
+    line-height: 1.5 !important;
+}
+
+
+/* =========================================================
+   SIGNER NAME
+   IMPORTANT: NAME MUST ALWAYS BE VISIBLE
+========================================================= */
+
+#signerName,
+.signer-name-input {
+    display: block !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    height: 70px !important;
+
+    margin: 0 !important;
+    padding:
+        0
+        22px !important;
+
+    box-sizing: border-box !important;
+
+    border: 2px solid #d7b5c2 !important;
+    border-radius: 16px !important;
+
+    outline: none !important;
+
+    background: #ffffff !important;
+
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+
+    caret-color: #bd6285 !important;
+
+    opacity: 1 !important;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif !important;
+
+    font-size: 22px !important;
+    font-weight: 600 !important;
+
+    line-height: 70px !important;
+
+    text-align: left !important;
+
+    appearance: none !important;
+    -webkit-appearance: none !important;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease !important;
+}
+
+
+#signerName::placeholder,
+.signer-name-input::placeholder {
+    color: #a8a8af !important;
+    -webkit-text-fill-color: #a8a8af !important;
+
+    opacity: 1 !important;
+
+    font-weight: 400 !important;
+}
+
+
+#signerName:hover,
+.signer-name-input:hover {
+    border-color: #c9829e !important;
+}
+
+
+#signerName:focus,
+.signer-name-input:focus {
+    border-color: #c75f87 !important;
+
+    background: #ffffff !important;
+
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+
+    box-shadow:
+        0 0 0 4px rgba(199, 95, 135, 0.13),
+        0 10px 30px rgba(73, 40, 52, 0.07) !important;
+}
+
+
+#signerName:disabled,
+.signer-name-input:disabled {
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+
+    opacity: 1 !important;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.secure-primary-button,
+.secure-secondary-button,
+.secure-sign-button {
+    min-height: 58px !important;
+
+    padding:
+        15px
+        28px !important;
+
+    border-radius: 16px !important;
+
+    font-size: 17px !important;
+    font-weight: 800 !important;
+
+    line-height: 1.2 !important;
+
+    cursor: pointer !important;
+
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        opacity 0.18s ease !important;
+}
+
+
+.secure-primary-button,
+.secure-sign-button {
+    border: 1px solid #c96e91 !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #cf7899,
+            #bf5f84
+        ) !important;
+
+    color: #ffffff !important;
+
+    box-shadow:
+        0 10px 24px rgba(190, 91, 130, 0.19) !important;
+}
+
+
+.secure-secondary-button {
+    border: 1px solid #d8b7c3 !important;
+
+    background: #ffffff !important;
+
+    color: #8e425d !important;
+}
+
+
+.secure-primary-button:hover:not(:disabled),
+.secure-sign-button:hover:not(:disabled),
+.secure-secondary-button:hover:not(:disabled) {
+    transform:
+        translateY(-1px) !important;
+}
+
+
+button:disabled {
+    cursor: not-allowed !important;
+
+    opacity: 0.58 !important;
+}
+
+
+/* =========================================================
+   VERIFICATION MESSAGES
+========================================================= */
+
+.signing-message {
+    margin-top: 16px !important;
+
+    color: #63636c !important;
+
+    font-size: 16px !important;
+
+    line-height: 1.55 !important;
+}
+
+
+#otpVerifyMessage {
+    font-weight: 600 !important;
+}
+
+
+/* =========================================================
+   SIGNATURE CANVAS
+========================================================= */
+
+.signature-pad-wrapper {
+    width: 100% !important;
+
+    margin-top: 18px !important;
+
+    box-sizing: border-box !important;
+}
+
+
+.signature-canvas {
+    display: block !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    min-height: 230px !important;
+
+    box-sizing: border-box !important;
+
+    border: 2px dashed #d7b5c2 !important;
+    border-radius: 18px !important;
+
+    background: #ffffff !important;
+
+    touch-action: none !important;
+}
+
+
+/* =========================================================
+   FINAL CONFIRMATION
+========================================================= */
+
+.final-signing-confirmation {
+    display: flex !important;
+    align-items: flex-start !important;
+
+    gap: 14px !important;
+
+    width: 100% !important;
+
+    margin:
+        22px
+        0 !important;
+
+    padding: 20px !important;
+
+    box-sizing: border-box !important;
+
+    border: 1px solid #eadde2 !important;
+    border-radius: 18px !important;
+
+    background: #fffafb !important;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .signing-step {
+        grid-template-columns:
+            112px
+            minmax(0, 1fr) !important;
+
+        gap: 22px !important;
+
+        padding: 20px !important;
+    }
+
+    .signing-step-number {
+        min-height: 180px !important;
+    }
+
+    .signing-step-content h4 {
+        font-size: 24px !important;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .signing-step {
+        display: block !important;
+
+        padding: 18px !important;
+
+        border-radius: 22px !important;
+    }
+
+    .signing-step-number {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+
+        gap: 12px !important;
+
+        min-height: 0 !important;
+
+        margin-bottom: 20px !important;
+        padding: 13px 16px !important;
+
+        border-radius: 16px !important;
+
+        text-align: left !important;
+    }
+
+    .signing-step-number span {
+        margin: 0 !important;
+    }
+
+    .signing-step-number strong {
+        min-width: 0 !important;
+        min-height: 0 !important;
+
+        padding: 7px 12px !important;
+
+        font-size: 15px !important;
+    }
+
+    .signing-step-content {
+        padding: 0 !important;
+    }
+
+    .signing-step-content h4 {
+        font-size: 23px !important;
+    }
+
+    .signing-step-content > p {
+        font-size: 16px !important;
+    }
+
+    .otp-verify-area {
+        padding: 18px !important;
+
+        border-radius: 18px !important;
+    }
+
+    #otpCode,
+    .otp-input {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+
+        height: 68px !important;
+
+        padding:
+            0
+            18px !important;
+
+        font-size: 25px !important;
+        line-height: 68px !important;
+
+        letter-spacing: 0.25em !important;
+    }
+
+    #signerName,
+    .signer-name-input {
+        width: 100% !important;
+
+        height: 64px !important;
+
+        padding:
+            0
+            17px !important;
+
+        font-size: 19px !important;
+        line-height: 64px !important;
+    }
+
+    .secure-primary-button,
+    .secure-secondary-button,
+    .secure-sign-button {
+        width: 100% !important;
+    }
+
+    .signature-canvas {
+        min-height: 200px !important;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .signing-step {
+        padding: 15px !important;
+    }
+
+    #otpCode,
+    .otp-input {
+        height: 62px !important;
+
+        font-size: 22px !important;
+        line-height: 62px !important;
+
+        letter-spacing: 0.18em !important;
+    }
+
+    #signerName,
+    .signer-name-input {
+        height: 60px !important;
+
+        font-size: 18px !important;
+        line-height: 60px !important;
+    }
+}
+
+/* === BILD 2 SIGNING DESIGN END === */
+
