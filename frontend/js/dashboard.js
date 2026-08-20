@@ -131,6 +131,14 @@ function buildLeadTable(leads) {
 let leadChart = null;
 
 function createChart(leads) {
+    if (typeof Chart === "undefined") {
+        console.error(
+            "Chart.js kunde inte laddas."
+        );
+
+        return;
+    }
+
 
     const count = {};
 
