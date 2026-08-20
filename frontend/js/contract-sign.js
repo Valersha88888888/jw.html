@@ -915,6 +915,18 @@ async function verifyOtp() {
  * =========================================================
  */
 
+function setupSignatureContext() {
+    const ctx = signatureCanvas.getContext("2d");
+
+    ctx.lineWidth = 2.4;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = "#202431";
+
+    return ctx;
+}
+
+
 function resizeSignatureCanvas() {
     if (
         !signatureCanvas ||
@@ -924,11 +936,11 @@ function resizeSignatureCanvas() {
     }
 
     const rect =
-        signatureCanvas
-            .getBoundingClientRect();
+        signatureCanvas.getBoundingClientRect();
 
     if (
-        rect.width <= 0
+        rect.width <= 0 ||
+        rect.height <= 0
     ) {
         return;
     }
@@ -936,36 +948,30 @@ function resizeSignatureCanvas() {
     const ratio =
         Math.max(
             1,
-            window.devicePixelRatio ||
-            1
+            window.devicePixelRatio || 1
         );
 
-    const currentImage =
-        signatureHasContent
-            ? signatureCanvas
-                .toDataURL(
-                    "image/png"
-                )
-            : null;
+    let savedImage = null;
+
+    if (signatureHasContent) {
+        savedImage =
+            signatureCanvas.toDataURL("image/png");
+    }
+
+    const cssWidth =
+        Math.round(rect.width);
+
+    const cssHeight =
+        Math.round(rect.height);
 
     signatureCanvas.width =
-        Math.round(
-            rect.width * ratio
-        );
+        Math.round(cssWidth * ratio);
 
     signatureCanvas.height =
-        Math.round(
-            Math.max(
-                220,
-                rect.height || 220
-            ) * ratio
-        );
+        Math.round(cssHeight * ratio);
 
     const ctx =
-        signatureCanvas
-            .getContext(
-                "2d"
-            );
+        signatureCanvas.getContext("2d");
 
     ctx.setTransform(
         ratio,
@@ -976,55 +982,68 @@ function resizeSignatureCanvas() {
         0
     );
 
-    ctx.lineWidth =
-        2.2;
+    ctx.lineWidth = 2.4;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = "#202431";
 
-    ctx.lineCap =
-        "round";
+    if (savedImage) {
+        const image = new Image();
 
-    ctx.lineJoin =
-        "round";
+        image.onload = () => {
+            ctx.save();
 
-    ctx.strokeStyle =
-        "#202431";
+            ctx.setTransform(
+                ratio,
+                0,
+                0,
+                ratio,
+                0,
+                0
+            );
 
-    if (currentImage) {
-        const image =
-            new Image();
+            ctx.drawImage(
+                image,
+                0,
+                0,
+                cssWidth,
+                cssHeight
+            );
 
-        image.onload =
-            () => {
-                ctx.drawImage(
-                    image,
-                    0,
-                    0,
-                    rect.width,
-                    Math.max(
-                        220,
-                        rect.height || 220
-                    )
-                );
-            };
+            ctx.restore();
+        };
 
-        image.src =
-            currentImage;
+        image.src = savedImage;
     }
 }
 
 
 function getCanvasPoint(event) {
     const rect =
-        signatureCanvas
-            .getBoundingClientRect();
+        signatureCanvas.getBoundingClientRect();
+
+    const scaleX =
+        rect.width > 0
+            ? signatureCanvas.width /
+              window.devicePixelRatio /
+              rect.width
+            : 1;
+
+    const scaleY =
+        rect.height > 0
+            ? signatureCanvas.height /
+              window.devicePixelRatio /
+              rect.height
+            : 1;
 
     return {
         x:
-            event.clientX -
-            rect.left,
+            (event.clientX - rect.left) *
+            scaleX,
 
         y:
-            event.clientY -
-            rect.top
+            (event.clientY - rect.top) *
+            scaleY
     };
 }
 
@@ -1037,27 +1056,32 @@ function startDrawing(event) {
         return;
     }
 
+    if (
+        event.pointerType === "mouse" &&
+        event.button !== 0
+    ) {
+        return;
+    }
+
     event.preventDefault();
 
-    drawing =
-        true;
-
-    signatureStarted =
-        true;
+    drawing = true;
+    signatureStarted = true;
 
     lastPoint =
-        getCanvasPoint(
-            event
-        );
+        getCanvasPoint(event);
 
     if (
-        signatureCanvas
-            .setPointerCapture
+        signatureCanvas.setPointerCapture &&
+        event.pointerId !== undefined
     ) {
-        signatureCanvas
-            .setPointerCapture(
+        try {
+            signatureCanvas.setPointerCapture(
                 event.pointerId
             );
+        } catch (error) {
+            // Pointer capture is optional.
+        }
     }
 }
 
@@ -1073,15 +1097,10 @@ function drawSignature(event) {
     event.preventDefault();
 
     const currentPoint =
-        getCanvasPoint(
-            event
-        );
+        getCanvasPoint(event);
 
     const ctx =
-        signatureCanvas
-            .getContext(
-                "2d"
-            );
+        setupSignatureContext();
 
     ctx.beginPath();
 
@@ -1115,13 +1134,12 @@ function stopDrawing(event) {
         return;
     }
 
-    event.preventDefault();
+    if (event) {
+        event.preventDefault();
+    }
 
-    drawing =
-        false;
-
-    lastPoint =
-        null;
+    drawing = false;
+    lastPoint = null;
 
     if (
         signatureStarted &&
@@ -1135,10 +1153,18 @@ function stopDrawing(event) {
 
 function clearSignature() {
     const ctx =
-        signatureCanvas
-            .getContext(
-                "2d"
-            );
+        signatureCanvas.getContext("2d");
+
+    ctx.save();
+
+    ctx.setTransform(
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+    );
 
     ctx.clearRect(
         0,
@@ -1147,11 +1173,12 @@ function clearSignature() {
         signatureCanvas.height
     );
 
-    signatureStarted =
-        false;
+    ctx.restore();
 
-    signatureHasContent =
-        false;
+    signatureStarted = false;
+    signatureHasContent = false;
+    drawing = false;
+    lastPoint = null;
 
     signatureMessage.textContent =
         "Skriv din signatur i rutan ovan.";
@@ -1161,18 +1188,14 @@ function clearSignature() {
 
 
 function getSignatureImage() {
-    if (
-        !signatureHasContent
-    ) {
+    if (!signatureHasContent) {
         return null;
     }
 
-    return signatureCanvas
-        .toDataURL(
-            "image/png"
-        );
+    return signatureCanvas.toDataURL(
+        "image/png"
+    );
 }
-
 
 /*
  * =========================================================

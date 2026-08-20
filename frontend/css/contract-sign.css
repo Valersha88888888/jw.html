@@ -2153,3 +2153,100 @@ button:disabled {
 
 /* === BILD 2 SIGNING DESIGN END === */
 
+
+/* =========================================================
+   PROFESSIONAL SIGNATURE PAD - FINAL
+   J&W QUALITY HEMSERVICE
+========================================================= */
+
+.signature-pad-wrapper {
+    position: relative !important;
+    width: 100% !important;
+    height: 260px !important;
+    min-height: 260px !important;
+    margin-top: 22px !important;
+
+    overflow: hidden !important;
+
+    border: 2px dashed #d7b5c2 !important;
+    border-radius: 20px !important;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            #ffffff 0,
+            #ffffff 43px,
+            #f7eef1 44px
+        ) !important;
+
+    box-sizing: border-box !important;
+}
+
+.signature-canvas {
+    display: block !important;
+
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-width: none !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border: 0 !important;
+    border-radius: 18px !important;
+
+    background: transparent !important;
+
+    box-sizing: border-box !important;
+
+    touch-action: none !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -webkit-touch-callout: none !important;
+
+    cursor: crosshair !important;
+}
+
+.signature-actions {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+
+    margin-top: 14px !important;
+}
+
+#clearSignatureButton {
+    min-width: 190px !important;
+}
+
+@media (max-width: 768px) {
+
+    .signature-pad-wrapper {
+        height: 220px !important;
+        min-height: 220px !important;
+        border-radius: 16px !important;
+    }
+
+    .signature-canvas {
+        border-radius: 14px !important;
+    }
+
+    .signature-actions {
+        justify-content: stretch !important;
+    }
+
+    #clearSignatureButton {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+}
+
+@media (max-width: 420px) {
+
+    .signature-pad-wrapper {
+        height: 190px !important;
+        min-height: 190px !important;
+    }
+}
+
