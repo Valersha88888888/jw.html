@@ -376,11 +376,91 @@ async function archiveContractController(req, res) {
     }
 }
 
+async function getContractPdfController(req, res) {
+    try {
+        const contract =
+            await getContractById(
+                req.params.id
+            );
+
+        if (!contract) {
+            return res.status(404).json({
+                success: false,
+                message:
+                    "Avtalet kunde inte hittas."
+            });
+        }
+
+        if (
+            contract.status !== "signed"
+        ) {
+            return res.status(409).json({
+                success: false,
+                message:
+                    "Avtalet är ännu inte signerat."
+            });
+        }
+
+        if (!contract.pdf_data) {
+            return res.status(404).json({
+                success: false,
+                message:
+                    "Ingen signerad PDF finns sparad för avtalet."
+            });
+        }
+
+        const filename =
+            contract.pdf_filename ||
+            `${contract.contract_number}-signed.pdf`;
+
+        const mimeType =
+            contract.pdf_mime_type ||
+            "application/pdf";
+
+        res.setHeader(
+            "Content-Type",
+            mimeType
+        );
+
+        res.setHeader(
+            "Content-Disposition",
+            `inline; filename="${filename}"`
+        );
+
+        res.setHeader(
+            "Cache-Control",
+            "private, no-store, max-age=0"
+        );
+
+        res.setHeader(
+            "X-Content-Type-Options",
+            "nosniff"
+        );
+
+        return res.send(
+            contract.pdf_data
+        );
+
+    } catch (error) {
+        console.error(
+            "Contract PDF error:",
+            error
+        );
+
+        return res.status(500).json({
+            success: false,
+            message:
+                "Den signerade PDF-filen kunde inte hämtas."
+        });
+    }
+}
+
 module.exports = {
     createContractController,
     getContractsController,
     getContractController,
     sendContractController,
     deleteContractController,
-    archiveContractController
+    archiveContractController,
+getContractPdfController
 };

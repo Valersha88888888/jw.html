@@ -1,7 +1,7 @@
 const API_URL =
     window.location.hostname === "localhost"
         ? "http://localhost:3000/api"
-        : "/api";
+        : "https://jw-quality-hemservice-crm.onrender.com/api";
 
 let contracts = [];
 
@@ -52,7 +52,7 @@ function statusLabel(status) {
         draft: "Utkast",
         sent: "Skickat",
         opened: "Öppnat",
-        signing: "BankID påbörjat",
+        signing: "Signering pågår",
         signed: "Signerat",
         expired: "Utgånget",
         cancelled: "Avslutat"
@@ -279,6 +279,29 @@ function renderContracts() {
 
                         <td>
                             ${actionButtons(contract)}
+
+                        ${
+                            contract.status === "signed"
+                                ? `
+                                    <button
+                                        type="button"
+                                        class="contract-pdf-view-button"
+                                        data-id="${contract.id}"
+                                    >
+                                        Visa signerad PDF
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="contract-pdf-download-button"
+                                        data-id="${contract.id}"
+                                        data-number="${contract.contract_number}"
+                                    >
+                                        Ladda ner PDF
+                                    </button>
+                                `
+                                : ""
+                        }
                         </td>
                     </tr>
                 `;
@@ -300,7 +323,39 @@ function renderContracts() {
                 }
             );
         });
-    document
+    
+document
+    .querySelectorAll(
+        ".contract-pdf-view-button"
+    )
+    .forEach((button) => {
+        button.addEventListener(
+            "click",
+            () => {
+                viewSignedContractPdf(
+                    button.dataset.id
+                );
+            }
+        );
+    });
+
+document
+    .querySelectorAll(
+        ".contract-pdf-download-button"
+    )
+    .forEach((button) => {
+        button.addEventListener(
+            "click",
+            () => {
+                downloadSignedContractPdf(
+                    button.dataset.id,
+                    button.dataset.number
+                );
+            }
+        );
+    });
+
+document
         .querySelectorAll(
             ".contract-delete-button"
         )
@@ -318,6 +373,214 @@ function renderContracts() {
             );
         });
 }
+
+
+async function fetchSignedContractPdf(id) {
+    const token =
+        localStorage.getItem("token");
+
+    if (!token) {
+        throw new Error(
+            "Du är inte inloggad."
+        );
+    }
+
+    const response =
+        await fetch(
+            `${API_URL}/contracts/${id}/pdf`,
+            {
+                method:
+                    "GET",
+
+                headers: {
+                    Authorization:
+                        `Bearer ${token}`,
+                    Accept:
+                        "application/pdf"
+                }
+            }
+        );
+
+    if (!response.ok) {
+        let message =
+            "Den signerade PDF-filen kunde inte hämtas.";
+
+        try {
+            const data =
+                await response.json();
+
+            if (data?.message) {
+                message =
+                    data.message;
+            }
+        } catch {
+            // Svaret var inte JSON.
+        }
+
+        throw new Error(
+            message
+        );
+    }
+
+    const blob =
+        await response.blob();
+
+    if (
+        !blob ||
+        blob.size === 0
+    ) {
+        throw new Error(
+            "PDF-filen är tom."
+        );
+    }
+
+    return blob;
+}
+
+
+async function viewSignedContractPdf(id) {
+    /*
+     * Öppna fönstret direkt från klicket.
+     * Det minskar risken att webbläsaren
+     * blockerar PDF-förhandsvisningen.
+     */
+
+    const previewWindow =
+        window.open(
+            "",
+            "_blank"
+        );
+
+    try {
+        if (previewWindow) {
+            previewWindow.document.title =
+                "Signerad PDF";
+
+            previewWindow.document.body.innerHTML =
+                "<p style=\"font-family:Arial,sans-serif;padding:24px\">Hämtar signerad PDF...</p>";
+        }
+
+        const blob =
+            await fetchSignedContractPdf(
+                id
+            );
+
+        const url =
+            URL.createObjectURL(
+                blob
+            );
+
+        if (previewWindow) {
+            previewWindow.location.href =
+                url;
+        } else {
+            const link =
+                document.createElement(
+                    "a"
+                );
+
+            link.href =
+                url;
+
+            link.target =
+                "_blank";
+
+            link.rel =
+                "noopener noreferrer";
+
+            document.body.appendChild(
+                link
+            );
+
+            link.click();
+            link.remove();
+        }
+
+        setTimeout(
+            () => {
+                URL.revokeObjectURL(
+                    url
+                );
+            },
+            120000
+        );
+
+    } catch (error) {
+        if (
+            previewWindow &&
+            !previewWindow.closed
+        ) {
+            previewWindow.close();
+        }
+
+        console.error(
+            "PDF preview failed:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Den signerade PDF-filen kunde inte öppnas."
+        );
+    }
+}
+
+
+async function downloadSignedContractPdf(
+    id,
+    contractNumber
+) {
+    try {
+        const blob =
+            await fetchSignedContractPdf(
+                id
+            );
+
+        const url =
+            URL.createObjectURL(
+                blob
+            );
+
+        const link =
+            document.createElement(
+                "a"
+            );
+
+        link.href =
+            url;
+
+        link.download =
+            `${contractNumber || "signerat-avtal"}-signed.pdf`;
+
+        document.body.appendChild(
+            link
+        );
+
+        link.click();
+        link.remove();
+
+        setTimeout(
+            () => {
+                URL.revokeObjectURL(
+                    url
+                );
+            },
+            1000
+        );
+
+    } catch (error) {
+        console.error(
+            "PDF download failed:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Den signerade PDF-filen kunde inte laddas ner."
+        );
+    }
+}
+
 
 async function sendContract(id, button) {
     const token =
@@ -466,7 +729,7 @@ ${contractNumber}`
 
 Ta bort ${contractNumber} permanent?`
             : isSigned
-                ? `SISTA BEKRÄFTELSEN – SIGNERAT BANKID-AVTAL.
+                ? `SISTA BEKRÄFTELSEN – SIGNERAT AVTAL.
 
 Avtalet försvinner från den aktiva listan men originaldata och signeringshistorik bevaras.
 

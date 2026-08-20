@@ -1,16 +1,35 @@
-const transporter = require("../config/mailConfig");
+const transporter =
+    require("../config/mailConfig");
 
-async function sendContractEmail(contract, publicUrl) {
-    const customerName = [
+function getCustomerName(contract) {
+    return [
         contract.customer_first_name,
         contract.customer_last_name
-    ].filter(Boolean).join(" ");
+    ]
+        .filter(Boolean)
+        .join(" ");
+}
+
+function getManagerEmail() {
+    return (
+        process.env.ADMIN_EMAIL ||
+        process.env.EMAIL_USER
+    );
+}
+
+async function sendContractEmail(
+    contract,
+    publicUrl
+) {
+    const customerName =
+        getCustomerName(contract);
 
     return transporter.sendMail({
         from:
             `"J&W Quality Hemservice" <${process.env.EMAIL_USER}>`,
 
-        to: contract.customer_email,
+        to:
+            contract.customer_email,
 
         subject:
             `Ditt avtal med J&W Quality Hemservice – ${contract.contract_number}`,
@@ -51,7 +70,8 @@ async function sendContractEmail(contract, publicUrl) {
 
                 <p>
                     Läs hela avtalet och kontrollera dina
-                    uppgifter innan du signerar med BankID.
+                    uppgifter innan du fortsätter till
+                    elektronisk signering.
                 </p>
 
                 <div style="
@@ -109,21 +129,98 @@ async function sendContractEmail(contract, publicUrl) {
     });
 }
 
-module.exports = {
-    sendContractEmail,
-    sendSignedContractEmail
-};
+async function sendContractOtpEmail(
+    contract,
+    otpCode
+) {
+    const customerName =
+        getCustomerName(contract);
+
+    return transporter.sendMail({
+        from:
+            `"J&W Quality Hemservice" <${process.env.EMAIL_USER}>`,
+
+        to:
+            contract.customer_email,
+
+        subject:
+            `Verifieringskod för ditt avtal – ${contract.contract_number}`,
+
+        html: `
+            <div style="
+                font-family:Arial,Helvetica,sans-serif;
+                max-width:620px;
+                margin:0 auto;
+                color:#202431;
+                line-height:1.6;
+            ">
+                <h2>
+                    Verifiera din signering
+                </h2>
+
+                <p>
+                    Hej ${customerName},
+                </p>
+
+                <p>
+                    Du har begärt en verifieringskod för att
+                    signera ditt avtal med
+                    <strong>J&W Quality Hemservice</strong>.
+                </p>
+
+                <div style="
+                    margin:28px 0;
+                    padding:22px;
+                    text-align:center;
+                    background:#fff5f8;
+                    border:1px solid #f3c4d3;
+                    border-radius:12px;
+                ">
+                    <div style="
+                        font-size:14px;
+                        margin-bottom:8px;
+                    ">
+                        Din verifieringskod
+                    </div>
+
+                    <strong style="
+                        font-size:34px;
+                        letter-spacing:8px;
+                    ">
+                        ${otpCode}
+                    </strong>
+                </div>
+
+                <p>
+                    Koden gäller i 10 minuter.
+                </p>
+
+                <p>
+                    Lämna aldrig koden till någon annan.
+                    Om du inte själv begärde koden kan du
+                    ignorera detta meddelande.
+                </p>
+
+                <p>
+                    Avtalsnummer:
+                    <strong>${contract.contract_number}</strong>
+                </p>
+
+                <p>
+                    Med vänliga hälsningar<br>
+                    <strong>J&W Quality Hemservice</strong>
+                </p>
+            </div>
+        `
+    });
+}
 
 async function sendSignedContractEmail(
     contract,
     pdfPath
 ) {
-    const customerName = [
-        contract.customer_first_name,
-        contract.customer_last_name
-    ]
-        .filter(Boolean)
-        .join(" ");
+    const customerName =
+        getCustomerName(contract);
 
     return transporter.sendMail({
         from:
@@ -154,7 +251,12 @@ async function sendSignedContractEmail(
                 <p>
                     Tack. Ditt avtal med
                     <strong>J&W Quality Hemservice</strong>
-                    har signerats med BankID.
+                    har signerats elektroniskt.
+                </p>
+
+                <p>
+                    Signeringen har registrerats tillsammans
+                    med verifierings- och signeringsbevis.
                 </p>
 
                 <p>
@@ -185,3 +287,78 @@ async function sendSignedContractEmail(
         ]
     });
 }
+
+async function sendManagerSignedContractEmail(
+    contract,
+    pdfPath
+) {
+    const managerEmail =
+        getManagerEmail();
+
+    if (!managerEmail) {
+        throw new Error(
+            "Manager email is not configured"
+        );
+    }
+
+    const customerName =
+        getCustomerName(contract);
+
+    return transporter.sendMail({
+        from:
+            `"J&W Quality Hemservice CRM" <${process.env.EMAIL_USER}>`,
+
+        to:
+            managerEmail,
+
+        subject:
+            `Avtal signerat – ${contract.contract_number}`,
+
+        html: `
+            <div style="
+                font-family:Arial,Helvetica,sans-serif;
+                max-width:620px;
+                margin:0 auto;
+                color:#202431;
+                line-height:1.6;
+            ">
+                <h2>
+                    Ett kundavtal har signerats
+                </h2>
+
+                <p>
+                    Kunden
+                    <strong>${customerName}</strong>
+                    har signerat sitt avtal elektroniskt.
+                </p>
+
+                <p>
+                    Avtalsnummer:
+                    <strong>${contract.contract_number}</strong>
+                </p>
+
+                <p>
+                    Det signerade avtalet finns bifogat
+                    som PDF.
+                </p>
+            </div>
+        `,
+
+        attachments: [
+            {
+                filename:
+                    `${contract.contract_number}-signed.pdf`,
+
+                path:
+                    pdfPath
+            }
+        ]
+    });
+}
+
+module.exports = {
+    sendContractEmail,
+    sendContractOtpEmail,
+    sendSignedContractEmail,
+    sendManagerSignedContractEmail
+};

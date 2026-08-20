@@ -10,7 +10,8 @@ const {
     getContractController,
     sendContractController,
     deleteContractController,
-    archiveContractController
+    archiveContractController,
+    getContractPdfController
 } = require("../controllers/contractController");
 
 router.post(
@@ -47,6 +48,13 @@ router.post(
     "/contracts/:id/archive",
     auth,
     archiveContractController
+);
+
+
+router.get(
+    "/contracts/:id/pdf",
+    auth,
+    getContractPdfController
 );
 
 module.exports = router;

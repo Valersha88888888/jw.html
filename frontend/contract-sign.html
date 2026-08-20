@@ -93,7 +93,7 @@
 
             <p>
                 Läs igenom hela avtalet noggrant innan du
-                fortsätter till signering med BankID.
+    fortsätter till säker elektronisk signering.
             </p>
 
         </section>
@@ -345,133 +345,378 @@
 
             </label>
 
+<!-- =============================================
+     SECURE ELECTRONIC SIGNING
+============================================== -->
 
-            <!-- =============================================
-                 BANKID
-            ============================================== -->
+<div
+    class="secure-signing-area"
+    id="secureSigningArea"
+>
 
-            <div class="bankid-area">
+    <div class="secure-signing-header">
+
+        <div>
+            <span class="secure-signing-eyebrow">
+                SÄKER ELEKTRONISK SIGNERING
+            </span>
+
+            <h3>
+                Trygg och säker elektronisk signering
+            </h3>
+
+            <p>
+                Följ stegen nedan. Vi verifierar först din
+                e-postadress och guidar dig därefter
+                genom signeringen.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         STEP 1 - OTP
+    ========================================== -->
+
+    <section
+        class="signing-step"
+        id="otpStep"
+    >
+
+        <div class="signing-step-number">
+            <span>Steg</span>
+            <strong>1 av 3</strong>
+        </div>
+
+        <div class="signing-step-content">
+
+            <span class="signing-step-eyebrow">
+                IDENTITETSVERIFIERING
+            </span>
+
+            <h4>
+                Verifiera din e-postadress
+            </h4>
+
+            <p>
+                För din säkerhet behöver vi först kontrollera
+                att du har tillgång till den e-postadress
+                som är registrerad i avtalet.
+
+                När du klickar på knappen nedan skickar vi
+                en sexsiffrig verifieringskod via e-post.
+            </p>
+
+            <button
+                type="button"
+                id="requestOtpButton"
+                class="secure-secondary-button"
+                disabled
+            >
+                Skicka verifieringskod
+            </button>
+
+            <p
+                id="otpRequestMessage"
+                class="signing-message"
+            >
+                Bekräfta samtliga punkter ovan för
+                att fortsätta.
+            </p>
+
+
+            <div
+                id="otpVerifyArea"
+                class="otp-verify-area"
+                hidden
+            >
+
+                <label
+                    for="otpCode"
+                    class="signing-label"
+                >
+                    Verifieringskod
+                </label>
+
+                <input
+                    type="text"
+                    id="otpCode"
+                    inputmode="numeric"
+                    autocomplete="one-time-code"
+                    maxlength="6"
+                    pattern="[0-9]{6}"
+                    placeholder="• • • • • •"
+                    class="otp-input"
+                >
 
                 <button
                     type="button"
-                    id="bankIdButton"
-                    disabled
+                    id="verifyOtpButton"
+                    class="secure-primary-button"
                 >
-
-                    <span class="bankid-mark">
-                        BankID
-                    </span>
-
-                    Signera avtalet med BankID
-
+                    Verifiera kod
                 </button>
 
-
-                <p id="bankIdMessage">
-                    Bekräfta samtliga punkter ovan
-                    för att fortsätta.
-                </p>
-
-
-                <div
-                    id="bankIdSigning"
-                    class="bankid-signing"
-                    hidden
-                >
-
-                    <div class="bankid-signing-header">
-
-                        <span class="bankid-signing-badge">
-                            BankID
-                        </span>
-
-                        <div>
-
-                            <h3>
-                                Signering med BankID
-                            </h3>
-
-                            <p id="bankIdStatus">
-                                Startar BankID...
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- SAME DEVICE -->
-
-                    <div
-                        id="bankIdSameDevice"
-                        class="bankid-method"
-                        hidden
-                    >
-
-                        <h4>
-                            Signera på den här enheten
-                        </h4>
-
-                        <p>
-                            Öppna BankID-appen och
-                            slutför signeringen.
-                        </p>
-
-                        <a
-                            id="bankIdOpenApp"
-                            class="bankid-open-app"
-                            href="#"
-                            hidden
-                        >
-                            Öppna BankID och signera
-                        </a>
-
-                    </div>
-
-
-                    <!-- OTHER DEVICE / QR -->
-
-                    <div
-                        id="bankIdOtherDevice"
-                        class="bankid-method"
-                        hidden
-                    >
-
-                        <h4>
-                            Signera med BankID på mobilen
-                        </h4>
-
-                        <p>
-                            Öppna BankID-appen på mobilen
-                            och skanna den rörliga QR-koden.
-                        </p>
-
-                        <div
-                            id="bankIdQrContainer"
-                            class="bankid-qr-container"
-                            hidden
-                        >
-
-                            <img
-                                id="bankIdQrImage"
-                                alt="Rörlig QR-kod för BankID-signering"
-                            >
-
-                        </div>
-
-                    </div>
-
-
-                    <p class="bankid-security-note">
-                        BankID-signeringen verifieras automatiskt.
-                        Stäng inte sidan innan signeringen är klar.
-                    </p>
-
-                </div>
+                <p
+                    id="otpVerifyMessage"
+                    class="signing-message"
+                ></p>
 
             </div>
 
-        </section>
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         STEP 2 - SIGNER NAME
+    ========================================== -->
+
+    <section
+        class="signing-step"
+        id="signerStep"
+        hidden
+    >
+
+        <div class="signing-step-number">
+            <span>Steg</span>
+            <strong>2 av 3</strong>
+        </div>
+
+        <div class="signing-step-content">
+
+            <span class="signing-step-eyebrow">
+                BEKRÄFTA DINA UPPGIFTER
+            </span>
+
+            <h4>
+                Bekräfta vem som signerar
+            </h4>
+
+            <p>
+                Ange ditt fullständiga namn. Namnet används
+                tillsammans med verifieringen och den
+                elektroniska signaturen som en del av
+                signeringsbeviset.
+            </p>
+
+            <label
+                for="signerName"
+                class="signing-label"
+            >
+                Fullständigt namn
+            </label>
+
+            <input
+                type="text"
+                id="signerName"
+                autocomplete="name"
+                maxlength="120"
+                class="signer-name-input"
+                placeholder="Förnamn Efternamn"
+            >
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         STEP 3 - SIGNATURE PAD
+    ========================================== -->
+
+    <section
+        class="signing-step"
+        id="signatureStep"
+        hidden
+    >
+
+        <div class="signing-step-number">
+            <span>Steg</span>
+            <strong>3 av 3</strong>
+        </div>
+
+        <div class="signing-step-content">
+
+            <span class="signing-step-eyebrow">
+                ELEKTRONISK SIGNATUR
+            </span>
+
+            <h4>
+                Skriv din signatur
+            </h4>
+
+            <p>
+                Skriv din signatur med fingret, musen eller
+                pekplattan. Din signatur sparas tillsammans
+                med verifieringen och avtalsinformationen.
+            </p>
+
+            <div
+                class="signature-pad-wrapper"
+            >
+
+                <canvas
+                    id="signatureCanvas"
+                    class="signature-canvas"
+                    aria-label="Signaturfält"
+                ></canvas>
+
+            </div>
+
+            <div
+                class="signature-actions"
+            >
+
+                <button
+                    type="button"
+                    id="clearSignatureButton"
+                    class="secure-secondary-button"
+                >
+                    Rensa signatur
+                </button>
+
+            </div>
+
+            <p
+                id="signatureMessage"
+                class="signing-message"
+            >
+                Signera i rutan ovan.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         STEP 4 - FINAL CONSENT
+    ========================================== -->
+
+    <section
+        class="signing-step"
+        id="finalSigningStep"
+        hidden
+    >
+
+        <div class="signing-step-number signing-step-number-final">
+            <span>Klart</span>
+            <strong>3 av 3</strong>
+        </div>
+
+        <div class="signing-step-content">
+
+            <span class="signing-step-eyebrow">
+                SLUTLIG BEKRÄFTELSE
+            </span>
+
+            <h4>
+                Kontrollera och slutför
+            </h4>
+
+            <p class="final-signing-intro">
+                Innan avtalet registreras behöver du
+                bekräfta att du vill ingå avtalet genom
+                din elektroniska signatur.
+            </p>
+
+            <label
+                class="final-signing-confirmation"
+            >
+
+                <input
+                    type="checkbox"
+                    id="confirmElectronicSignature"
+                >
+
+                <span>
+                    Jag bekräftar att uppgifterna är
+                    korrekta och att jag genom min
+                    elektroniska signatur accepterar
+                    detta avtal.
+                </span>
+
+            </label>
+
+            <button
+                type="button"
+                id="signContractButton"
+                class="secure-sign-button"
+                disabled
+            >
+                Jag godkänner och signerar avtalet
+            </button>
+
+            <p
+                id="signingStatus"
+                class="signing-message"
+            ></p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SUCCESS
+    ========================================== -->
+
+    <section
+        id="signingSuccess"
+        class="signing-success"
+        hidden
+    >
+
+        <div class="signing-success-icon">
+            ✓
+        </div>
+
+        <span class="signing-success-eyebrow">
+            SIGNERINGEN ÄR KLAR
+        </span>
+
+        <h3>
+            Tack för ditt förtroende
+        </h3>
+
+        <p class="signing-success-lead">
+            Ditt avtal är nu elektroniskt signerat
+            och registrerat.
+        </p>
+
+        <div class="signing-success-details">
+            <p>
+                En signerad PDF-kopia har skickats
+                till den e-postadress som är
+                registrerad i avtalet.
+            </p>
+
+            <p>
+                När ett mobilnummer finns registrerat
+                skickas även en bekräftelse via SMS.
+            </p>
+        </div>
+
+        <p class="signing-success-thanks">
+            Tack för att du har valt
+            <strong>J&W Quality Hemservice</strong>.
+            Vi ser fram emot ett tryggt och långsiktigt
+            samarbete med dig.
+        </p>
+
+        <strong class="signing-success-welcome">
+            Varmt välkommen till J&W Quality Hemservice!
+        </strong>
+
+    </section>
+
+</div>
+
+
+                  </section>
 
 
         <!-- =================================================

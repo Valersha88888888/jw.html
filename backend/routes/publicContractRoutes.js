@@ -6,86 +6,143 @@ const rateLimit =
 
 const {
     getPublicContractController,
-    startBankIdController,
-    collectBankIdController,
-    getBankIdQrController
-} = require("../controllers/publicContractController");
+    requestOtpController,
+    verifyOtpController,
+    signContractController
+} = require(
+    "../controllers/publicContractController"
+);
 
 const router =
     express.Router();
 
+
+/*
+ * =========================================================
+ * PUBLIC CONTRACT
+ * =========================================================
+ */
 
 const publicContractLimiter =
     rateLimit({
         windowMs:
             15 * 60 * 1000,
 
-        limit: 100,
+        limit:
+            100,
 
-        standardHeaders: true,
-        legacyHeaders: false,
+        standardHeaders:
+            true,
+
+        legacyHeaders:
+            false,
 
         message: {
-            success: false,
+            success:
+                false,
+
             message:
                 "För många förfrågningar. Försök igen senare."
         }
     });
 
 
-const bankIdStartLimiter =
+/*
+ * =========================================================
+ * OTP REQUEST
+ * =========================================================
+ */
+
+const otpRequestLimiter =
     rateLimit({
         windowMs:
             10 * 60 * 1000,
 
-        limit: 10,
+        limit:
+            5,
 
-        standardHeaders: true,
-        legacyHeaders: false,
+        standardHeaders:
+            true,
+
+        legacyHeaders:
+            false,
 
         message: {
-            success: false,
+            success:
+                false,
+
             message:
-                "För många BankID-försök. Vänta en stund och försök igen."
+                "För många verifieringskoder har begärts. Försök igen senare."
         }
     });
 
 
+/*
+ * =========================================================
+ * OTP VERIFY
+ * =========================================================
+ */
 
-const bankIdQrLimiter =
+const otpVerifyLimiter =
+    rateLimit({
+        windowMs:
+            10 * 60 * 1000,
+
+        limit:
+            10,
+
+        standardHeaders:
+            true,
+
+        legacyHeaders:
+            false,
+
+        message: {
+            success:
+                false,
+
+            message:
+                "För många verifieringsförsök. Försök igen senare."
+        }
+    });
+
+
+/*
+ * =========================================================
+ * ELECTRONIC SIGNING
+ * =========================================================
+ */
+
+const signLimiter =
     rateLimit({
         windowMs:
             15 * 60 * 1000,
 
-        limit: 1200,
+        limit:
+            10,
 
-        standardHeaders: true,
-        legacyHeaders: false,
+        standardHeaders:
+            true,
+
+        legacyHeaders:
+            false,
 
         message: {
-            success: false,
+            success:
+                false,
+
             message:
-                "För många QR-förfrågningar. Försök igen senare."
+                "För många signeringsförsök. Vänta en stund och försök igen."
         }
     });
 
 
-const bankIdCollectLimiter =
-    rateLimit({
-        windowMs:
-            15 * 60 * 1000,
+/*
+ * =========================================================
+ * ROUTES
+ * =========================================================
+ */
 
-        limit: 600,
-
-        standardHeaders: true,
-        legacyHeaders: false,
-
-        message: {
-            success: false,
-            message:
-                "För många BankID-statusförfrågningar. Försök igen senare."
-        }
-    });
 router.get(
     "/contracts/:token",
     publicContractLimiter,
@@ -94,24 +151,25 @@ router.get(
 
 
 router.post(
-    "/contracts/:token/bankid/start",
-    bankIdStartLimiter,
-    startBankIdController
+    "/contracts/:token/otp/request",
+    otpRequestLimiter,
+    requestOtpController
 );
 
 
 router.post(
-    "/contracts/:token/bankid/collect",
-    bankIdCollectLimiter,
-    collectBankIdController
+    "/contracts/:token/otp/verify",
+    otpVerifyLimiter,
+    verifyOtpController
 );
 
 
-
-router.get(
-    "/contracts/:token/bankid/qr",
-    bankIdQrLimiter,
-    getBankIdQrController
+router.post(
+    "/contracts/:token/sign",
+    signLimiter,
+    signContractController
 );
 
-module.exports = router;
+
+module.exports =
+    router;

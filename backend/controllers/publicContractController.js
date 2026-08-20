@@ -1,29 +1,42 @@
 const crypto = require("crypto");
-const QRCode = require("qrcode");
+const fs = require("fs");
+
+const {
+    generateOtpCode,
+    hashOtpCode,
+    verifyOtpCode,
+    getOtpExpiryDate
+} = require("../services/contractOtpService");
 
 const {
     getContractByToken
 } = require("../services/contractService");
 
 const {
-    startSign,
-    collectSign
-} = require("../services/bankidService");
+    pool
+} = require("../config/db");
 
-const { pool } = require("../config/db");
 const {
     generateSignedContractPDF
 } = require("../services/contractPdfService");
 
 const {
-    sendSignedContractEmail
+    sendContractOtpEmail,
+    sendSignedContractEmail,
+    sendManagerSignedContractEmail
 } = require("../services/contractEmailService");
 
 const {
-    sendSignedContractSMS
+    sendSignedContractSMS,
+    sendManagerSignedContractSMS
 } = require("../services/contractSmsService");
 
 
+/*
+ * =========================================================
+ * HELPERS
+ * =========================================================
+ */
 
 function maskPersonnummer(value) {
     if (!value) {
@@ -50,17 +63,6 @@ function maskPersonnummer(value) {
 }
 
 
-function normalizePersonnummer(value) {
-    if (!value) {
-        return "";
-    }
-
-    return String(value)
-        .replace(/\D/g, "")
-        .trim();
-}
-
-
 function getEndUserIp(req) {
     const forwarded =
         req.headers["x-forwarded-for"];
@@ -79,6 +81,81 @@ function getEndUserIp(req) {
         "::ffff:",
         ""
     );
+}
+
+
+function normalizeName(value) {
+    return String(value || "")
+        .normalize("NFKC")
+        .trim()
+        .replace(/\s+/g, " ")
+        .toLocaleLowerCase("sv-SE");
+}
+
+
+function isContractExpired(contract) {
+    return Boolean(
+        contract.token_expires_at &&
+        new Date(
+            contract.token_expires_at
+        ) < new Date()
+    );
+}
+
+
+function isOtpExpired(contract) {
+    return Boolean(
+        contract.otp_expires_at &&
+        new Date(
+            contract.otp_expires_at
+        ) < new Date()
+    );
+}
+
+
+function validateSignatureImage(
+    signatureImage
+) {
+    if (
+        typeof signatureImage !==
+        "string"
+    ) {
+        return null;
+    }
+
+    const match =
+        signatureImage.match(
+            /^data:image\/png;base64,([A-Za-z0-9+/=]+)$/
+        );
+
+    if (!match) {
+        return null;
+    }
+
+    let buffer;
+
+    try {
+        buffer =
+            Buffer.from(
+                match[1],
+                "base64"
+            );
+    } catch {
+        return null;
+    }
+
+    /*
+     * Minsta storlek gör det svårare att
+     * skicka en tom eller obetydlig bild.
+     */
+    if (
+        buffer.length < 200 ||
+        buffer.length > 2 * 1024 * 1024
+    ) {
+        return null;
+    }
+
+    return buffer;
 }
 
 
@@ -110,6 +187,12 @@ async function addPublicEvent(
 }
 
 
+/*
+ * =========================================================
+ * PUBLIC CONTRACT
+ * =========================================================
+ */
+
 async function getPublicContractController(
     req,
     res
@@ -124,7 +207,7 @@ async function getPublicContractController(
             return res.status(400).json({
                 success: false,
                 message:
-                    "Ogiltig avtalslänk."
+                    "Avtalslänken är ogiltig."
             });
         }
 
@@ -142,10 +225,9 @@ async function getPublicContractController(
         }
 
         if (
-            contract.token_expires_at &&
-            new Date(
-                contract.token_expires_at
-            ) < new Date() &&
+            isContractExpired(
+                contract
+            ) &&
             contract.status !== "signed"
         ) {
             return res.status(410).json({
@@ -156,8 +238,7 @@ async function getPublicContractController(
         }
 
         if (
-            contract.status ===
-            "draft"
+            contract.status === "draft"
         ) {
             return res.status(403).json({
                 success: false,
@@ -179,7 +260,9 @@ async function getPublicContractController(
                     updated_at = NOW()
                 WHERE id = $1
                 `,
-                [contract.id]
+                [
+                    contract.id
+                ]
             );
 
             await addPublicEvent(
@@ -194,7 +277,7 @@ async function getPublicContractController(
                 token
             );
 
-        res.json({
+        return res.json({
             success: true,
 
             contract: {
@@ -204,12 +287,13 @@ async function getPublicContractController(
                 status:
                     latest.status,
 
-                customerName: [
-                    latest.customer_first_name,
-                    latest.customer_last_name
-                ]
-                    .filter(Boolean)
-                    .join(" "),
+                customerName:
+                    [
+                        latest.customer_first_name,
+                        latest.customer_last_name
+                    ]
+                        .filter(Boolean)
+                        .join(" "),
 
                 customerPersonnummer:
                     maskPersonnummer(
@@ -222,21 +306,23 @@ async function getPublicContractController(
                 customerPhone:
                     latest.customer_phone,
 
-                customerAddress: [
-                    latest.customer_address,
-                    latest.customer_postal_code,
-                    latest.customer_city
-                ]
-                    .filter(Boolean)
-                    .join(", "),
+                customerAddress:
+                    [
+                        latest.customer_address,
+                        latest.customer_postal_code,
+                        latest.customer_city
+                    ]
+                        .filter(Boolean)
+                        .join(", "),
 
-                serviceAddress: [
-                    latest.service_address,
-                    latest.service_postal_code,
-                    latest.service_city
-                ]
-                    .filter(Boolean)
-                    .join(", "),
+                serviceAddress:
+                    [
+                        latest.service_address,
+                        latest.service_postal_code,
+                        latest.service_city
+                    ]
+                        .filter(Boolean)
+                        .join(", "),
 
                 serviceAreaM2:
                     latest.service_area_m2,
@@ -289,15 +375,29 @@ async function getPublicContractController(
                 companyApprovedName:
                     latest.company_approved_name,
 
+                otpVerified:
+                    Boolean(
+                        latest.otp_verified_at
+                    ) &&
+                    !isOtpExpired(
+                        latest
+                    ),
+
+                signedName:
+                    latest.signed_name,
+
                 signedAt:
                     latest.signed_at
             }
         });
 
     } catch (error) {
-        console.error(error);
+        console.error(
+            "Public contract error:",
+            error
+        );
 
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message:
                 "Avtalet kunde inte laddas."
@@ -306,7 +406,13 @@ async function getPublicContractController(
 }
 
 
-async function startBankIdController(
+/*
+ * =========================================================
+ * OTP REQUEST
+ * =========================================================
+ */
+
+async function requestOtpController(
     req,
     res
 ) {
@@ -315,6 +421,14 @@ async function startBankIdController(
             String(
                 req.params.token || ""
             ).trim();
+
+        if (!token) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Avtalslänken är ogiltig."
+            });
+        }
 
         const contract =
             await getContractByToken(
@@ -330,566 +444,12 @@ async function startBankIdController(
         }
 
         if (
-            contract.status ===
-            "draft"
+            contract.status === "draft"
         ) {
             return res.status(403).json({
                 success: false,
                 message:
                     "Avtalet har ännu inte skickats."
-            });
-        }
-
-        if (
-            contract.status ===
-            "signed"
-        ) {
-            return res.status(409).json({
-                success: false,
-                message:
-                    "Avtalet är redan signerat."
-            });
-        }
-
-        if (
-            contract.token_expires_at &&
-            new Date(
-                contract.token_expires_at
-            ) < new Date()
-        ) {
-            return res.status(410).json({
-                success: false,
-                message:
-                    "Avtalslänken har gått ut."
-            });
-        }
-
-        const endUserIp =
-            getEndUserIp(req);
-
-        if (!endUserIp) {
-            return res.status(400).json({
-                success: false,
-                message:
-                    "Kundens IP-adress kunde inte fastställas."
-            });
-        }
-
-        const visibleText =
-`J&W Quality Hemservice
-
-Du signerar avtal:
-${contract.contract_number}
-
-Tjänst:
-Återkommande hemstädning
-
-Viktiga villkor:
-- 149 kr/timme efter preliminärt RUT-avdrag för de första 3 städtillfällena.
-- 250 kr/timme efter preliminärt RUT-avdrag från städtillfälle 4.
-- Bindningstid: 12 månader.
-- Därefter: 30 dagars uppsägningstid.
-- Ombokning eller avbokning ska ske senast 24 timmar före bokad starttid enligt avtalsvillkoren.
-
-Genom signeringen bekräftar du att du har läst och accepterat avtalet.`;
-
-        const nonVisibleText =
-            JSON.stringify({
-                contractNumber:
-                    contract.contract_number,
-
-                contractVersion:
-                    contract.contract_version,
-
-                contractHash:
-                    contract.contract_hash
-            });
-
-        const bankIdResult =
-            await startSign({
-                endUserIp,
-                visibleText,
-                nonVisibleText
-            });
-
-        await pool.query(
-            `
-            UPDATE contracts
-            SET
-                bankid_order_ref = $2,
-                bankid_qr_start_token = $3,
-                bankid_qr_start_secret = $4,
-                bankid_started_at = NOW(),
-                status = 'signing',
-                updated_at = NOW()
-            WHERE id = $1
-            `,
-            [
-                contract.id,
-                bankIdResult.orderRef,
-                bankIdResult.qrStartToken,
-                bankIdResult.qrStartSecret
-            ]
-        );
-
-        await addPublicEvent(
-            contract.id,
-            "bankid_started",
-            "BankID-signering startades.",
-            {
-                orderRef:
-                    bankIdResult.orderRef
-            }
-        );
-
-        res.json({
-            success: true,
-
-            bankId: {
-                orderRef:
-                    bankIdResult.orderRef,
-
-                autoStartToken:
-                    bankIdResult.autoStartToken
-            }
-        });
-
-    } catch (error) {
-        console.error(
-            "BankID start error:",
-            error
-        );
-
-        res.status(
-            error.statusCode || 500
-        ).json({
-            success: false,
-
-            message:
-                error.bankId?.details ||
-                error.message ||
-                "BankID-signeringen kunde inte startas.",
-
-            bankIdError:
-                error.bankId?.errorCode ||
-                null
-        });
-    }
-}
-
-
-async function collectBankIdController(
-    req,
-    res
-) {
-    try {
-        const token =
-            String(
-                req.params.token || ""
-            ).trim();
-
-        const contract =
-            await getContractByToken(
-                token
-            );
-
-        if (!contract) {
-            return res.status(404).json({
-                success: false,
-                message:
-                    "Avtalet kunde inte hittas."
-            });
-        }
-
-        if (
-            contract.status ===
-            "signed"
-        ) {
-            return res.json({
-                success: true,
-                status: "complete",
-                alreadySigned: true
-            });
-        }
-
-        if (
-            !contract.bankid_order_ref
-        ) {
-            return res.status(409).json({
-                success: false,
-                message:
-                    "Ingen aktiv BankID-signering finns för avtalet."
-            });
-        }
-
-        const result =
-            await collectSign(
-                contract.bankid_order_ref
-            );
-
-        if (
-            result.status ===
-            "pending"
-        ) {
-            return res.json({
-                success: true,
-                status: "pending",
-                hintCode:
-                    result.hintCode ||
-                    null
-            });
-        }
-
-        if (
-            result.status ===
-            "failed"
-        ) {
-            await pool.query(
-                `
-                UPDATE contracts
-                SET
-                    status = 'opened',
-                    bankid_order_ref = NULL,
-                    bankid_qr_start_token = NULL,
-                    bankid_qr_start_secret = NULL,
-                    bankid_started_at = NULL,
-                    updated_at = NOW()
-                WHERE id = $1
-                `,
-                [contract.id]
-            );
-
-            await addPublicEvent(
-                contract.id,
-                "bankid_failed",
-                "BankID-signeringen misslyckades eller avbröts.",
-                {
-                    hintCode:
-                        result.hintCode ||
-                        null
-                }
-            );
-
-            return res.json({
-                success: true,
-                status: "failed",
-                hintCode:
-                    result.hintCode ||
-                    null
-            });
-        }
-
-        if (
-            result.status !==
-            "complete"
-        ) {
-            return res.json({
-                success: true,
-                status:
-                    result.status ||
-                    "unknown"
-            });
-        }
-
-        const completionData =
-            result.completionData;
-
-        const bankIdUser =
-            completionData?.user;
-
-        if (
-            !bankIdUser ||
-            !bankIdUser.personalNumber
-        ) {
-            throw new Error(
-                "BankID returnerade ingen verifierad användare."
-            );
-        }
-
-        const expectedPersonnummer =
-            normalizePersonnummer(
-                contract.customer_personnummer
-            );
-
-        const signedPersonnummer =
-            normalizePersonnummer(
-                bankIdUser.personalNumber
-            );
-
-        if (
-            expectedPersonnummer &&
-            expectedPersonnummer !==
-                signedPersonnummer
-        ) {
-            await addPublicEvent(
-                contract.id,
-                "bankid_identity_mismatch",
-                "BankID-identiteten matchade inte avtalets kund.",
-                {
-                    signedName:
-                        bankIdUser.name,
-
-                    signedPersonnummer:
-                        signedPersonnummer
-                }
-            );
-
-            return res.status(409).json({
-                success: false,
-                message:
-                    "BankID-identiteten matchar inte den person som står på avtalet."
-            });
-        }
-
-        const updated =
-            await pool.query(
-                `
-                UPDATE contracts
-                SET
-                    status = 'signed',
-
-                    signed_name = $2,
-                    signed_personnummer = $3,
-                    signed_at = NOW(),
-
-                    bankid_signature = $4,
-                    bankid_ocsp_response = $5,
-
-                    updated_at = NOW()
-                WHERE id = $1
-                RETURNING *
-                `,
-                [
-                    contract.id,
-
-                    bankIdUser.name,
-
-                    bankIdUser.personalNumber,
-
-                    completionData.signature,
-
-                    completionData.ocspResponse
-                ]
-            );
-
-        await addPublicEvent(
-            contract.id,
-            "signed",
-            "Avtalet signerades med BankID.",
-            {
-                signedName:
-                    bankIdUser.name,
-
-                deviceIp:
-                    completionData.device
-                        ?.ipAddress ||
-                    null
-            }
-        );
-
-        const signedContract =
-            updated.rows[0];
-
-        let signedPdf = null;
-
-        try {
-            signedPdf =
-                await generateSignedContractPDF(
-                    signedContract
-                );
-
-            const pdfUpdate =
-                await pool.query(
-                    `
-                    UPDATE contracts
-                    SET
-                        pdf_path = $2,
-                        pdf_hash = $3,
-                        updated_at = NOW()
-                    WHERE id = $1
-                    RETURNING *
-                    `,
-                    [
-                        signedContract.id,
-                        signedPdf.outputPath,
-                        signedPdf.pdfHash
-                    ]
-                );
-
-            Object.assign(
-                signedContract,
-                pdfUpdate.rows[0]
-            );
-
-            await addPublicEvent(
-                signedContract.id,
-                "signed_pdf_created",
-                "Signerad PDF skapades.",
-                {
-                    pdfHash:
-                        signedPdf.pdfHash
-                }
-            );
-
-        } catch (error) {
-            console.error(
-                "Signed PDF generation failed:",
-                error
-            );
-
-            await addPublicEvent(
-                signedContract.id,
-                "signed_pdf_failed",
-                "Signerad PDF kunde inte skapas.",
-                {
-                    error:
-                        error.message
-                }
-            );
-        }
-
-
-        if (signedPdf) {
-            try {
-                await sendSignedContractEmail(
-                    signedContract,
-                    signedPdf.outputPath
-                );
-
-                await addPublicEvent(
-                    signedContract.id,
-                    "signed_email_sent",
-                    "Signerad avtalskopia skickades via e-post."
-                );
-
-            } catch (error) {
-                console.error(
-                    "Signed contract email failed:",
-                    error
-                );
-
-                await addPublicEvent(
-                    signedContract.id,
-                    "signed_email_failed",
-                    "Signerad avtalskopia kunde inte skickas via e-post.",
-                    {
-                        error:
-                            error.message
-                    }
-                );
-            }
-        }
-
-
-        try {
-            const smsResult =
-                await sendSignedContractSMS(
-                    signedContract
-                );
-
-            if (smsResult?.skipped) {
-                await addPublicEvent(
-                    signedContract.id,
-                    "signed_sms_skipped",
-                    "SMS efter signering skickades inte.",
-                    {
-                        reason:
-                            smsResult.reason ||
-                            null
-                    }
-                );
-
-            } else {
-                await addPublicEvent(
-                    signedContract.id,
-                    "signed_sms_sent",
-                    "Bekräftelse efter signering skickades via SMS."
-                );
-            }
-
-        } catch (error) {
-            console.error(
-                "Signed contract SMS failed:",
-                error
-            );
-
-            await addPublicEvent(
-                signedContract.id,
-                "signed_sms_failed",
-                "SMS efter signering kunde inte skickas.",
-                {
-                    error:
-                        error.message
-                }
-            );
-        }
-
-        res.json({
-            success: true,
-
-            status: "complete",
-
-            contract: {
-                contractNumber:
-                    updated.rows[0]
-                        .contract_number,
-
-                status:
-                    updated.rows[0]
-                        .status,
-
-                signedName:
-                    updated.rows[0]
-                        .signed_name,
-
-                signedAt:
-                    updated.rows[0]
-                        .signed_at
-            }
-        });
-
-    } catch (error) {
-        console.error(
-            "BankID collect error:",
-            error
-        );
-
-        res.status(
-            error.statusCode || 500
-        ).json({
-            success: false,
-
-            message:
-                error.bankId?.details ||
-                error.message ||
-                "BankID-status kunde inte hämtas.",
-
-            bankIdError:
-                error.bankId?.errorCode ||
-                null
-        });
-    }
-}
-
-
-
-async function getBankIdQrController(req, res) {
-    try {
-        const token =
-            String(
-                req.params.token || ""
-            ).trim();
-
-        const contract =
-            await getContractByToken(
-                token
-            );
-
-        if (!contract) {
-            return res.status(404).json({
-                success: false,
-                message:
-                    "Avtalet kunde inte hittas."
             });
         }
 
@@ -904,84 +464,1089 @@ async function getBankIdQrController(req, res) {
         }
 
         if (
-            !contract.bankid_qr_start_token ||
-            !contract.bankid_qr_start_secret ||
-            !contract.bankid_started_at
+            isContractExpired(
+                contract
+            )
         ) {
-            return res.status(409).json({
+            return res.status(410).json({
                 success: false,
                 message:
-                    "Ingen aktiv BankID-signering finns."
+                    "Avtalslänken har gått ut."
             });
         }
 
-        const startedAt =
-            new Date(
-                contract.bankid_started_at
-            ).getTime();
+        if (!contract.customer_email) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Kundens e-postadress saknas."
+            });
+        }
 
-        const elapsedSeconds =
-            Math.max(
-                0,
-                Math.floor(
-                    (
-                        Date.now() -
-                        startedAt
-                    ) / 1000
-                )
-            ).toString();
+        const otpCode =
+            generateOtpCode();
 
-        const qrAuthCode =
-            crypto
-                .createHmac(
-                    "sha256",
-                    contract.bankid_qr_start_secret
-                )
-                .update(
-                    elapsedSeconds
-                )
-                .digest("hex");
-
-        const qrData =
-            [
-                "bankid",
-                contract.bankid_qr_start_token,
-                elapsedSeconds,
-                qrAuthCode
-            ].join(".");
-
-        const qrImage =
-            await QRCode.toDataURL(
-                qrData,
-                {
-                    errorCorrectionLevel: "L",
-                    width: 320,
-                    margin: 3
-                }
+        const otpHash =
+            await hashOtpCode(
+                otpCode
             );
 
-        res.json({
+        const otpExpiresAt =
+            getOtpExpiryDate();
+
+        await pool.query(
+            `
+            UPDATE contracts
+            SET
+                otp_hash = $2,
+                otp_expires_at = $3,
+                otp_verified_at = NULL,
+                otp_attempts = 0,
+                updated_at = NOW()
+            WHERE id = $1
+            `,
+            [
+                contract.id,
+                otpHash,
+                otpExpiresAt
+            ]
+        );
+
+        try {
+            await sendContractOtpEmail(
+                contract,
+                otpCode
+            );
+
+        } catch (error) {
+            await pool.query(
+                `
+                UPDATE contracts
+                SET
+                    otp_hash = NULL,
+                    otp_expires_at = NULL,
+                    otp_verified_at = NULL,
+                    otp_attempts = 0,
+                    updated_at = NOW()
+                WHERE id = $1
+                `,
+                [
+                    contract.id
+                ]
+            );
+
+            throw error;
+        }
+
+        await addPublicEvent(
+            contract.id,
+            "otp_requested",
+            "Verifieringskod skickades till kundens e-post.",
+            {
+                channel:
+                    "email",
+
+                expiresAt:
+                    otpExpiresAt.toISOString()
+            }
+        );
+
+        return res.json({
             success: true,
-            qrImage
+
+            message:
+                "Verifieringskoden har skickats till din e-post."
         });
 
     } catch (error) {
         console.error(
-            "BankID QR error:",
+            "OTP request error:",
             error
         );
 
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
+
             message:
-                "QR-koden kunde inte genereras."
+                "Verifieringskoden kunde inte skickas."
         });
     }
 }
 
+
+/*
+ * =========================================================
+ * OTP VERIFY
+ * =========================================================
+ */
+
+async function verifyOtpController(
+    req,
+    res
+) {
+    try {
+        const token =
+            String(
+                req.params.token || ""
+            ).trim();
+
+        const code =
+            String(
+                req.body?.code || ""
+            ).trim();
+
+        if (!token) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Avtalslänken är ogiltig."
+            });
+        }
+
+        if (
+            !/^\d{6}$/.test(
+                code
+            )
+        ) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Ange en giltig sexsiffrig verifieringskod."
+            });
+        }
+
+        const contract =
+            await getContractByToken(
+                token
+            );
+
+        if (!contract) {
+            return res.status(404).json({
+                success: false,
+                message:
+                    "Avtalet kunde inte hittas."
+            });
+        }
+
+        if (
+            contract.status === "draft"
+        ) {
+            return res.status(403).json({
+                success: false,
+                message:
+                    "Avtalet har ännu inte skickats."
+            });
+        }
+
+        if (
+            contract.status === "signed"
+        ) {
+            return res.status(409).json({
+                success: false,
+                message:
+                    "Avtalet är redan signerat."
+            });
+        }
+
+        if (
+            isContractExpired(
+                contract
+            )
+        ) {
+            return res.status(410).json({
+                success: false,
+                message:
+                    "Avtalslänken har gått ut."
+            });
+        }
+
+        if (
+            !contract.otp_hash ||
+            !contract.otp_expires_at
+        ) {
+            return res.status(409).json({
+                success: false,
+                message:
+                    "Ingen aktiv verifieringskod finns. Begär en ny kod."
+            });
+        }
+
+        const attempts =
+            Number(
+                contract.otp_attempts || 0
+            );
+
+        if (
+            attempts >= 5
+        ) {
+            return res.status(429).json({
+                success: false,
+                message:
+                    "För många felaktiga försök. Begär en ny verifieringskod."
+            });
+        }
+
+        if (
+            isOtpExpired(
+                contract
+            )
+        ) {
+            return res.status(410).json({
+                success: false,
+                message:
+                    "Verifieringskoden har gått ut. Begär en ny kod."
+            });
+        }
+
+        const valid =
+            await verifyOtpCode(
+                code,
+                contract.otp_hash
+            );
+
+        if (!valid) {
+            await pool.query(
+                `
+                UPDATE contracts
+                SET
+                    otp_attempts =
+                        otp_attempts + 1,
+                    updated_at = NOW()
+                WHERE id = $1
+                `,
+                [
+                    contract.id
+                ]
+            );
+
+            await addPublicEvent(
+                contract.id,
+                "otp_failed",
+                "Felaktig verifieringskod angavs.",
+                {
+                    attempt:
+                        attempts + 1
+                }
+            );
+
+            return res.status(401).json({
+                success: false,
+                message:
+                    "Verifieringskoden är felaktig."
+            });
+        }
+
+        const updated =
+            await pool.query(
+                `
+                UPDATE contracts
+                SET
+                    otp_verified_at = NOW(),
+                    otp_attempts = 0,
+                    signer_email = customer_email,
+                    signer_phone = customer_phone,
+                    updated_at = NOW()
+                WHERE id = $1
+                RETURNING
+                    otp_verified_at
+                `,
+                [
+                    contract.id
+                ]
+            );
+
+        await addPublicEvent(
+            contract.id,
+            "otp_verified",
+            "Kundens e-postadress verifierades med engångskod.",
+            {
+                verifiedAt:
+                    updated
+                        .rows[0]
+                        .otp_verified_at
+            }
+        );
+
+        return res.json({
+            success: true,
+
+            verified: true,
+
+            verifiedAt:
+                updated
+                    .rows[0]
+                    .otp_verified_at,
+
+            message:
+                "Verifieringen lyckades."
+        });
+
+    } catch (error) {
+        console.error(
+            "OTP verify error:",
+            error
+        );
+
+        return res.status(500).json({
+            success: false,
+
+            message:
+                "Verifieringen kunde inte genomföras."
+        });
+    }
+}
+
+
+/*
+ * =========================================================
+ * ELECTRONIC SIGNING
+ * =========================================================
+ */
+
+async function signContractController(
+    req,
+    res
+) {
+    const client =
+        await pool.connect();
+
+    let signedContract =
+        null;
+
+    let signedPdf =
+        null;
+
+    try {
+        const token =
+            String(
+                req.params.token || ""
+            ).trim();
+
+        const signedName =
+            String(
+                req.body?.signedName || ""
+            )
+                .trim()
+                .replace(/\s+/g, " ");
+
+        const signatureImage =
+            String(
+                req.body?.signatureImage || ""
+            );
+
+        const consents =
+            req.body?.consents || {};
+
+        const electronicSignatureAccepted =
+            req.body
+                ?.electronicSignatureAccepted ===
+            true;
+
+        if (!token) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Avtalslänken är ogiltig."
+            });
+        }
+
+        if (signedName.length < 2) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Ange ditt fullständiga namn."
+            });
+        }
+
+        const allConsentsAccepted =
+            consents.read === true &&
+            consents.binding === true &&
+            consents.price === true &&
+            consents.cancellation === true &&
+            consents.withdrawal === true;
+
+        if (!allConsentsAccepted) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Samtliga avtalsvillkor måste bekräftas innan avtalet kan signeras."
+            });
+        }
+
+        if (
+            !electronicSignatureAccepted
+        ) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Du måste bekräfta att du accepterar avtalet genom din elektroniska signatur."
+            });
+        }
+
+        const signatureBuffer =
+            validateSignatureImage(
+                signatureImage
+            );
+
+        if (!signatureBuffer) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Signaturen är ogiltig eller kunde inte läsas."
+            });
+        }
+
+        await client.query(
+            "BEGIN"
+        );
+
+        const result =
+            await client.query(
+                `
+                SELECT *
+                FROM contracts
+                WHERE public_token = $1
+                FOR UPDATE
+                `,
+                [
+                    token
+                ]
+            );
+
+        const contract =
+            result.rows[0];
+
+        if (!contract) {
+            await client.query(
+                "ROLLBACK"
+            );
+
+            return res.status(404).json({
+                success: false,
+                message:
+                    "Avtalet kunde inte hittas."
+            });
+        }
+
+        if (
+            contract.status === "draft"
+        ) {
+            await client.query(
+                "ROLLBACK"
+            );
+
+            return res.status(403).json({
+                success: false,
+                message:
+                    "Avtalet har ännu inte skickats."
+            });
+        }
+
+        if (
+            contract.status === "signed"
+        ) {
+            await client.query(
+                "ROLLBACK"
+            );
+
+            return res.status(409).json({
+                success: false,
+                message:
+                    "Avtalet är redan signerat."
+            });
+        }
+
+        if (
+            isContractExpired(
+                contract
+            )
+        ) {
+            await client.query(
+                "ROLLBACK"
+            );
+
+            return res.status(410).json({
+                success: false,
+                message:
+                    "Avtalslänken har gått ut."
+            });
+        }
+
+        if (
+            !contract.otp_verified_at ||
+            !contract.otp_hash ||
+            !contract.otp_expires_at
+        ) {
+            await client.query(
+                "ROLLBACK"
+            );
+
+            return res.status(403).json({
+                success: false,
+                message:
+                    "E-postadressen måste verifieras innan avtalet kan signeras."
+            });
+        }
+
+        if (
+            isOtpExpired(
+                contract
+            )
+        ) {
+            await client.query(
+                "ROLLBACK"
+            );
+
+            return res.status(410).json({
+                success: false,
+                message:
+                    "Verifieringen har gått ut. Begär en ny verifieringskod."
+            });
+        }
+
+        const expectedName =
+            [
+                contract.customer_first_name,
+                contract.customer_last_name
+            ]
+                .filter(Boolean)
+                .join(" ");
+
+        if (
+            normalizeName(
+                expectedName
+            ) !==
+            normalizeName(
+                signedName
+            )
+        ) {
+            await client.query(
+                "ROLLBACK"
+            );
+
+            return res.status(409).json({
+                success: false,
+                message:
+                    "Namnet måste stämma överens med personen som står på avtalet."
+            });
+        }
+
+        const signerIp =
+            getEndUserIp(
+                req
+            );
+
+        const signerUserAgent =
+            String(
+                req.headers[
+                    "user-agent"
+                ] || ""
+            ).slice(
+                0,
+                1000
+            );
+
+        const signatureHash =
+            crypto
+                .createHash(
+                    "sha256"
+                )
+                .update(
+                    signatureBuffer
+                )
+                .digest(
+                    "hex"
+                );
+
+        const signedAt =
+            new Date();
+
+        const signingEvidence = {
+            version:
+                1,
+
+            method:
+                "email_otp_drawn_signature",
+
+            contractNumber:
+                contract.contract_number,
+
+            contractVersion:
+                contract.contract_version,
+
+            contractHash:
+                contract.contract_hash,
+
+            signedName,
+
+            verifiedEmail:
+                contract.customer_email,
+
+            verifiedPhone:
+                contract.customer_phone ||
+                null,
+
+            otpVerifiedAt:
+                contract.otp_verified_at,
+
+            signedAt:
+                signedAt.toISOString(),
+
+            signatureHash,
+
+            ipAddress:
+                signerIp ||
+                null,
+
+            userAgent:
+                signerUserAgent ||
+                null,
+
+            consents: {
+                read:
+                    true,
+
+                binding:
+                    true,
+
+                price:
+                    true,
+
+                cancellation:
+                    true,
+
+                withdrawal:
+                    true,
+
+                electronicSignature:
+                    true
+            }
+        };
+
+        const updated =
+            await client.query(
+                `
+                UPDATE contracts
+                SET
+                    status = 'signed',
+
+                    signature_method =
+                        'email_otp_drawn_signature',
+
+                    signature_image = $2,
+                    signature_hash = $3,
+
+                    signer_email =
+                        customer_email,
+
+                    signer_phone =
+                        customer_phone,
+
+                    signer_ip = $4,
+                    signer_user_agent = $5,
+
+                    consent_read = TRUE,
+                    consent_binding = TRUE,
+                    consent_price = TRUE,
+                    consent_cancellation = TRUE,
+                    consent_withdrawal = TRUE,
+                    consent_accepted_at = $6,
+
+                    signed_name = $7,
+                    signed_at = $6,
+
+                    signing_evidence = $8::jsonb,
+
+                    otp_hash = NULL,
+                    otp_expires_at = NULL,
+
+                    updated_at = NOW()
+
+                WHERE id = $1
+
+                RETURNING *
+                `,
+                [
+                    contract.id,
+                    signatureImage,
+                    signatureHash,
+                    signerIp,
+                    signerUserAgent,
+                    signedAt,
+                    signedName,
+                    JSON.stringify(
+                        signingEvidence
+                    )
+                ]
+            );
+
+        signedContract =
+            updated.rows[0];
+
+        await client.query(
+            `
+            INSERT INTO contract_events (
+                contract_id,
+                event_type,
+                description,
+                metadata
+            )
+            VALUES ($1, $2, $3, $4)
+            `,
+            [
+                signedContract.id,
+
+                "signed",
+
+                "Avtalet signerades elektroniskt efter verifiering med engångskod.",
+
+                JSON.stringify({
+                    method:
+                        signingEvidence.method,
+
+                    signedName,
+
+                    signatureHash,
+
+                    signedAt:
+                        signedAt.toISOString()
+                })
+            ]
+        );
+
+        await client.query(
+            "COMMIT"
+        );
+
+    } catch (error) {
+        try {
+            await client.query(
+                "ROLLBACK"
+            );
+        } catch {
+            // Ignore rollback error.
+        }
+
+        console.error(
+            "Electronic signing error:",
+            error
+        );
+
+        return res.status(500).json({
+            success: false,
+
+            message:
+                "Avtalet kunde inte signeras."
+        });
+
+    } finally {
+        client.release();
+    }
+
+
+    /*
+     * =====================================================
+     * PDF
+     * =====================================================
+     */
+
+    try {
+        signedPdf =
+            await generateSignedContractPDF(
+                signedContract
+            );
+
+        const pdfBuffer =
+            await fs.promises.readFile(
+                signedPdf.outputPath
+            );
+
+        const pdfFilename =
+            String(
+                signedPdf.outputPath
+            )
+                .split(/[\\/]/)
+                .pop();
+
+        const pdfMimeType =
+            "application/pdf";
+
+        const pdfUpdate =
+            await pool.query(
+                `
+                UPDATE contracts
+                SET
+                    pdf_path = $2,
+                    pdf_hash = $3,
+                    pdf_data = $4,
+                    pdf_filename = $5,
+                    pdf_mime_type = $6,
+                    updated_at = NOW()
+                WHERE id = $1
+                RETURNING *
+                `,
+                [
+                    signedContract.id,
+                    signedPdf.outputPath,
+                    signedPdf.pdfHash,
+                    pdfBuffer,
+                    pdfFilename,
+                    pdfMimeType
+                ]
+            );
+
+        Object.assign(
+            signedContract,
+            pdfUpdate.rows[0]
+        );
+
+        await addPublicEvent(
+            signedContract.id,
+            "signed_pdf_created",
+            "Signerad PDF skapades och sparades säkert i CRM.",
+            {
+                pdfHash:
+                    signedPdf.pdfHash,
+
+                filename:
+                    pdfFilename,
+
+                sizeBytes:
+                    pdfBuffer.length,
+
+                mimeType:
+                    pdfMimeType,
+
+                storage:
+                    "postgresql"
+            }
+        );
+
+    } catch (error) {
+        console.error(
+            "Signed PDF generation failed:",
+            error
+        );
+
+        await addPublicEvent(
+            signedContract.id,
+            "signed_pdf_failed",
+            "Signerad PDF kunde inte skapas.",
+            {
+                error:
+                    error.message
+            }
+        );
+    }
+
+
+    /*
+     * =====================================================
+     * CUSTOMER EMAIL
+     * =====================================================
+     */
+
+    if (signedPdf) {
+        try {
+            await sendSignedContractEmail(
+                signedContract,
+                signedPdf.outputPath
+            );
+
+            await addPublicEvent(
+                signedContract.id,
+                "signed_email_sent",
+                "Signerad avtalskopia skickades till kunden via e-post."
+            );
+
+        } catch (error) {
+            console.error(
+                "Signed customer email failed:",
+                error
+            );
+
+            await addPublicEvent(
+                signedContract.id,
+                "signed_email_failed",
+                "Signerad avtalskopia kunde inte skickas till kunden via e-post.",
+                {
+                    error:
+                        error.message
+                }
+            );
+        }
+
+
+        /*
+         * =================================================
+         * MANAGER EMAIL
+         * =================================================
+         */
+
+        try {
+            await sendManagerSignedContractEmail(
+                signedContract,
+                signedPdf.outputPath
+            );
+
+            await addPublicEvent(
+                signedContract.id,
+                "manager_signed_email_sent",
+                "Information om signerat avtal skickades till J&W via e-post."
+            );
+
+        } catch (error) {
+            console.error(
+                "Manager signed email failed:",
+                error
+            );
+
+            await addPublicEvent(
+                signedContract.id,
+                "manager_signed_email_failed",
+                "E-post till J&W kunde inte skickas.",
+                {
+                    error:
+                        error.message
+                }
+            );
+        }
+    }
+
+
+    /*
+     * =====================================================
+     * CUSTOMER SMS
+     * =====================================================
+     */
+
+    try {
+        const smsResult =
+            await sendSignedContractSMS(
+                signedContract
+            );
+
+        await addPublicEvent(
+            signedContract.id,
+
+            smsResult?.skipped
+                ? "signed_sms_skipped"
+                : "signed_sms_sent",
+
+            smsResult?.skipped
+                ? "SMS efter signering skickades inte till kunden."
+                : "Bekräftelse efter signering skickades till kunden via SMS.",
+
+            smsResult?.skipped
+                ? {
+                    reason:
+                        smsResult.reason ||
+                        null
+                }
+                : null
+        );
+
+    } catch (error) {
+        console.error(
+            "Signed customer SMS failed:",
+            error
+        );
+
+        await addPublicEvent(
+            signedContract.id,
+            "signed_sms_failed",
+            "SMS efter signering kunde inte skickas till kunden.",
+            {
+                error:
+                    error.message
+            }
+        );
+    }
+
+
+    /*
+     * =====================================================
+     * MANAGER SMS
+     * =====================================================
+     */
+
+    try {
+        const managerSmsResult =
+            await sendManagerSignedContractSMS(
+                signedContract
+            );
+
+        await addPublicEvent(
+            signedContract.id,
+
+            managerSmsResult?.skipped
+                ? "manager_signed_sms_skipped"
+                : "manager_signed_sms_sent",
+
+            managerSmsResult?.skipped
+                ? "SMS till J&W skickades inte."
+                : "Information om signerat avtal skickades till J&W via SMS.",
+
+            managerSmsResult?.skipped
+                ? {
+                    reason:
+                        managerSmsResult.reason ||
+                        null
+                }
+                : null
+        );
+
+    } catch (error) {
+        console.error(
+            "Manager signed SMS failed:",
+            error
+        );
+
+        await addPublicEvent(
+            signedContract.id,
+            "manager_signed_sms_failed",
+            "SMS till J&W kunde inte skickas.",
+            {
+                error:
+                    error.message
+            }
+        );
+    }
+
+
+    return res.json({
+        success: true,
+
+        status:
+            "signed",
+
+        message:
+            "Avtalet har signerats elektroniskt.",
+
+        contract: {
+            contractNumber:
+                signedContract
+                    .contract_number,
+
+            status:
+                signedContract
+                    .status,
+
+            signedName:
+                signedContract
+                    .signed_name,
+
+            signedAt:
+                signedContract
+                    .signed_at
+        }
+    });
+}
+
+
 module.exports = {
     getPublicContractController,
-    startBankIdController,
-    collectBankIdController,
-    getBankIdQrController
+    requestOtpController,
+    verifyOtpController,
+    signContractController
 };

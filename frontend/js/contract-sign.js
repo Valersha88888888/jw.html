@@ -1,4 +1,7 @@
-const API_URL = "/api";
+const API_URL =
+    window.location.hostname === "localhost"
+        ? "http://localhost:3000/api"
+        : "https://jw-quality-hemservice-crm.onrender.com/api";
 
 const params =
     new URLSearchParams(
@@ -7,6 +10,13 @@ const params =
 
 const token =
     params.get("token");
+
+
+/*
+ * =========================================================
+ * DOM
+ * =========================================================
+ */
 
 const loading =
     document.getElementById(
@@ -23,56 +33,457 @@ const content =
         "contractContent"
     );
 
-const bankIdButton =
+const contractNumber =
     document.getElementById(
-        "bankIdButton"
+        "contractNumber"
     );
 
-const bankIdMessage =
+const documentNumber =
     document.getElementById(
-        "bankIdMessage"
+        "documentNumber"
     );
 
-const confirmations = [
-    "confirmRead",
-    "confirmBinding",
-    "confirmPrice",
-    "confirmCancellation",
-    "confirmWithdrawal"
-].map(
-    (id) =>
-        document.getElementById(id)
-);
+const customerGreeting =
+    document.getElementById(
+        "customerGreeting"
+    );
 
-function updateBankIdButton() {
-    const allChecked =
-        confirmations.every(
-            (checkbox) =>
-                checkbox &&
-                checkbox.checked
-        );
+const legalContract =
+    document.getElementById(
+        "legalContract"
+    );
 
-    bankIdButton.disabled =
-        !allChecked;
 
-    bankIdMessage.textContent =
-        allChecked
-            ? "Du kan nu fortsätta till säker signering med BankID."
-            : "Bekräfta samtliga punkter ovan för att fortsätta.";
+/*
+ * =========================================================
+ * AVTALSBEKRÄFTELSER
+ * =========================================================
+ */
+
+const confirmationMap = {
+    read:
+        document.getElementById(
+            "confirmRead"
+        ),
+
+    binding:
+        document.getElementById(
+            "confirmBinding"
+        ),
+
+    price:
+        document.getElementById(
+            "confirmPrice"
+        ),
+
+    cancellation:
+        document.getElementById(
+            "confirmCancellation"
+        ),
+
+    withdrawal:
+        document.getElementById(
+            "confirmWithdrawal"
+        )
+};
+
+const confirmations =
+    Object.values(
+        confirmationMap
+    );
+
+
+/*
+ * =========================================================
+ * OTP
+ * =========================================================
+ */
+
+const requestOtpButton =
+    document.getElementById(
+        "requestOtpButton"
+    );
+
+const otpRequestMessage =
+    document.getElementById(
+        "otpRequestMessage"
+    );
+
+const otpVerifyArea =
+    document.getElementById(
+        "otpVerifyArea"
+    );
+
+const otpCode =
+    document.getElementById(
+        "otpCode"
+    );
+
+const verifyOtpButton =
+    document.getElementById(
+        "verifyOtpButton"
+    );
+
+const otpVerifyMessage =
+    document.getElementById(
+        "otpVerifyMessage"
+    );
+
+
+/*
+ * =========================================================
+ * SIGNERARE
+ * =========================================================
+ */
+
+const signerStep =
+    document.getElementById(
+        "signerStep"
+    );
+
+const signerName =
+    document.getElementById(
+        "signerName"
+    );
+
+
+/*
+ * =========================================================
+ * SIGNATUR
+ * =========================================================
+ */
+
+const signatureStep =
+    document.getElementById(
+        "signatureStep"
+    );
+
+const signatureCanvas =
+    document.getElementById(
+        "signatureCanvas"
+    );
+
+const clearSignatureButton =
+    document.getElementById(
+        "clearSignatureButton"
+    );
+
+const signatureMessage =
+    document.getElementById(
+        "signatureMessage"
+    );
+
+
+/*
+ * =========================================================
+ * SLUTLIG SIGNERING
+ * =========================================================
+ */
+
+const finalSigningStep =
+    document.getElementById(
+        "finalSigningStep"
+    );
+
+const confirmElectronicSignature =
+    document.getElementById(
+        "confirmElectronicSignature"
+    );
+
+const signContractButton =
+    document.getElementById(
+        "signContractButton"
+    );
+
+const signingStatus =
+    document.getElementById(
+        "signingStatus"
+    );
+
+const signingSuccess =
+    document.getElementById(
+        "signingSuccess"
+    );
+
+
+/*
+ * =========================================================
+ * STATE
+ * =========================================================
+ */
+
+let currentContract =
+    null;
+
+let otpVerified =
+    false;
+
+let otpRequestRunning =
+    false;
+
+let otpVerifyRunning =
+    false;
+
+let signingRunning =
+    false;
+
+let signatureStarted =
+    false;
+
+let signatureHasContent =
+    false;
+
+let drawing =
+    false;
+
+let lastPoint =
+    null;
+
+let resendTimer =
+    null;
+
+
+/*
+ * =========================================================
+ * HJÄLPFUNKTIONER
+ * =========================================================
+ */
+
+function allConfirmationsChecked() {
+    return confirmations.every(
+        (checkbox) =>
+            checkbox &&
+            checkbox.checked
+    );
 }
 
-confirmations.forEach(
-    (checkbox) => {
-        if (!checkbox) {
-            return;
-        }
 
-        checkbox.addEventListener(
-            "change",
-            updateBankIdButton
-        );
+function setConfirmationsDisabled(
+    disabled
+) {
+    confirmations.forEach(
+        (checkbox) => {
+            if (checkbox) {
+                checkbox.disabled =
+                    disabled;
+            }
+        }
+    );
+}
+
+
+function getConsentData() {
+    return {
+        read:
+            Boolean(
+                confirmationMap.read
+                    ?.checked
+            ),
+
+        binding:
+            Boolean(
+                confirmationMap.binding
+                    ?.checked
+            ),
+
+        price:
+            Boolean(
+                confirmationMap.price
+                    ?.checked
+            ),
+
+        cancellation:
+            Boolean(
+                confirmationMap.cancellation
+                    ?.checked
+            ),
+
+        withdrawal:
+            Boolean(
+                confirmationMap.withdrawal
+                    ?.checked
+            )
+    };
+}
+
+
+function showError(message) {
+    loading.hidden =
+        true;
+
+    content.hidden =
+        true;
+
+    errorBox.hidden =
+        false;
+
+    errorBox.textContent =
+        message;
+}
+
+
+function showContent() {
+    loading.hidden =
+        true;
+
+    errorBox.hidden =
+        true;
+
+    content.hidden =
+        false;
+}
+
+
+async function readJsonResponse(
+    response
+) {
+    const contentType =
+        response.headers.get(
+            "content-type"
+        ) || "";
+
+    if (
+        contentType.includes(
+            "application/json"
+        )
+    ) {
+        return response.json();
     }
-);
+
+    const text =
+        await response.text();
+
+    return {
+        success:
+            false,
+
+        message:
+            text ||
+            "Ett oväntat serverfel inträffade."
+    };
+}
+
+
+/*
+ * =========================================================
+ * KONTROLL AV SIGNERINGSFLÖDET
+ * =========================================================
+ */
+
+function updateOtpRequestState() {
+    if (
+        !requestOtpButton ||
+        otpVerified
+    ) {
+        return;
+    }
+
+    const ready =
+        allConfirmationsChecked();
+
+    requestOtpButton.disabled =
+        !ready ||
+        otpRequestRunning;
+
+    if (!ready) {
+        otpRequestMessage.textContent =
+            "Bekräfta samtliga punkter ovan för att fortsätta.";
+    } else if (
+        !otpRequestRunning
+    ) {
+        otpRequestMessage.textContent =
+            "Du kan nu verifiera din e-post och fortsätta till signeringen.";
+    }
+}
+
+
+function updateFinalSigningState() {
+    if (!signContractButton) {
+        return;
+    }
+
+    const nameValid =
+        Boolean(
+            signerName &&
+            signerName.value
+                .trim()
+                .length >= 2
+        );
+
+    const finalConsent =
+        Boolean(
+            confirmElectronicSignature
+                ?.checked
+        );
+
+    signContractButton.disabled =
+        !otpVerified ||
+        !allConfirmationsChecked() ||
+        !nameValid ||
+        !signatureHasContent ||
+        !finalConsent ||
+        signingRunning;
+}
+
+
+function showVerifiedSigningSteps() {
+    otpVerified =
+        true;
+
+    if (otpVerifyArea) {
+        otpVerifyArea.hidden =
+            false;
+    }
+
+    if (otpCode) {
+        otpCode.disabled =
+            true;
+    }
+
+    if (verifyOtpButton) {
+        verifyOtpButton.disabled =
+            true;
+
+        verifyOtpButton.textContent =
+            "E-post verifierad";
+    }
+
+    if (requestOtpButton) {
+        requestOtpButton.disabled =
+            true;
+
+        requestOtpButton.textContent =
+            "E-post verifierad";
+    }
+
+    if (otpRequestMessage) {
+        otpRequestMessage.textContent =
+            "Din e-postadress är verifierad.";
+    }
+
+    if (otpVerifyMessage) {
+        otpVerifyMessage.textContent =
+            "Verifieringen lyckades. Du kan nu slutföra signeringen.";
+    }
+
+    signerStep.hidden =
+        false;
+
+    signatureStep.hidden =
+        false;
+
+    finalSigningStep.hidden =
+        false;
+
+    updateFinalSigningState();
+}
+
+
+/*
+ * =========================================================
+ * LADDA AVTAL
+ * =========================================================
+ */
 
 async function loadContract() {
     if (!token) {
@@ -86,11 +497,24 @@ async function loadContract() {
     try {
         const response =
             await fetch(
-                `${API_URL}/public/contracts/${encodeURIComponent(token)}`
+                `${API_URL}/public/contracts/${encodeURIComponent(
+                    token
+                )}`,
+                {
+                    method:
+                        "GET",
+
+                    headers: {
+                        Accept:
+                            "application/json"
+                    }
+                }
             );
 
         const data =
-            await response.json();
+            await readJsonResponse(
+                response
+            );
 
         if (!response.ok) {
             throw new Error(
@@ -99,202 +523,147 @@ async function loadContract() {
             );
         }
 
-        const contract =
+        currentContract =
             data.contract;
 
-        document.getElementById(
-            "contractNumber"
-        ).textContent =
-            `Avtal ${contract.contractNumber}`;
+        contractNumber.textContent =
+            `Avtal ${currentContract.contractNumber}`;
 
-        document.getElementById(
-            "documentNumber"
-        ).textContent =
-            contract.contractNumber;
+        documentNumber.textContent =
+            currentContract.contractNumber;
 
-        document.getElementById(
-            "customerGreeting"
-        ).textContent =
-            `Hej ${contract.customerName}!`;
+        customerGreeting.textContent =
+            `Hej ${currentContract.customerName}!`;
 
-        document.getElementById(
-            "legalContract"
-        ).innerHTML =
-            contract.contractHtml;
+        legalContract.innerHTML =
+            currentContract.contractHtml;
 
-        loading.hidden = true;
-        content.hidden = false;
-
-        if (contract.status === "signed") {
-            bankIdButton.disabled = true;
-
-            bankIdButton.textContent =
-                "Avtalet är redan signerat";
-
-            bankIdMessage.textContent =
-                "Detta avtal har redan signerats med BankID.";
-
-            confirmations.forEach(
-                (checkbox) => {
-                    if (!checkbox) {
-                        return;
-                    }
-
-                    checkbox.disabled = true;
-                    checkbox.checked = true;
-                }
-            );
-        } else {
-            updateBankIdButton();
+        if (
+            signerName &&
+            currentContract.customerName
+        ) {
+            signerName.value =
+                currentContract.customerName;
         }
 
-    } catch (error) {
-        showError(error.message);
-    }
-}
+        showContent();
 
-function showError(message) {
-    loading.hidden = true;
-
-    errorBox.hidden = false;
-    errorBox.textContent = message;
-}
-
-const bankIdSigning =
-    document.getElementById(
-        "bankIdSigning"
-    );
-
-const bankIdStatus =
-    document.getElementById(
-        "bankIdStatus"
-    );
-
-const bankIdQrContainer =
-    document.getElementById(
-        "bankIdQrContainer"
-    );
-
-const bankIdQrImage =
-    document.getElementById(
-        "bankIdQrImage"
-    );
-
-const bankIdOpenApp =
-    document.getElementById(
-        "bankIdOpenApp"
-    );
-
-const bankIdSameDevice =
-    document.getElementById(
-        "bankIdSameDevice"
-    );
-
-const bankIdOtherDevice =
-    document.getElementById(
-        "bankIdOtherDevice"
-    );
-
-let bankIdCollectTimer = null;
-let bankIdQrTimer = null;
-let bankIdRunning = false;
-
-function getBankIdHintMessage(hintCode) {
-    const messages = {
-        outstandingTransaction:
-            "Starta BankID-appen och identifiera dig.",
-
-        noClient:
-            "Starta BankID-appen.",
-
-        started:
-            "Skriv in din säkerhetskod i BankID-appen.",
-
-        userSign:
-            "Bekräfta och signera i BankID-appen.",
-
-        userCancel:
-            "Signeringen avbröts i BankID.",
-
-        cancelled:
-            "BankID-signeringen avbröts.",
-
-        expiredTransaction:
-            "BankID-signeringen tog för lång tid. Försök igen.",
-
-        startFailed:
-            "BankID kunde inte startas. Försök igen."
-    };
-
-    return (
-        messages[hintCode] ||
-        "Väntar på BankID..."
-    );
-}
-
-function stopBankIdTimers() {
-    if (bankIdCollectTimer) {
-        clearInterval(
-            bankIdCollectTimer
-        );
-
-        bankIdCollectTimer = null;
-    }
-
-    if (bankIdQrTimer) {
-        clearInterval(
-            bankIdQrTimer
-        );
-
-        bankIdQrTimer = null;
-    }
-}
-
-async function updateBankIdQr() {
-    try {
-        const response =
-            await fetch(
-                `${API_URL}/public/contracts/${encodeURIComponent(token)}/bankid/qr`
-            );
-
-        const data =
-            await response.json();
-
-        if (!response.ok) {
-            throw new Error(
-                data.message ||
-                "QR-koden kunde inte uppdateras."
-            );
+        if (
+            currentContract.status ===
+            "signed"
+        ) {
+            showAlreadySignedState();
+            return;
         }
 
         if (
-            data &&
-            data.qrImage
+            currentContract.otpVerified
         ) {
-            bankIdQrImage.src =
-                data.qrImage;
+            setConfirmationsDisabled(
+                true
+            );
 
-            bankIdQrContainer.hidden =
-                false;
+            confirmations.forEach(
+                (checkbox) => {
+                    if (checkbox) {
+                        checkbox.checked =
+                            true;
+                    }
+                }
+            );
+
+            showVerifiedSigningSteps();
+        } else {
+            updateOtpRequestState();
         }
 
+        resizeSignatureCanvas();
+
     } catch (error) {
-        console.error(
-            "BankID QR:",
-            error
+        showError(
+            error.message ||
+            "Avtalet kunde inte laddas."
         );
     }
 }
 
-async function collectBankId() {
-    if (!bankIdRunning) {
+
+/*
+ * =========================================================
+ * REDAN SIGNERAT
+ * =========================================================
+ */
+
+function showAlreadySignedState() {
+    setConfirmationsDisabled(
+        true
+    );
+
+    confirmations.forEach(
+        (checkbox) => {
+            if (checkbox) {
+                checkbox.checked =
+                    true;
+            }
+        }
+    );
+
+    requestOtpButton.disabled =
+        true;
+
+    requestOtpButton.textContent =
+        "Avtalet är redan signerat";
+
+    otpRequestMessage.textContent =
+        "Detta avtal har redan signerats elektroniskt.";
+
+    signerStep.hidden =
+        true;
+
+    signatureStep.hidden =
+        true;
+
+    finalSigningStep.hidden =
+        true;
+
+    signingSuccess.hidden =
+        false;
+}
+
+
+/*
+ * =========================================================
+ * OTP - BEGÄR KOD
+ * =========================================================
+ */
+
+async function requestOtp() {
+    if (
+        otpRequestRunning ||
+        otpVerified ||
+        !allConfirmationsChecked()
+    ) {
         return;
     }
+
+    otpRequestRunning =
+        true;
+
+    requestOtpButton.disabled =
+        true;
+
+    requestOtpButton.textContent =
+        "Skickar kod...";
+
+    otpRequestMessage.textContent =
+        "Vi skickar nu din verifieringskod. Kontrollera din e-post.";
 
     try {
         const response =
             await fetch(
-                `${API_URL}/public/contracts/${encodeURIComponent(token)}/bankid/collect`,
+                `${API_URL}/public/contracts/${encodeURIComponent(
+                    token
+                )}/otp/request`,
                 {
                     method:
                         "POST",
@@ -307,289 +676,856 @@ async function collectBankId() {
             );
 
         const data =
-            await response.json();
+            await readJsonResponse(
+                response
+            );
 
         if (!response.ok) {
             throw new Error(
                 data.message ||
-                "BankID-status kunde inte hämtas."
+                "Verifieringskoden kunde inte skickas."
             );
         }
 
-        if (
-            data.status ===
-            "pending"
-        ) {
-            bankIdStatus.textContent =
-                getBankIdHintMessage(
-                    data.hintCode
-                );
-
-            return;
-        }
-
-        if (
-            data.status ===
-            "complete"
-        ) {
-            bankIdRunning = false;
-
-            stopBankIdTimers();
-
-            bankIdStatus.textContent =
-                "Avtalet är signerat med BankID.";
-
-            bankIdMessage.textContent =
-                "Tack! Din signering är registrerad.";
-
-            bankIdButton.disabled =
-                true;
-
-            bankIdButton.textContent =
-                "Avtalet är signerat";
-
-            bankIdQrContainer.hidden =
-                true;
-
-            bankIdOpenApp.hidden =
-                true;
-
-            bankIdSameDevice.hidden =
-                true;
-
-            bankIdOtherDevice.hidden =
-                true;
-
-            confirmations.forEach(
-                (checkbox) => {
-                    if (!checkbox) {
-                        return;
-                    }
-
-                    checkbox.checked =
-                        true;
-
-                    checkbox.disabled =
-                        true;
-                }
-            );
-
-            return;
-        }
-
-        if (
-            data.status ===
-            "failed"
-        ) {
-            bankIdRunning = false;
-
-            stopBankIdTimers();
-
-            bankIdStatus.textContent =
-                getBankIdHintMessage(
-                    data.hintCode
-                );
-
-            bankIdQrContainer.hidden =
-                true;
-
-            bankIdOpenApp.hidden =
-                true;
-
-            bankIdSameDevice.hidden =
-                true;
-
-            bankIdOtherDevice.hidden =
-                true;
-
-            bankIdButton.disabled =
-                false;
-
-            bankIdButton.textContent =
-                "Försök signera med BankID igen";
-        }
-
-    } catch (error) {
-        bankIdRunning = false;
-
-        stopBankIdTimers();
-
-        bankIdStatus.textContent =
-            error.message;
-
-        bankIdButton.disabled =
+        otpVerifyArea.hidden =
             false;
 
-        bankIdButton.textContent =
-            "Försök signera med BankID igen";
+        otpRequestMessage.textContent =
+            "Koden har skickats. Kontrollera din e-post och ange den sexsiffriga koden nedan. Koden gäller i 10 minuter.";
+
+        otpCode.disabled =
+            false;
+
+        otpCode.value =
+            "";
+
+        otpCode.focus();
+
+        startResendCooldown();
+
+    } catch (error) {
+        requestOtpButton.disabled =
+            false;
+
+        requestOtpButton.textContent =
+            "Skicka verifieringskod";
+
+        otpRequestMessage.textContent =
+            error.message ||
+            "Verifieringskoden kunde inte skickas.";
+
+    } finally {
+        otpRequestRunning =
+            false;
     }
 }
 
-async function startBankId() {
-    if (bankIdRunning) {
+
+/*
+ * =========================================================
+ * OTP - ÅTERSKICKNINGSNEDRÄKNING
+ * =========================================================
+ */
+
+function startResendCooldown() {
+    if (resendTimer) {
+        clearInterval(
+            resendTimer
+        );
+    }
+
+    let seconds =
+        30;
+
+    requestOtpButton.disabled =
+        true;
+
+    requestOtpButton.textContent =
+        `Skicka ny kod om ${seconds} s`;
+
+    resendTimer =
+        setInterval(
+            () => {
+                seconds -= 1;
+
+                if (
+                    seconds <= 0
+                ) {
+                    clearInterval(
+                        resendTimer
+                    );
+
+                    resendTimer =
+                        null;
+
+                    requestOtpButton.textContent =
+                        "Skicka ny verifieringskod";
+
+                    requestOtpButton.disabled =
+                        otpVerified ||
+                        !allConfirmationsChecked();
+
+                    return;
+                }
+
+                requestOtpButton.textContent =
+                    `Skicka ny kod om ${seconds} s`;
+            },
+            1000
+        );
+}
+
+
+/*
+ * =========================================================
+ * OTP - VERIFIERA
+ * =========================================================
+ */
+
+async function verifyOtp() {
+    if (
+        otpVerifyRunning ||
+        otpVerified
+    ) {
         return;
     }
 
-    bankIdRunning = true;
+    const code =
+        String(
+            otpCode.value || ""
+        )
+            .replace(
+                /\D/g,
+                ""
+            )
+            .slice(
+                0,
+                6
+            );
 
-    stopBankIdTimers();
+    otpCode.value =
+        code;
 
-    bankIdButton.disabled =
+    if (
+        !/^\d{6}$/.test(
+            code
+        )
+    ) {
+        otpVerifyMessage.textContent =
+            "Ange alla sex siffror från verifieringsmeddelandet som skickades till din e-post.";
+
+        otpCode.focus();
+        return;
+    }
+
+    otpVerifyRunning =
         true;
 
-    bankIdButton.textContent =
-        "BankID-signering pågår...";
+    verifyOtpButton.disabled =
+        true;
 
-    bankIdMessage.textContent =
-        "BankID-signeringen har startats.";
+    verifyOtpButton.textContent =
+        "Verifierar...";
 
-    bankIdSigning.hidden =
+    otpVerifyMessage.textContent =
+        "Verifierar koden...";
+
+    try {
+        const response =
+            await fetch(
+                `${API_URL}/public/contracts/${encodeURIComponent(
+                    token
+                )}/otp/verify`,
+                {
+                    method:
+                        "POST",
+
+                    headers: {
+                        Accept:
+                            "application/json",
+
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            code
+                        })
+                }
+            );
+
+        const data =
+            await readJsonResponse(
+                response
+            );
+
+        if (!response.ok) {
+            throw new Error(
+                data.message ||
+                "Verifieringen misslyckades."
+            );
+        }
+
+        if (
+            !data.success ||
+            !data.verified
+        ) {
+            throw new Error(
+                "Verifieringen kunde inte bekräftas."
+            );
+        }
+
+        otpVerifyMessage.textContent =
+            "✓ E-postadressen är verifierad.";
+
+        otpVerifyMessage.classList.add(
+            "signing-message-success"
+        );
+
+        otpStep.classList.add(
+            "signing-step-complete"
+        );
+
+        showVerifiedSigningSteps();
+
+        signerName.focus();
+
+    } catch (error) {
+        verifyOtpButton.disabled =
+            false;
+
+        verifyOtpButton.textContent =
+            "Verifiera kod";
+
+        otpVerifyMessage.textContent =
+            error.message ||
+            "Verifieringen misslyckades.";
+
+    } finally {
+        otpVerifyRunning =
+            false;
+    }
+}
+
+
+/*
+ * =========================================================
+ * SIGNATURCANVAS
+ * =========================================================
+ */
+
+function resizeSignatureCanvas() {
+    if (
+        !signatureCanvas ||
+        signatureStep.hidden
+    ) {
+        return;
+    }
+
+    const rect =
+        signatureCanvas
+            .getBoundingClientRect();
+
+    if (
+        rect.width <= 0
+    ) {
+        return;
+    }
+
+    const ratio =
+        Math.max(
+            1,
+            window.devicePixelRatio ||
+            1
+        );
+
+    const currentImage =
+        signatureHasContent
+            ? signatureCanvas
+                .toDataURL(
+                    "image/png"
+                )
+            : null;
+
+    signatureCanvas.width =
+        Math.round(
+            rect.width * ratio
+        );
+
+    signatureCanvas.height =
+        Math.round(
+            Math.max(
+                220,
+                rect.height || 220
+            ) * ratio
+        );
+
+    const ctx =
+        signatureCanvas
+            .getContext(
+                "2d"
+            );
+
+    ctx.setTransform(
+        ratio,
+        0,
+        0,
+        ratio,
+        0,
+        0
+    );
+
+    ctx.lineWidth =
+        2.2;
+
+    ctx.lineCap =
+        "round";
+
+    ctx.lineJoin =
+        "round";
+
+    ctx.strokeStyle =
+        "#202431";
+
+    if (currentImage) {
+        const image =
+            new Image();
+
+        image.onload =
+            () => {
+                ctx.drawImage(
+                    image,
+                    0,
+                    0,
+                    rect.width,
+                    Math.max(
+                        220,
+                        rect.height || 220
+                    )
+                );
+            };
+
+        image.src =
+            currentImage;
+    }
+}
+
+
+function getCanvasPoint(event) {
+    const rect =
+        signatureCanvas
+            .getBoundingClientRect();
+
+    return {
+        x:
+            event.clientX -
+            rect.left,
+
+        y:
+            event.clientY -
+            rect.top
+    };
+}
+
+
+function startDrawing(event) {
+    if (
+        !otpVerified ||
+        signingRunning
+    ) {
+        return;
+    }
+
+    event.preventDefault();
+
+    drawing =
+        true;
+
+    signatureStarted =
+        true;
+
+    lastPoint =
+        getCanvasPoint(
+            event
+        );
+
+    if (
+        signatureCanvas
+            .setPointerCapture
+    ) {
+        signatureCanvas
+            .setPointerCapture(
+                event.pointerId
+            );
+    }
+}
+
+
+function drawSignature(event) {
+    if (
+        !drawing ||
+        !lastPoint
+    ) {
+        return;
+    }
+
+    event.preventDefault();
+
+    const currentPoint =
+        getCanvasPoint(
+            event
+        );
+
+    const ctx =
+        signatureCanvas
+            .getContext(
+                "2d"
+            );
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        lastPoint.x,
+        lastPoint.y
+    );
+
+    ctx.lineTo(
+        currentPoint.x,
+        currentPoint.y
+    );
+
+    ctx.stroke();
+
+    lastPoint =
+        currentPoint;
+
+    signatureHasContent =
+        true;
+
+    signatureMessage.textContent =
+        "Signaturen är registrerad.";
+
+    updateFinalSigningState();
+}
+
+
+function stopDrawing(event) {
+    if (!drawing) {
+        return;
+    }
+
+    event.preventDefault();
+
+    drawing =
         false;
 
-    bankIdSameDevice.hidden =
+    lastPoint =
+        null;
+
+    if (
+        signatureStarted &&
+        !signatureHasContent
+    ) {
+        signatureMessage.textContent =
+            "Skriv din signatur i rutan ovan.";
+    }
+}
+
+
+function clearSignature() {
+    const ctx =
+        signatureCanvas
+            .getContext(
+                "2d"
+            );
+
+    ctx.clearRect(
+        0,
+        0,
+        signatureCanvas.width,
+        signatureCanvas.height
+    );
+
+    signatureStarted =
+        false;
+
+    signatureHasContent =
+        false;
+
+    signatureMessage.textContent =
+        "Skriv din signatur i rutan ovan.";
+
+    updateFinalSigningState();
+}
+
+
+function getSignatureImage() {
+    if (
+        !signatureHasContent
+    ) {
+        return null;
+    }
+
+    return signatureCanvas
+        .toDataURL(
+            "image/png"
+        );
+}
+
+
+/*
+ * =========================================================
+ * SLUTFÖR SIGNERING
+ * =========================================================
+ */
+
+async function signContract() {
+    if (
+        signingRunning
+    ) {
+        return;
+    }
+
+    const name =
+        String(
+            signerName.value ||
+            ""
+        )
+            .trim()
+            .replace(
+                /\s+/g,
+                " "
+            );
+
+    if (!otpVerified) {
+        signingStatus.textContent =
+            "Din e-post måste verifieras innan avtalet kan signeras.";
+
+        return;
+    }
+
+    if (
+        !allConfirmationsChecked()
+    ) {
+        signingStatus.textContent =
+            "Bekräfta samtliga avtalsvillkor innan du signerar.";
+
+        return;
+    }
+
+    if (
+        name.length < 2
+    ) {
+        signingStatus.textContent =
+            "Ange ditt fullständiga namn.";
+
+        signerName.focus();
+        return;
+    }
+
+    if (
+        !signatureHasContent
+    ) {
+        signingStatus.textContent =
+            "Skriv din signatur innan du fortsätter.";
+
+        return;
+    }
+
+    if (
+        !confirmElectronicSignature
+            .checked
+    ) {
+        signingStatus.textContent =
+            "Bekräfta att du accepterar avtalet genom din elektroniska signatur.";
+
+        return;
+    }
+
+    const signatureImage =
+        getSignatureImage();
+
+    if (!signatureImage) {
+        signingStatus.textContent =
+            "Signaturen kunde inte läsas. Försök igen.";
+
+        return;
+    }
+
+    signingRunning =
         true;
 
-    bankIdOtherDevice.hidden =
+    signContractButton.disabled =
         true;
 
-    bankIdOpenApp.hidden =
-        true;
+    signContractButton.textContent =
+        "Signerar avtalet...";
 
-    bankIdQrContainer.hidden =
-        true;
-
-    bankIdStatus.textContent =
-        "Startar en säker BankID-signering...";
+    signingStatus.textContent =
+        "Din signering registreras säkert. Stäng inte sidan.";
 
     try {
         const response =
             await fetch(
-                `${API_URL}/public/contracts/${encodeURIComponent(token)}/bankid/start`,
+                `${API_URL}/public/contracts/${encodeURIComponent(
+                    token
+                )}/sign`,
                 {
                     method:
                         "POST",
 
                     headers: {
                         Accept:
+                            "application/json",
+
+                        "Content-Type":
                             "application/json"
-                    }
+                    },
+
+                    body:
+                        JSON.stringify({
+                            signedName:
+                                name,
+
+                            signatureImage,
+
+                            consents:
+                                getConsentData(),
+
+                            electronicSignatureAccepted:
+                                true
+                        })
                 }
             );
 
         const data =
-            await response.json();
+            await readJsonResponse(
+                response
+            );
 
         if (!response.ok) {
             throw new Error(
                 data.message ||
-                "BankID kunde inte startas."
+                "Avtalet kunde inte signeras."
             );
         }
 
         if (
-            !data.bankId ||
-            !data.bankId.autoStartToken
+            !data.success
         ) {
             throw new Error(
-                "BankID returnerade ingen giltig starttoken."
+                data.message ||
+                "Signeringen kunde inte registreras."
             );
         }
 
-        /*
-         * UNIVERSAL BANKID FLOW
-         *
-         * Vi visar alltid båda alternativen:
-         *
-         * 1. Öppna BankID på samma telefon/surfplatta.
-         * 2. Skanna QR-koden från en annan enhet.
-         *
-         * Därför behöver vi inte gissa om kunden
-         * använder Android, iPhone, iPad, Windows
-         * eller Mac.
-         */
-
-        bankIdSameDevice.hidden =
-            false;
-
-        bankIdOtherDevice.hidden =
-            false;
-
-        bankIdStatus.textContent =
-            "Öppna BankID på den här enheten eller skanna QR-koden med en annan enhet.";
-
-        bankIdOpenApp.href =
-            `https://app.bankid.com/?autostarttoken=${encodeURIComponent(
-                data.bankId.autoStartToken
-            )}`;
-
-        bankIdOpenApp.hidden =
-            false;
-
-        /*
-         * Starta den rörliga BankID QR-koden.
-         */
-
-        await updateBankIdQr();
-
-        bankIdQrTimer =
-            setInterval(
-                updateBankIdQr,
-                1000
-            );
-
-        /*
-         * Kontrollera BankID-status direkt.
-         */
-
-        await collectBankId();
-
-        /*
-         * Fortsätt sedan kontrollera status
-         * varannan sekund tills BankID svarar
-         * complete eller failed.
-         */
-
-        bankIdCollectTimer =
-            setInterval(
-                collectBankId,
-                2000
-            );
+        showSigningSuccess();
 
     } catch (error) {
-        bankIdRunning =
+        signContractButton.disabled =
             false;
 
-        stopBankIdTimers();
+        signContractButton.textContent =
+            "Jag godkänner och signerar avtalet";
 
-        bankIdSameDevice.hidden =
-            true;
+        signingStatus.textContent =
+            error.message ||
+            "Avtalet kunde inte signeras.";
 
-        bankIdOtherDevice.hidden =
-            true;
-
-        bankIdOpenApp.hidden =
-            true;
-
-        bankIdQrContainer.hidden =
-            true;
-
-        bankIdStatus.textContent =
-            error.message;
-
-        bankIdMessage.textContent =
-            "BankID-signeringen kunde inte startas.";
-
-        bankIdButton.disabled =
+        signingRunning =
             false;
-
-        bankIdButton.textContent =
-            "Försök signera med BankID igen";
     }
 }
 
-bankIdButton.addEventListener(
-    "click",
-    startBankId
+
+/*
+ * =========================================================
+ * SIGNERING KLAR
+ * =========================================================
+ */
+
+function showSigningSuccess() {
+    signingRunning =
+        false;
+
+    setConfirmationsDisabled(
+        true
+    );
+
+    requestOtpButton.disabled =
+        true;
+
+    otpCode.disabled =
+        true;
+
+    verifyOtpButton.disabled =
+        true;
+
+    signerName.disabled =
+        true;
+
+    clearSignatureButton.disabled =
+        true;
+
+    confirmElectronicSignature.disabled =
+        true;
+
+    signContractButton.disabled =
+        true;
+
+    signerStep.hidden =
+        true;
+
+    signatureStep.hidden =
+        true;
+
+    finalSigningStep.hidden =
+        true;
+
+    signingSuccess.hidden =
+        false;
+
+    signingSuccess.scrollIntoView({
+        behavior:
+            "smooth",
+
+        block:
+            "center"
+    });
+}
+
+
+/*
+ * =========================================================
+ * EVENT LISTENERS
+ * =========================================================
+ */
+
+confirmations.forEach(
+    (checkbox) => {
+        if (!checkbox) {
+            return;
+        }
+
+        checkbox.addEventListener(
+            "change",
+            () => {
+                updateOtpRequestState();
+                updateFinalSigningState();
+            }
+        );
+    }
 );
+
+
+requestOtpButton.addEventListener(
+    "click",
+    requestOtp
+);
+
+
+verifyOtpButton.addEventListener(
+    "click",
+    verifyOtp
+);
+
+
+otpCode.addEventListener(
+    "input",
+    () => {
+        otpCode.value =
+            otpCode.value
+                .replace(
+                    /\D/g,
+                    ""
+                )
+                .slice(
+                    0,
+                    6
+                );
+    }
+);
+
+
+otpCode.addEventListener(
+    "keydown",
+    (event) => {
+        if (
+            event.key ===
+            "Enter"
+        ) {
+            event.preventDefault();
+            verifyOtp();
+        }
+    }
+);
+
+
+signerName.addEventListener(
+    "input",
+    updateFinalSigningState
+);
+
+
+confirmElectronicSignature.addEventListener(
+    "change",
+    updateFinalSigningState
+);
+
+
+signatureCanvas.addEventListener(
+    "pointerdown",
+    startDrawing
+);
+
+signatureCanvas.addEventListener(
+    "pointermove",
+    drawSignature
+);
+
+signatureCanvas.addEventListener(
+    "pointerup",
+    stopDrawing
+);
+
+signatureCanvas.addEventListener(
+    "pointercancel",
+    stopDrawing
+);
+
+signatureCanvas.addEventListener(
+    "pointerleave",
+    stopDrawing
+);
+
+
+clearSignatureButton.addEventListener(
+    "click",
+    clearSignature
+);
+
+
+signContractButton.addEventListener(
+    "click",
+    signContract
+);
+
+
+window.addEventListener(
+    "resize",
+    () => {
+        window.requestAnimationFrame(
+            resizeSignatureCanvas
+        );
+    }
+);
+
+
+/*
+ * =========================================================
+ * START
+ * =========================================================
+ */
 
 loadContract();

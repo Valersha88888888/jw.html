@@ -18,7 +18,10 @@ const COLORS = {
     greenPale: "#F2F9F6",
     greenBorder: "#B7D7CE",
 
-    bankid: "#216078"
+    secure: "#216078",
+    secureDark: "#17495C",
+    securePale: "#F2F8FA",
+    secureBorder: "#B8D3DC"
 };
 
 /* =========================================================
@@ -233,58 +236,7 @@ function findBrandLogo() {
     return null;
 }
 
-function findBankIdLogo() {
 
-    const candidates = [
-
-        path.join(
-            __dirname,
-            "../assets/brand/bankid-logo.svg"
-        ),
-
-        path.join(
-            __dirname,
-            "../assets/brand/bankid-logo.png"
-        ),
-
-        path.join(
-            __dirname,
-            "../assets/bankid-logo.svg"
-        ),
-
-        path.join(
-            __dirname,
-            "../assets/bankid-logo.png"
-        )
-    ];
-
-    for (const candidate of candidates) {
-
-        if (!fs.existsSync(candidate)) {
-            continue;
-        }
-
-        try {
-
-            const stat =
-                fs.statSync(candidate);
-
-            if (
-                stat.isFile() &&
-                stat.size > 100
-            ) {
-                return assetToDataUri(
-                    candidate
-                );
-            }
-
-        } catch (error) {
-            // Continue.
-        }
-    }
-
-    return null;
-}
 
 /* =========================================================
    LOGO
@@ -656,13 +608,85 @@ function buildSignedContractTemplate(
         ||
         customerName;
 
-    const signedPersonnummer =
+    const signatureMethod =
         pick(
             contract,
-            "signed_personnummer"
+            "signature_method"
         )
         ||
-        customerPersonnummer;
+        "email_otp_drawn_signature";
+
+    const signerEmail =
+        pick(
+            contract,
+            "signer_email"
+        )
+        ||
+        customerEmail;
+
+    const signerPhone =
+        pick(
+            contract,
+            "signer_phone"
+        )
+        ||
+        customerPhone;
+
+    const signerIp =
+        pick(
+            contract,
+            "signer_ip"
+        )
+        ||
+        "-";
+
+    const signerUserAgent =
+        pick(
+            contract,
+            "signer_user_agent"
+        )
+        ||
+        "-";
+
+    const otpVerifiedAt =
+        pick(
+            contract,
+            "otp_verified_at"
+        );
+
+    const otpVerifiedDateTime =
+        otpVerifiedAt
+            ? formatDateTime(
+                otpVerifiedAt
+            )
+            : "-";
+
+    const consentAcceptedAt =
+        pick(
+            contract,
+            "consent_accepted_at"
+        );
+
+    const consentAcceptedDateTime =
+        consentAcceptedAt
+            ? formatDateTime(
+                consentAcceptedAt
+            )
+            : "-";
+
+    const signatureHash =
+        pick(
+            contract,
+            "signature_hash"
+        )
+        ||
+        "-";
+
+    const signatureImage =
+        pick(
+            contract,
+            "signature_image"
+        );
 
     const version =
         pick(
@@ -676,14 +700,24 @@ function buildSignedContractTemplate(
     const contractHash =
         pick(
             contract,
-            "contract_hash",
+            "contract_hash"
+        )
+        ||
+        "-";
+
+    const pdfHash =
+        pick(
+            contract,
             "pdf_hash"
         )
         ||
-        "fc49fb8ea2c503f1e6199b7eff678975765495e0ffd5634ad47b655437d59db3";
+        "-";
 
-    const bankIdLogo =
-        findBankIdLogo();
+    const signingEvidence =
+        contract.signing_evidence &&
+        typeof contract.signing_evidence === "object"
+            ? contract.signing_evidence
+            : {};
 
     return `
 <!DOCTYPE html>
@@ -753,8 +787,17 @@ function buildSignedContractTemplate(
     --green-border:
         ${COLORS.greenBorder};
 
-    --bankid:
-        ${COLORS.bankid};
+    --secure:
+        ${COLORS.secure};
+
+    --secure-dark:
+        ${COLORS.secureDark};
+
+    --secure-pale:
+        ${COLORS.securePale};
+
+    --secure-border:
+        ${COLORS.secureBorder};
 }
 
 /* =====================================================
@@ -1935,7 +1978,7 @@ body {
 }
 
 /* =====================================================
-   APPROVAL + BANKID
+   APPROVAL + SECURE SIGNING
 ===================================================== */
 
 .signature-grid {
@@ -1955,7 +1998,7 @@ body {
 }
 
 .approval-card,
-.bankid-card {
+.secure-signing-card {
 
     position:
         relative;
@@ -2152,9 +2195,9 @@ body {
         900;
 }
 
-/* BANKID */
+/* SECURE SIGNING */
 
-.bankid-card {
+.secure-signing-card {
 
     border:
         1px solid
@@ -2169,7 +2212,7 @@ body {
         );
 }
 
-.bankid-card::after {
+.secure-signing-card::after {
 
     content:
         "✓";
@@ -2198,7 +2241,7 @@ body {
         900;
 }
 
-.bankid-top {
+.secure-signing-top {
 
     position:
         relative;
@@ -2219,7 +2262,7 @@ body {
         13px;
 }
 
-.bankid-eyebrow {
+.secure-signing-eyebrow {
 
     color:
         var(--green);
@@ -2234,7 +2277,7 @@ body {
         uppercase;
 }
 
-.bankid-title {
+.secure-signing-title {
 
     margin-top:
         2px;
@@ -2249,7 +2292,7 @@ body {
         900;
 }
 
-.bankid-logo-real {
+.secure-signing-logo-real {
 
     display:
         block;
@@ -2264,7 +2307,7 @@ body {
         contain;
 }
 
-.bankid-logo-fallback {
+.secure-signing-logo-fallback {
 
     min-width:
         58px;
@@ -2280,7 +2323,7 @@ body {
         7px;
 
     background:
-        var(--bankid);
+        var(--secure);
 
     text-align:
         center;
@@ -2292,7 +2335,7 @@ body {
         900;
 }
 
-.bankid-data {
+.secure-signing-data {
 
     position:
         relative;
@@ -2321,13 +2364,13 @@ body {
         1.25;
 }
 
-.bankid-label {
+.secure-signing-label {
 
     color:
         var(--muted);
 }
 
-.bankid-value {
+.secure-signing-value {
 
     min-width:
         0;
@@ -2823,7 +2866,7 @@ body {
     .info-card,
     .kpi,
     .approval-card,
-    .bankid-card {
+    .secure-signing-card {
 
         transition:
             transform .18s ease,
@@ -3154,13 +3197,13 @@ body {
     }
 
     .approval-card,
-    .bankid-card {
+    .secure-signing-card {
 
         min-height:
             auto;
     }
 
-    .bankid-data {
+    .secure-signing-data {
 
         grid-template-columns:
             108px
@@ -3714,7 +3757,7 @@ body {
     }
 
     .approval-card,
-    .bankid-card {
+    .secure-signing-card {
 
         min-height:
             39mm;
@@ -3768,13 +3811,13 @@ body {
             1.25;
     }
 
-    .bankid-eyebrow {
+    .secure-signing-eyebrow {
 
         font-size:
             5.2pt;
     }
 
-    .bankid-title {
+    .secure-signing-title {
 
         margin-top:
             .3mm;
@@ -3783,7 +3826,7 @@ body {
             8.5pt;
     }
 
-    .bankid-logo-real {
+    .secure-signing-logo-real {
 
         width:
             14mm;
@@ -3792,7 +3835,7 @@ body {
             11mm;
     }
 
-    .bankid-logo-fallback {
+    .secure-signing-logo-fallback {
 
         min-width:
             14mm;
@@ -3808,7 +3851,7 @@ body {
             6.5pt;
     }
 
-    .bankid-data {
+    .secure-signing-data {
 
         grid-template-columns:
             24mm
@@ -4001,6 +4044,393 @@ body {
             6pt;
     }
 }
+
+
+/* =====================================================
+   CUSTOMER ELECTRONIC SIGNATURE
+===================================================== */
+
+.secure-signing-status,
+.customer-signature-check {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    width:
+        36px;
+
+    height:
+        36px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--green);
+
+    color:
+        #ffffff;
+
+    font-size:
+        20px;
+
+    font-weight:
+        900;
+
+    flex:
+        0 0 auto;
+}
+
+
+.customer-signature-section {
+
+    margin-top:
+        18px;
+
+    padding:
+        22px;
+
+    border:
+        1px solid var(--green-border);
+
+    border-radius:
+        18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            var(--green-pale) 100%
+        );
+
+    break-inside:
+        avoid;
+}
+
+
+.customer-signature-heading {
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    justify-content:
+        space-between;
+
+    gap:
+        16px;
+
+    margin-bottom:
+        18px;
+}
+
+
+.customer-signature-eyebrow {
+
+    color:
+        var(--green);
+
+    font-size:
+        10px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        .08em;
+
+    text-transform:
+        uppercase;
+}
+
+
+.customer-signature-heading h3 {
+
+    margin:
+        4px 0 0;
+
+    color:
+        var(--text);
+
+    font-size:
+        20px;
+}
+
+
+.customer-signature-body {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        minmax(0, 1.4fr)
+        minmax(180px, .6fr);
+
+    gap:
+        20px;
+
+    align-items:
+        center;
+}
+
+
+.customer-signature-image-wrap {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    min-height:
+        120px;
+
+    padding:
+        14px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        14px;
+
+    background:
+        #ffffff;
+}
+
+
+.customer-signature-image {
+
+    display:
+        block;
+
+    width:
+        100%;
+
+    max-width:
+        420px;
+
+    max-height:
+        130px;
+
+    object-fit:
+        contain;
+}
+
+
+.customer-signature-missing {
+
+    color:
+        var(--muted);
+
+    font-size:
+        13px;
+
+    font-style:
+        italic;
+}
+
+
+.customer-signature-meta {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        7px;
+
+    color:
+        var(--body);
+
+    font-size:
+        12px;
+}
+
+
+.customer-signature-meta strong {
+
+    color:
+        var(--text);
+
+    font-size:
+        15px;
+}
+
+
+/* =====================================================
+   SIGNING EVIDENCE
+===================================================== */
+
+.signing-evidence {
+
+    margin-top:
+        18px;
+
+    padding:
+        22px;
+
+    border:
+        1px solid var(--secure-border);
+
+    border-radius:
+        18px;
+
+    background:
+        var(--secure-pale);
+
+    break-inside:
+        avoid;
+}
+
+
+.signing-evidence-title {
+
+    margin-bottom:
+        15px;
+
+    color:
+        var(--secure-dark);
+
+    font-size:
+        11px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        .08em;
+
+    text-transform:
+        uppercase;
+}
+
+
+.signing-evidence-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap:
+        10px 18px;
+}
+
+
+.signing-evidence-item {
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    gap:
+        8px;
+
+    color:
+        var(--body);
+
+    font-size:
+        11px;
+
+    line-height:
+        1.45;
+}
+
+
+.evidence-check {
+
+    color:
+        var(--green);
+
+    font-weight:
+        900;
+}
+
+
+/* PRINT */
+
+@media print {
+
+    .customer-signature-section,
+    .signing-evidence {
+
+        margin-top:
+            3mm;
+
+        padding:
+            4mm;
+
+        border-radius:
+            3mm;
+    }
+
+    .customer-signature-image-wrap {
+
+        min-height:
+            24mm;
+
+        padding:
+            2mm;
+    }
+
+    .customer-signature-image {
+
+        max-height:
+            26mm;
+    }
+
+    .customer-signature-heading h3 {
+
+        font-size:
+            10pt;
+    }
+
+    .customer-signature-eyebrow,
+    .signing-evidence-title {
+
+        font-size:
+            5.5pt;
+    }
+
+    .customer-signature-meta,
+    .signing-evidence-item {
+
+        font-size:
+            6pt;
+    }
+
+    .secure-signing-status,
+    .customer-signature-check {
+
+        width:
+            8mm;
+
+        height:
+            8mm;
+
+        font-size:
+            10pt;
+    }
+
+}
+
 
 </style>
 
@@ -4502,11 +4932,14 @@ body {
 
             ${term(
                 17,
-                "Elektronisk signering med BankID",
+                "Elektronisk signering",
                 [
                     `Innan signeringen ska Kunden ha möjlighet att läsa hela detta avtal.`,
-                    `Genom BankID-signeringen bekräftar Kunden sin identitet och att Kunden har tagit del av och accepterat avtalsvillkoren.`,
-                    `Efter signeringen ska Kunden få en kopia av det signerade avtalet på ett varaktigt medium, exempelvis PDF via e-post.`
+                    `För att genomföra signeringen verifierar Kunden sin e-postadress med en tidsbegränsad engångskod.`,
+                    `Kunden bekräftar därefter att Kunden har tagit del av och accepterat samtliga avtalsvillkor.`,
+                    `Kunden anger sitt fullständiga namn och lämnar en elektronisk signatur som kopplas till avtalet.`,
+                    `Tidpunkt och teknisk information om signeringen registreras som en del av signeringsbeviset.`,
+                    `Efter genomförd signering får Kunden en kopia av det signerade avtalet i PDF-format via e-post.`
                 ]
             )}
 
@@ -4523,7 +4956,7 @@ body {
         </section>
 
         <!-- =============================================
-             APPROVAL + BANKID
+             GODKÄNNANDE + ELEKTRONISK SIGNERING
         ============================================== -->
 
         <section class="signature-grid">
@@ -4560,9 +4993,9 @@ body {
                         </span>
 
                         <span>
-                            Kundens identitet och avtalsaccept
-                            verifieras genom den elektroniska
-                            BankID-signeringen.
+                            Kundens e-postadress har verifierats
+                            med en tidsbegränsad engångskod före
+                            den elektroniska signeringen.
                         </span>
 
                     </div>
@@ -4574,7 +5007,9 @@ body {
                         </span>
 
                         <span>
-                            Detta dokument är juridiskt bindande.
+                            Kundens avtalsaccept och elektroniska
+                            signatur har registrerats tillsammans
+                            med tekniskt signeringsbevis.
                         </span>
 
                     </div>
@@ -4591,102 +5026,113 @@ body {
 
             </article>
 
-            <article class="bankid-card">
 
-                <div class="bankid-top">
+            <article class="secure-signing-card">
+
+                <div class="secure-signing-top">
 
                     <div>
 
-                        <div class="bankid-eyebrow">
-                            ELEKTRONISK SIGNERING
+                        <div class="secure-signing-eyebrow">
+                            ELEKTRONISKT SIGNERAT
                         </div>
 
-                        <div class="bankid-title">
-                            Verifierad med BankID
+                        <div class="secure-signing-title">
+                            Säker elektronisk signering
                         </div>
 
                     </div>
 
-                    ${
-                        bankIdLogo
-                        ?
-                        `
-                            <img
-                                class="bankid-logo-real"
-                                src="${bankIdLogo}"
-                                alt="BankID"
-                            >
-                        `
-                        :
-                        `
-                            <div class="bankid-logo-fallback">
-                                BankID
-                            </div>
-                        `
-                    }
+                    <div
+                        class="secure-signing-status"
+                        aria-label="Signeringen är verifierad"
+                    >
+                        ✓
+                    </div>
 
                 </div>
 
-                <div class="bankid-data">
 
-                    <span class="bankid-label">
+                <div class="secure-signing-data">
+
+                    <span class="secure-signing-label">
                         Avtalsnummer:
                     </span>
 
-                    <span class="bankid-value">
+                    <span class="secure-signing-value">
                         ${escapeHtml(contractNumber)}
                     </span>
 
-                    <span class="bankid-label">
+
+                    <span class="secure-signing-label">
                         Signeringsmetod:
                     </span>
 
-                    <span class="bankid-value">
-                        BankID
+                    <span class="secure-signing-value">
+                        Elektronisk signering med e-postverifiering
                     </span>
 
-                    <span class="bankid-label">
+
+                    <span class="secure-signing-label">
                         Signerad av:
                     </span>
 
-                    <span class="bankid-value">
+                    <span class="secure-signing-value">
                         ${escapeHtml(signedName)}
                     </span>
 
-                    <span class="bankid-label">
-                        Personnummer:
+
+                    <span class="secure-signing-label">
+                        Verifierad e-post:
                     </span>
 
-                    <span class="bankid-value">
-                        ${escapeHtml(
-                            maskPersonnummer(
-                                signedPersonnummer
-                            )
-                        )}
+                    <span class="secure-signing-value">
+                        ${escapeHtml(signerEmail)}
                     </span>
 
-                    <span class="bankid-label">
+
+                    <span class="secure-signing-label">
+                        E-post verifierad:
+                    </span>
+
+                    <span class="secure-signing-value">
+                        ${escapeHtml(otpVerifiedDateTime)}
+                    </span>
+
+
+                    <span class="secure-signing-label">
                         Signeringstid:
                     </span>
 
-                    <span class="bankid-value">
+                    <span class="secure-signing-value">
                         ${escapeHtml(signedDateTime)}
                     </span>
 
-                    <span class="bankid-label">
+
+                    <span class="secure-signing-label">
                         Avtalsversion:
                     </span>
 
-                    <span class="bankid-value">
+                    <span class="secure-signing-value">
                         ${escapeHtml(version)}
                     </span>
 
-                    <span class="bankid-label">
+
+                    <span class="secure-signing-label">
                         Avtalshash:
                     </span>
 
-                    <span class="bankid-value hash">
+                    <span class="secure-signing-value hash">
                         ${escapeHtml(contractHash)}
+                    </span>
+
+
+                    <span class="secure-signing-label">
+                        Signaturhash:
+                    </span>
+
+                    <span class="secure-signing-value hash">
+                        ${escapeHtml(signatureHash)}
                     </span>
 
                 </div>
@@ -4695,7 +5141,139 @@ body {
 
         </section>
 
+
+        <section class="customer-signature-section">
+
+            <div class="customer-signature-heading">
+
+                <div>
+
+                    <div class="customer-signature-eyebrow">
+                        KUNDENS ELEKTRONISKA SIGNATUR
+                    </div>
+
+                    <h3>
+                        Signatur
+                    </h3>
+
+                </div>
+
+                <div class="customer-signature-check">
+                    ✓
+                </div>
+
+            </div>
+
+
+            <div class="customer-signature-body">
+
+                <div class="customer-signature-image-wrap">
+
+                    ${
+                        signatureImage
+                            ? `
+                                <img
+                                    class="customer-signature-image"
+                                    src="${escapeHtml(signatureImage)}"
+                                    alt="Kundens elektroniska signatur"
+                                >
+                            `
+                            : `
+                                <div class="customer-signature-missing">
+                                    Elektronisk signatur registrerad
+                                </div>
+                            `
+                    }
+
+                </div>
+
+
+                <div class="customer-signature-meta">
+
+                    <strong>
+                        ${escapeHtml(signedName)}
+                    </strong>
+
+                    <span>
+                        Signerad ${escapeHtml(signedDateTime)}
+                    </span>
+
+                    <span>
+                        E-post verifierad med engångskod
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="signing-evidence">
+
+            <div class="signing-evidence-title">
+                SIGNERINGSBEVIS
+            </div>
+
+            <div class="signing-evidence-grid">
+
+                <div class="signing-evidence-item">
+                    <span class="evidence-check">✓</span>
+                    <span>
+                        E-postadressen verifierades med en
+                        tidsbegränsad engångskod.
+                    </span>
+                </div>
+
+                <div class="signing-evidence-item">
+                    <span class="evidence-check">✓</span>
+                    <span>
+                        Kunden bekräftade samtliga
+                        avtalsvillkor före signeringen.
+                    </span>
+                </div>
+
+                <div class="signing-evidence-item">
+                    <span class="evidence-check">✓</span>
+                    <span>
+                        Kunden angav sitt fullständiga namn
+                        och lämnade en elektronisk signatur.
+                    </span>
+                </div>
+
+                <div class="signing-evidence-item">
+                    <span class="evidence-check">✓</span>
+                    <span>
+                        Signeringstid och teknisk information
+                        om signeringen registrerades.
+                    </span>
+                </div>
+
+                <div class="signing-evidence-item">
+                    <span class="evidence-check">✓</span>
+                    <span>
+                        Avtalets och signaturens integritet
+                        skyddas med kryptografiska
+                        SHA-256-kontrollvärden.
+                    </span>
+                </div>
+
+                <div class="signing-evidence-item">
+                    <span class="evidence-check">✓</span>
+                    <span>
+                        En signerad avtalskopia skapas i
+                        PDF-format och kan skickas till Kunden.
+                    </span>
+                </div>
+
+            </div>
+
+        </section>
+
+
         <!-- =============================================
+             SUMMARY
+        ============================================== -->        <!-- =============================================
              SUMMARY
         ============================================== -->
 
@@ -4760,21 +5338,29 @@ body {
             <div>
 
                 <div class="integrity-title">
-                    DOKUMENTINTEGRITET
+                    SIGNERINGSBEVIS OCH DOKUMENTINTEGRITET
                 </div>
 
                 <div class="integrity-text">
 
-                    BankID-signaturen och OCSP-svaret sparas säkert
-                    i J&W Quality Hemservices system som tekniskt
-                    signeringsbevis.
+                    Uppgifter om e-postverifiering,
+                    godkända avtalsvillkor, signeringstid
+                    och teknisk information om signeringen
+                    registreras som en del av signeringsbeviset.
 
-                    Den signerade PDF-filen får dessutom ett
-                    SHA-256-hashvärde när dokumentet genereras.
+                    Avtalets innehåll och Kundens elektroniska
+                    signatur skyddas med kryptografiska
+                    SHA-256-kontrollvärden.
+
+                    Den slutliga signerade PDF-filen får
+                    dessutom ett separat SHA-256-kontrollvärde
+                    när dokumentet genereras.
 
                 </div>
 
             </div>
+
+        </section>
 
         </section>
 
