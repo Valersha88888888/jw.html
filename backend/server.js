@@ -1,6 +1,42 @@
 require("dotenv").config();
 
 const express = require("express");
+
+// ===== PUPPETEER DIAGNOSTIC =====
+try {
+    const puppeteer = require("puppeteer");
+
+    console.log("===== PUPPETEER DIAGNOSTIC =====");
+    console.log("NODE_ENV:", process.env.NODE_ENV);
+    console.log(
+        "PUPPETEER_CACHE_DIR:",
+        process.env.PUPPETEER_CACHE_DIR || "(not set)"
+    );
+    console.log(
+        "PUPPETEER_EXECUTABLE_PATH:",
+        process.env.PUPPETEER_EXECUTABLE_PATH || "(not set)"
+    );
+
+    try {
+        console.log(
+            "PUPPETEER EXECUTABLE:",
+            puppeteer.executablePath()
+        );
+    } catch (error) {
+        console.log(
+            "PUPPETEER EXECUTABLE ERROR:",
+            error.message
+        );
+    }
+
+    console.log("===============================");
+} catch (error) {
+    console.log(
+        "PUPPETEER DIAGNOSTIC ERROR:",
+        error.message
+    );
+}
+// ===== END PUPPETEER DIAGNOSTIC =====
 const cors = require("cors");
 const helmet = require("helmet");
 const path = require("path");
