@@ -40,3 +40,4 @@ frontend/**/*.before-*.css
 backend/assets/*.before-*.html
 
 backend/.cache/puppeteer/
+backend/pdf-test/
