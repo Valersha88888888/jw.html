@@ -38,3 +38,5 @@ frontend/**/*.before-*.js
 frontend/**/*.before-*.html
 frontend/**/*.before-*.css
 backend/assets/*.before-*.html
+
+backend/.cache/puppeteer/
