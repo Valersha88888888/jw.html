@@ -140,7 +140,7 @@ async function loadLeads(){
 
         renderTable();
 
-        
+        updateStatistics();
 
     }
 
@@ -353,6 +353,43 @@ function renderStatus(status){
 
 }
 
+/* ==========================================
+   Statistics
+========================================== */
+
+function updateStatistics(){
+
+    document.getElementById("totalLeads").textContent=
+
+        leads.length;
+
+    document.getElementById("newLeads").textContent=
+
+        leads.filter(
+
+            x=>
+
+            (x.status||"Ny")==="Ny"
+
+        ).length;
+
+    document.getElementById("offerLeads").textContent=
+
+        leads.filter(
+
+            x=>x.offerNumber
+
+        ).length;
+
+    document.getElementById("customerLeads").textContent=
+
+        leads.filter(
+
+            x=>x.status==="Kund"
+
+        ).length;
+
+}
 
 /* ==========================================
    Search + Filter

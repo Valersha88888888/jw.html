@@ -1,4 +1,4 @@
-﻿const API_URL =
+const API_URL =
     window.location.hostname === "localhost"
         ? "https://jw-quality-hemservice-crm.onrender.com/api"
         : "https://jw-quality-hemservice-crm.onrender.com/api";
@@ -222,3 +222,6 @@ if (requireLogin()) {
         createContract
     );
 }
+
+
+

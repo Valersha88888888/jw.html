@@ -1,6 +1,6 @@
-﻿const API_URL =
+const API_URL =
     window.location.hostname === "localhost"
-        ? "http://localhost:3000/api"
+        ? "https://jw-quality-hemservice-crm.onrender.com/api"
         : "https://jw-quality-hemservice-crm.onrender.com/api";
 
 let contracts = [];
@@ -51,10 +51,10 @@ function statusLabel(status) {
     const labels = {
         draft: "Utkast",
         sent: "Skickat",
-        opened: "Ã–ppnat",
-        signing: "Signering pÃ¥gÃ¥r",
+        opened: "Öppnat",
+        signing: "Signering pågår",
         signed: "Signerat",
-        expired: "UtgÃ¥nget",
+        expired: "Utgånget",
         cancelled: "Avslutat"
     };
 
@@ -141,7 +141,7 @@ function actionButtons(contract) {
                     ${
                         contract.status === "signed"
                             ? "Signerat"
-                            : "VÃ¤ntar pÃ¥ signering"
+                            : "Väntar på signering"
                     }
                 </span>
 
@@ -254,7 +254,7 @@ function renderContracts() {
                         <td>
                             ${
                                 contract.service_frequency ||
-                                "HemstÃ¤dning"
+                                "Hemstädning"
                             }
                             ${
                                 contract.service_hours
@@ -381,7 +381,7 @@ async function fetchSignedContractPdf(id) {
 
     if (!token) {
         throw new Error(
-            "Du Ã¤r inte inloggad."
+            "Du är inte inloggad."
         );
     }
 
@@ -403,7 +403,7 @@ async function fetchSignedContractPdf(id) {
 
     if (!response.ok) {
         let message =
-            "Den signerade PDF-filen kunde inte hÃ¤mtas.";
+            "Den signerade PDF-filen kunde inte hämtas.";
 
         try {
             const data =
@@ -430,7 +430,7 @@ async function fetchSignedContractPdf(id) {
         blob.size === 0
     ) {
         throw new Error(
-            "PDF-filen Ã¤r tom."
+            "PDF-filen är tom."
         );
     }
 
@@ -440,9 +440,9 @@ async function fetchSignedContractPdf(id) {
 
 async function viewSignedContractPdf(id) {
     /*
-     * Ã–ppna fÃ¶nstret direkt frÃ¥n klicket.
-     * Det minskar risken att webblÃ¤saren
-     * blockerar PDF-fÃ¶rhandsvisningen.
+     * Öppna fönstret direkt från klicket.
+     * Det minskar risken att webbläsaren
+     * blockerar PDF-förhandsvisningen.
      */
 
     const previewWindow =
@@ -457,7 +457,7 @@ async function viewSignedContractPdf(id) {
                 "Signerad PDF";
 
             previewWindow.document.body.innerHTML =
-                "<p style=\"font-family:Arial,sans-serif;padding:24px\">HÃ¤mtar signerad PDF...</p>";
+                "<p style=\"font-family:Arial,sans-serif;padding:24px\">Hämtar signerad PDF...</p>";
         }
 
         const blob =
@@ -520,7 +520,7 @@ async function viewSignedContractPdf(id) {
 
         alert(
             error.message ||
-            "Den signerade PDF-filen kunde inte Ã¶ppnas."
+            "Den signerade PDF-filen kunde inte öppnas."
         );
     }
 }
@@ -666,23 +666,23 @@ async function deleteContract(
         status === "signed";
 
     const warning = isDraft
-        ? `Du hÃ¥ller pÃ¥ att permanent ta bort ett utkast.
+        ? `Du håller på att permanent ta bort ett utkast.
 
 Kund: ${customerName}
 Avtal: ${contractNumber}`
-        : `VARNING â€“ AVTALET Ã„R REDAN SKICKAT ELLER SIGNERAT.
+        : `VARNING – AVTALET ÄR REDAN SKICKAT ELLER SIGNERAT.
 
 Kund: ${customerName}
 Avtal: ${contractNumber}
 
-Avtalet tas bort frÃ¥n den aktiva CRM-listan men den juridiska historiken bevaras i arkivet.`;
+Avtalet tas bort från den aktiva CRM-listan men den juridiska historiken bevaras i arkivet.`;
 
     if (!confirm(warning)) {
         return;
     }
 
     const typedName = prompt(
-        `Skriv kundens namn exakt fÃ¶r att bekrÃ¤fta:
+        `Skriv kundens namn exakt för att bekräfta:
 
 ${customerName}`
     );
@@ -696,14 +696,14 @@ ${customerName}`
         customerName.trim().toLowerCase()
     ) {
         alert(
-            "Namnet stÃ¤mmer inte. Ingen Ã¤ndring har gjorts."
+            "Namnet stämmer inte. Ingen ändring har gjorts."
         );
         return;
     }
 
     if (!isDraft) {
         const typedNumber = prompt(
-            `Skriv Ã¤ven avtalsnumret exakt:
+            `Skriv även avtalsnumret exakt:
 
 ${contractNumber}`
         );
@@ -717,7 +717,7 @@ ${contractNumber}`
             contractNumber.trim().toUpperCase()
         ) {
             alert(
-                "Avtalsnumret stÃ¤mmer inte. Ingen Ã¤ndring har gjorts."
+                "Avtalsnumret stämmer inte. Ingen ändring har gjorts."
             );
             return;
         }
@@ -725,20 +725,20 @@ ${contractNumber}`
 
     const finalMessage =
         isDraft
-            ? `Sista bekrÃ¤ftelsen.
+            ? `Sista bekräftelsen.
 
 Ta bort ${contractNumber} permanent?`
             : isSigned
-                ? `SISTA BEKRÃ„FTELSEN â€“ SIGNERAT AVTAL.
+                ? `SISTA BEKRÄFTELSEN – SIGNERAT AVTAL.
 
-Avtalet fÃ¶rsvinner frÃ¥n den aktiva listan men originaldata och signeringshistorik bevaras.
+Avtalet försvinner från den aktiva listan men originaldata och signeringshistorik bevaras.
 
-FortsÃ¤tta?`
-                : `Sista bekrÃ¤ftelsen.
+Fortsätta?`
+                : `Sista bekräftelsen.
 
-Avtalet arkiveras och tas bort frÃ¥n den aktiva listan.
+Avtalet arkiveras och tas bort från den aktiva listan.
 
-FortsÃ¤tta?`;
+Fortsätta?`;
 
     if (!confirm(finalMessage)) {
         return;
@@ -776,14 +776,14 @@ FortsÃ¤tta?`;
         if (!response.ok) {
             throw new Error(
                 data.message ||
-                "Ã…tgÃ¤rden kunde inte genomfÃ¶ras."
+                "Åtgärden kunde inte genomföras."
             );
         }
 
         alert(
             isDraft
                 ? `Avtalet ${contractNumber} har tagits bort.`
-                : `Avtalet ${contractNumber} har arkiverats och tagits bort frÃ¥n den aktiva listan.`
+                : `Avtalet ${contractNumber} har arkiverats och tagits bort från den aktiva listan.`
         );
 
         await loadContracts();
@@ -831,7 +831,7 @@ async function loadContracts() {
         if (!response.ok) {
             throw new Error(
                 data.message ||
-                "Kunde inte lÃ¤sa avtal."
+                "Kunde inte läsa avtal."
             );
         }
 
@@ -883,5 +883,3 @@ if (requireLogin()) {
 
     loadContracts();
 }
-
-

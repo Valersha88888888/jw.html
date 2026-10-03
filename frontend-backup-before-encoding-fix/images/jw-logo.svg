@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 1250 190"
+     role="img"
+     aria-labelledby="title"
+     preserveAspectRatio="xMinYMid meet">
+
+    <title id="title">J&amp;W Quality Hemservice</title>
+
+    <defs>
+        <radialGradient id="bubble" cx="28%" cy="20%" r="82%">
+            <stop offset="0%" stop-color="#f7b2cd"/>
+            <stop offset="58%" stop-color="#e875a3"/>
+            <stop offset="100%" stop-color="#d95089"/>
+        </radialGradient>
+    </defs>
+
+    <!-- Pink J&W symbol -->
+    <circle cx="74" cy="98" r="38" fill="url(#bubble)"/>
+    <circle cx="132" cy="75" r="31" fill="url(#bubble)"/>
+    <circle cx="119" cy="134" r="25" fill="url(#bubble)"/>
+    <circle cx="69" cy="43" r="14" fill="#e875a3"/>
+    <circle cx="35" cy="139" r="11" fill="#e875a3"/>
+
+    <path d="M120 61c8 5 16 3 20-4"
+          fill="none"
+          stroke="#ffffff"
+          stroke-width="3"
+          stroke-linecap="round"
+          opacity=".8"/>
+
+    <path d="M70 83c7 4 14 2 18-4"
+          fill="none"
+          stroke="#ffffff"
+          stroke-width="3"
+          stroke-linecap="round"
+          opacity=".75"/>
+
+    <!-- Full company name -->
+    <text x="190"
+          y="116"
+          font-family="Georgia, 'Times New Roman', serif"
+          font-size="64"
+          font-weight="700"
+          fill="#20283a">
+        J&amp;W Quality Hemservice
+    </text>
+
+</svg>

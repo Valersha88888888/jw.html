@@ -1,4 +1,8 @@
-﻿
+/* ==========================================
+   J&W Quality Hemservice CRM
+   Customers Module
+========================================== */
+
 
 let customers = [];
 
@@ -9,7 +13,6 @@ let editingCustomer = null;
 document.addEventListener(
 
     "DOMContentLoaded",
-    
 
     initializeCustomers
 
@@ -940,3 +943,6 @@ function escapeHtml(text){
 ========================================== */
 
 /* setInterval(loadCustomers, 30000); */
+
+
+

@@ -140,7 +140,7 @@ async function loadLeads(){
 
         renderTable();
 
-        
+        updateStatistics();
 
     }
 
@@ -150,7 +150,7 @@ async function loadLeads(){
 
         showToast(
 
-            "Kunde inte hämta leads",
+            "Kunde inte hÃ¤mta leads",
 
             "error"
 
@@ -253,7 +253,7 @@ function renderTable(){
 
                     title="Visa">
 
-                    👁
+                    ðŸ‘
 
                 </button>
 
@@ -265,7 +265,7 @@ function renderTable(){
 
                     title="Redigera">
 
-                    ✏️
+                    âœï¸
 
                 </button>
 
@@ -277,7 +277,7 @@ function renderTable(){
 
                     title="Skapa offert">
 
-                    📄
+                    ðŸ“„
 
                 </button>
 
@@ -289,7 +289,7 @@ function renderTable(){
 
                     title="Mail">
 
-                    📧
+                    ðŸ“§
 
                 </button>
 
@@ -301,7 +301,7 @@ function renderTable(){
 
                     title="Ta bort">
 
-                    🗑
+                    ðŸ—‘
 
                 </button>
 
@@ -353,6 +353,43 @@ function renderStatus(status){
 
 }
 
+/* ==========================================
+   Statistics
+========================================== */
+
+function updateStatistics(){
+
+    document.getElementById("totalLeads").textContent=
+
+        leads.length;
+
+    document.getElementById("newLeads").textContent=
+
+        leads.filter(
+
+            x=>
+
+            (x.status||"Ny")==="Ny"
+
+        ).length;
+
+    document.getElementById("offerLeads").textContent=
+
+        leads.filter(
+
+            x=>x.offerNumber
+
+        ).length;
+
+    document.getElementById("customerLeads").textContent=
+
+        leads.filter(
+
+            x=>x.status==="Kund"
+
+        ).length;
+
+}
 
 /* ==========================================
    Search + Filter
@@ -733,7 +770,7 @@ Ort: ${lead.area || ""}
 
 Status: ${lead.status || "Ny"}
 
-Tjänst: ${lead.serviceType || ""}
+TjÃ¤nst: ${lead.serviceType || ""}
 
 Anteckningar:
 
@@ -904,3 +941,6 @@ document
 ========================================== */
 
 /* setInterval(loadLeads, 30000); */
+
+
+

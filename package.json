@@ -1,0 +1,20 @@
+{
+  "name": "jw.html",
+  "version": "1.0.0",
+  "description": "J&W Quality Hemservice",
+  "homepage": "https://github.com/Valersha88888888/jw.html#readme",
+  "bugs": {
+    "url": "https://github.com/Valersha88888888/jw.html/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Valersha88888888/jw.html.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

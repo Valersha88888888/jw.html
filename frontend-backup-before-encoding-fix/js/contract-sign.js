@@ -56,7 +56,7 @@ const legalContract =
 
 /*
  * =========================================================
- * AVTALSBEKRÄFTELSER
+ * AVTALSBEKRÃ„FTELSER
  * =========================================================
  */
 
@@ -245,7 +245,7 @@ let resendTimer =
 
 /*
  * =========================================================
- * HJÄLPFUNKTIONER
+ * HJÃ„LPFUNKTIONER
  * =========================================================
  */
 
@@ -359,14 +359,14 @@ async function readJsonResponse(
 
         message:
             text ||
-            "Ett oväntat serverfel inträffade."
+            "Ett ovÃ¤ntat serverfel intrÃ¤ffade."
     };
 }
 
 
 /*
  * =========================================================
- * KONTROLL AV SIGNERINGSFLÖDET
+ * KONTROLL AV SIGNERINGSFLÃ–DET
  * =========================================================
  */
 
@@ -387,12 +387,12 @@ function updateOtpRequestState() {
 
     if (!ready) {
         otpRequestMessage.textContent =
-            "Bekräfta samtliga punkter ovan för att fortsätta.";
+            "BekrÃ¤fta samtliga punkter ovan fÃ¶r att fortsÃ¤tta.";
     } else if (
         !otpRequestRunning
     ) {
         otpRequestMessage.textContent =
-            "Du kan nu verifiera din e-post och fortsätta till signeringen.";
+            "Du kan nu verifiera din e-post och fortsÃ¤tta till signeringen.";
     }
 }
 
@@ -458,12 +458,12 @@ function showVerifiedSigningSteps() {
 
     if (otpRequestMessage) {
         otpRequestMessage.textContent =
-            "Din e-postadress är verifierad.";
+            "Din e-postadress Ã¤r verifierad.";
     }
 
     if (otpVerifyMessage) {
         otpVerifyMessage.textContent =
-            "Verifieringen lyckades. Du kan nu slutföra signeringen.";
+            "Verifieringen lyckades. Du kan nu slutfÃ¶ra signeringen.";
     }
 
     signerStep.hidden =
@@ -488,7 +488,7 @@ function showVerifiedSigningSteps() {
 async function loadContract() {
     if (!token) {
         showError(
-            "Avtalslänken är ogiltig."
+            "AvtalslÃ¤nken Ã¤r ogiltig."
         );
 
         return;
@@ -612,7 +612,7 @@ function showAlreadySignedState() {
         true;
 
     requestOtpButton.textContent =
-        "Avtalet är redan signerat";
+        "Avtalet Ã¤r redan signerat";
 
     otpRequestMessage.textContent =
         "Detta avtal har redan signerats elektroniskt.";
@@ -633,7 +633,7 @@ function showAlreadySignedState() {
 
 /*
  * =========================================================
- * OTP - BEGÄR KOD
+ * OTP - BEGÃ„R KOD
  * =========================================================
  */
 
@@ -691,7 +691,7 @@ async function requestOtp() {
             false;
 
         otpRequestMessage.textContent =
-            "Koden har skickats. Kontrollera din e-post och ange den sexsiffriga koden nedan. Koden gäller i 10 minuter.";
+            "Koden har skickats. Kontrollera din e-post och ange den sexsiffriga koden nedan. Koden gÃ¤ller i 10 minuter.";
 
         otpCode.disabled =
             false;
@@ -723,7 +723,7 @@ async function requestOtp() {
 
 /*
  * =========================================================
- * OTP - ÅTERSKICKNINGSNEDRÄKNING
+ * OTP - Ã…TERSKICKNINGSNEDRÃ„KNING
  * =========================================================
  */
 
@@ -812,7 +812,7 @@ async function verifyOtp() {
         )
     ) {
         otpVerifyMessage.textContent =
-            "Ange alla sex siffror från verifieringsmeddelandet som skickades till din e-post.";
+            "Ange alla sex siffror frÃ¥n verifieringsmeddelandet som skickades till din e-post.";
 
         otpCode.focus();
         return;
@@ -872,12 +872,12 @@ async function verifyOtp() {
             !data.verified
         ) {
             throw new Error(
-                "Verifieringen kunde inte bekräftas."
+                "Verifieringen kunde inte bekrÃ¤ftas."
             );
         }
 
         otpVerifyMessage.textContent =
-            "✓ E-postadressen är verifierad.";
+            "âœ“ E-postadressen Ã¤r verifierad.";
 
         otpVerifyMessage.classList.add(
             "signing-message-success"
@@ -1123,7 +1123,7 @@ function drawSignature(event) {
         true;
 
     signatureMessage.textContent =
-        "Signaturen är registrerad.";
+        "Signaturen Ã¤r registrerad.";
 
     updateFinalSigningState();
 }
@@ -1199,7 +1199,7 @@ function getSignatureImage() {
 
 /*
  * =========================================================
- * SLUTFÖR SIGNERING
+ * SLUTFÃ–R SIGNERING
  * =========================================================
  */
 
@@ -1223,7 +1223,7 @@ async function signContract() {
 
     if (!otpVerified) {
         signingStatus.textContent =
-            "Din e-post måste verifieras innan avtalet kan signeras.";
+            "Din e-post mÃ¥ste verifieras innan avtalet kan signeras.";
 
         return;
     }
@@ -1232,7 +1232,7 @@ async function signContract() {
         !allConfirmationsChecked()
     ) {
         signingStatus.textContent =
-            "Bekräfta samtliga avtalsvillkor innan du signerar.";
+            "BekrÃ¤fta samtliga avtalsvillkor innan du signerar.";
 
         return;
     }
@@ -1241,7 +1241,7 @@ async function signContract() {
         name.length < 2
     ) {
         signingStatus.textContent =
-            "Ange ditt fullständiga namn.";
+            "Ange ditt fullstÃ¤ndiga namn.";
 
         signerName.focus();
         return;
@@ -1251,7 +1251,7 @@ async function signContract() {
         !signatureHasContent
     ) {
         signingStatus.textContent =
-            "Skriv din signatur innan du fortsätter.";
+            "Skriv din signatur innan du fortsÃ¤tter.";
 
         return;
     }
@@ -1261,7 +1261,7 @@ async function signContract() {
             .checked
     ) {
         signingStatus.textContent =
-            "Bekräfta att du accepterar avtalet genom din elektroniska signatur.";
+            "BekrÃ¤fta att du accepterar avtalet genom din elektroniska signatur.";
 
         return;
     }
@@ -1271,7 +1271,7 @@ async function signContract() {
 
     if (!signatureImage) {
         signingStatus.textContent =
-            "Signaturen kunde inte läsas. Försök igen.";
+            "Signaturen kunde inte lÃ¤sas. FÃ¶rsÃ¶k igen.";
 
         return;
     }
@@ -1286,7 +1286,7 @@ async function signContract() {
         "Signerar avtalet...";
 
     signingStatus.textContent =
-        "Din signering registreras säkert. Stäng inte sidan.";
+        "Din signering registreras sÃ¤kert. StÃ¤ng inte sidan.";
 
     try {
         const response =
@@ -1350,7 +1350,7 @@ async function signContract() {
             false;
 
         signContractButton.textContent =
-            "Jag godkänner och signerar avtalet";
+            "Jag godkÃ¤nner och signerar avtalet";
 
         signingStatus.textContent =
             error.message ||
@@ -1598,4 +1598,7 @@ if (otpCode) {
         }
     );
 }
+
+
+
 

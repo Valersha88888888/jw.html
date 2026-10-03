@@ -14,7 +14,7 @@ const otherAreaGroup =
 
 function updateAreaField() {
     const showOtherArea =
-        area.value === "Annat område i Stockholm";
+        area.value === "Annat omrÃ¥de i Stockholm";
 
     otherAreaGroup.classList.toggle(
         "hidden",
@@ -48,7 +48,7 @@ form.addEventListener("submit", async (event) => {
     submitButton.textContent = "SKICKAR...";
 
     const data = {
-        serviceType: "Städförfrågan",
+        serviceType: "StÃ¤dfÃ¶rfrÃ¥gan",
         otherService: "",
         size: "",
         squareMeters: "",
@@ -85,12 +85,12 @@ form.addEventListener("submit", async (event) => {
             throw new Error(
                 result?.message ||
                 result?.errors?.join(", ") ||
-                "Kunde inte skicka din förfrågan."
+                "Kunde inte skicka din fÃ¶rfrÃ¥gan."
             );
         }
 
         showMessage(
-            "Tack! Din förfrågan är mottagen. Vi kontaktar dig så snart som möjligt.",
+            "Tack! Din fÃ¶rfrÃ¥gan Ã¤r mottagen. Vi kontaktar dig sÃ¥ snart som mÃ¶jligt.",
             "success"
         );
 
@@ -108,15 +108,17 @@ form.addEventListener("submit", async (event) => {
         );
 
         showMessage(
-            "Något gick fel. Försök igen eller kontakta oss via telefon.",
+            "NÃ¥got gick fel. FÃ¶rsÃ¶k igen eller kontakta oss via telefon.",
             "error"
         );
 
     } finally {
         submitButton.disabled = false;
         submitButton.textContent =
-            "FÅ MIN KOSTNADSFRIA OFFERT";
+            "FÃ… MIN KOSTNADSFRIA OFFERT";
     }
 });
 
 updateAreaField();
+
+

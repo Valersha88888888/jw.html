@@ -9,11 +9,6 @@ const loginLimiter = rateLimit({
     limit: 5,
     standardHeaders: true,
     legacyHeaders: false,
-
-    // Under lokal utveckling blockerar vi inte inloggningen.
-    // På Render/production är skyddet aktivt.
-    skip: () => process.env.NODE_ENV !== "production",
-
     message: {
         success: false,
         message: "För många inloggningsförsök. Försök igen om 10 minuter."

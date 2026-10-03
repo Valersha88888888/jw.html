@@ -1,4 +1,3 @@
-﻿
 <!DOCTYPE html>
 <html lang="sv">
 
@@ -6,14 +5,13 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Leads | J&W Quality Hemservice CRM</title>
+<title>Offerter | J&W Quality Hemservice CRM</title>
 
 <link rel="stylesheet" href="css/main.css">
 <link rel="stylesheet" href="css/components.css">
-<link rel="stylesheet" href="css/leads.css">
+<link rel="stylesheet" href="css/offers.css">
 
 <link rel="stylesheet" href="css/mobile-nav.css">
 
@@ -56,12 +54,12 @@ content="width=device-width, initial-scale=1.0">
 <span>Dashboard</span>
 </a>
 
-<a href="leads.html" class="active">
+<a href="leads.html">
 <span class="crm-menu-icon" aria-hidden="true">&#128101;</span>
 <span>Leads</span>
 </a>
 
-<a href="offers.html">
+<a href="offers.html" class="active">
 <span class="crm-menu-icon" aria-hidden="true">&#128196;</span>
 <span>Offerter</span>
 </a>
@@ -69,26 +67,6 @@ content="width=device-width, initial-scale=1.0">
 <a href="customers.html">
 <span class="crm-menu-icon" aria-hidden="true">&#128100;</span>
 <span>Kunder</span>
-</a>
-
-<a href="contracts.html">
-<span class="crm-menu-icon" aria-hidden="true">&#128209;</span>
-<span>Avtal</span>
-</a>
-
-<a href="calendar.html">
-<span class="crm-menu-icon" aria-hidden="true">&#128197;</span>
-<span>Kalender</span>
-</a>
-
-<a href="#">
-<span class="crm-menu-icon" aria-hidden="true">&#128231;</span>
-<span>Mail</span>
-</a>
-
-<a href="#">
-<span class="crm-menu-icon" aria-hidden="true">&#128241;</span>
-<span>SMS</span>
 </a>
 
 <a href="settings.html">
@@ -115,13 +93,13 @@ content="width=device-width, initial-scale=1.0">
 
 <div>
 
-<h1>Leads</h1>
+<h1>Offerter</h1>
 
-<p>Hantera alla inkommande kunder</p>
+<p>Hantera företagets offerter</p>
 
 </div>
 
-<div class="user" id="userName">
+<div id="userName" class="user">
 
 </div>
 
@@ -135,34 +113,37 @@ content="width=device-width, initial-scale=1.0">
 type="text"
 id="searchInput"
 class="input"
-placeholder="S&ouml;k namn, telefon eller e-post...">
+placeholder="Sök offert...">
 
 </div>
+
+<label for="statusFilter" class="sr-only">
+Statusfilter
+</label>
+
 <select
 id="statusFilter"
 class="select"
-title="Filtrera leads efter status"
+title="Filtrera offerter efter status"
 aria-label="Statusfilter">
 
 <option value="">Alla status</option>
 
-<option>Ny</option>
+<option>Utkast</option>
 
-<option>Kontaktad</option>
+<option>Skickad</option>
 
-<option>Bokad</option>
+<option>Godkänd</option>
 
-<option>Offert skickad</option>
-
-<option>Kund</option>
+<option>Nekad</option>
 
 </select>
 
 <button
 class="btn btn-primary"
-id="newLeadBtn">
+id="newOfferBtn">
 
-+ Ny Lead
++ Ny Offert
 
 </button>
 
@@ -178,29 +159,31 @@ id="newLeadBtn">
 
 <tr>
 
-<th>Namn</th>
+<th>Nr</th>
+
+<th>Kund</th>
 
 <th>Telefon</th>
 
-<th>E-post</th>
+<th>Datum</th>
 
-<th>Ort</th>
+<th>Pris</th>
 
 <th>Status</th>
 
-<th>&Aring;tg&auml;rder</th>
+<th>Åtgärder</th>
 
 </tr>
 
 </thead>
 
-<tbody id="leadTable">
+<tbody id="offerTable">
 
 <tr>
 
-<td colspan="6">
+<td colspan="7">
 
-Laddar...
+Laddar offerter...
 
 </td>
 
@@ -214,29 +197,27 @@ Laddar...
 
 </section>
 
-<div
-class="modal"
-id="leadModal">
+<div class="modal" id="offerModal">
 
 <div class="modal-content">
 
 <h2 id="modalTitle">
 
-Ny Lead
+Ny Offert
 
 </h2>
 
-<form id="leadForm">
+<form id="offerForm">
 
 <div class="grid-2">
 
 <div class="form-group">
 
-<label>Namn</label>
+<label>Kund</label>
 
 <input
 type="text"
-id="leadName"
+id="customerName"
 class="input"
 required>
 
@@ -248,7 +229,7 @@ required>
 
 <input
 type="text"
-id="leadPhone"
+id="customerPhone"
 class="input">
 
 </div>
@@ -259,63 +240,105 @@ class="input">
 
 <input
 type="email"
-id="leadEmail"
+id="customerEmail"
 class="input">
 
 </div>
 
 <div class="form-group">
 
-<label>Ort</label>
+<label>Adress</label>
 
 <input
 type="text"
-id="leadArea"
+id="customerAddress"
 class="input">
 
 </div>
 
 <div class="form-group">
 
-<label for="leadStatus">Status</label>
+<label>Tjänst</label>
+
+<input
+type="text"
+id="service"
+class="input">
+
+</div>
+
+<div class="form-group">
+
+<label>Pris (kr)</label>
+
+<input
+type="number"
+id="price"
+class="input">
+
+</div>
+
+<div class="form-group">
+
+<label>ROT-avdrag</label>
+
+<input
+type="number"
+id="rot"
+class="input"
+value="0">
+
+</div>
+
+<div class="form-group">
+
+<label>Moms (%)</label>
+
+<input
+type="number"
+id="vat"
+class="input"
+value="25">
+
+</div>
+
+<div class="form-group">
+
+<label>Status</label>
+<label for="offerStatus">
+Status
+</label>
 
 <select
-id="leadStatus"
-class="select">
+id="offerStatus"
+class="select"
+title="Offertstatus"
+aria-label="Offertstatus">
 
-<option>Ny</option>
+<option>Utkast</option>
 
-<option>Kontaktad</option>
+<option>Skickad</option>
 
-<option>Bokad</option>
+<option>Godkänd</option>
 
-<option>Offert skickad</option>
-
-<option>Kund</option>
+<option>Nekad</option>
 
 </select>
 
 </div>
 
-<div class="form-group">
-
-<label>Tj&auml;nst</label>
-
-<input
-type="text"
-id="leadService"
-class="input">
-
-</div>
-
-<div class="form-group"
+<div
+class="form-group"
 style="grid-column:1/3;">
 
 <label>Anteckningar</label>
 
 <textarea
-id="leadNotes"
-class="textarea"></textarea>
+id="notes"
+class="textarea"
+rows="6"></textarea>
+
+</div>
 
 </div>
 
@@ -324,9 +347,18 @@ class="textarea"></textarea>
 <button
 type="button"
 class="btn btn-secondary"
-id="cancelLead">
+id="cancelOffer">
 
 Avbryt
+
+</button>
+
+<button
+type="button"
+class="btn btn-warning"
+id="previewOffer">
+
+📄 Förhandsvisa PDF
 
 </button>
 
@@ -334,7 +366,7 @@ Avbryt
 type="submit"
 class="btn btn-success">
 
-Spara Lead
+💾 Spara offert
 
 </button>
 
@@ -346,43 +378,69 @@ Spara Lead
 
 </div>
 
-<section class="card">
+<section class="cards">
 
-<h2 class="card-title">Snabb&aring;tg&auml;rder</h2>
+<div class="stat">
 
-<div class="toolbar">
+<h4>
 
-<button
-class="btn btn-primary"
-id="refreshBtn">
+Totalt antal offerter
 
-&#8635; Uppdatera
+</h4>
 
-</button>
+<p id="offerCount">
 
-<button
-class="btn btn-success"
-id="exportBtn">
+0
 
-&#128196; Exportera
+</p>
 
-</button>
+</div>
 
-<button
-class="btn btn-warning"
-id="mailBtn">
+<div class="stat">
 
-&#9993; Skicka Mail
+<h4>
 
-</button>
+Skickade
 
-<button
-class="btn btn-secondary"
-id="offerBtn">
+</h4>
 
-&#128221; Skapa Offert
+<p id="sentCount">
 
-</button>
+0
+
+</p>
+
+</div>
+
+<div class="stat">
+
+<h4>
+
+Godkända
+
+</h4>
+
+<p id="acceptedCount">
+
+0
+
+</p>
+
+</div>
+
+<div class="stat">
+
+<h4>
+
+Totalt offertvärde
+
+</h4>
+
+<p id="offerValue">
+
+0 kr
+
+</p>
 
 </div>
 
@@ -392,7 +450,7 @@ id="offerBtn">
 
 <p>
 
-J&W Quality Hemservice CRM
+J&amp;W Quality Hemservice CRM
 
 </p>
 
@@ -420,12 +478,10 @@ Version 1.0
 
 <script src="js/ui.js"></script>
 
+<script src="js/offers.js"></script>
+
 <script src="js/mobile-nav.js"></script>
-<script src="js/leads.js"></script>
 
 </body>
 
 </html>
-
-
-

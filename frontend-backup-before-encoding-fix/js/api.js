@@ -1,7 +1,8 @@
-﻿const API_URL =
+const API_URL =
     window.location.hostname === "localhost"
-        ? "http://localhost:3000/api"
+        ? "https://jw-quality-hemservice-crm.onrender.com/api"
         : "https://jw-quality-hemservice-crm.onrender.com/api";
+
 
 function getToken() {
     return localStorage.getItem("token");

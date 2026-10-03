@@ -1,0 +1,449 @@
+/* ===========================
+   J&W CRM Main Layout
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Segoe UI",sans-serif;
+    background:#f5f7fb;
+    color:#2d3748;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+/* ================= Sidebar ================= */
+
+.sidebar{
+
+    width:260px;
+    background:#26293d;
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+
+}
+
+.logo{
+
+    padding:30px 25px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.logo h2{
+
+    font-size:28px;
+    color:#d98adf;
+
+}
+
+.logo p{
+
+    color:#ccc;
+    font-size:13px;
+    margin-top:5px;
+
+}
+
+.menu{
+
+    padding:20px;
+
+}
+
+.menu a{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 16px;
+    margin-bottom:8px;
+    border-radius:10px;
+    transition:.25s;
+
+}
+
+.menu a:hover{
+
+    background:#343955;
+
+}
+
+.menu a.active{
+
+    background:#c77dcb;
+    color:#fff;
+
+}
+
+.logout{
+
+    margin-top:auto;
+    padding:20px;
+    border-top:1px solid rgba(255,255,255,.08);
+
+}
+
+/* ================= Main ================= */
+
+.main{
+
+    margin-left:260px;
+    width:calc(100% - 260px);
+    padding:35px;
+
+}
+
+.header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+
+}
+
+.header h1{
+
+    font-size:32px;
+    color:#2d3748;
+
+}
+
+.header p{
+
+    color:#777;
+    margin-top:5px;
+
+}
+
+.user{
+
+    text-align:right;
+
+}
+
+.user strong{
+
+    display:block;
+    font-size:16px;
+
+}
+
+.user span{
+
+    color:#888;
+    font-size:13px;
+
+}
+
+/* ================= Cards ================= */
+
+.cards{
+
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:30px;
+
+}
+
+.stat{
+
+    background:#fff;
+    border-radius:15px;
+    padding:24px;
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+
+}
+
+.stat h4{
+
+    color:#777;
+    margin-bottom:10px;
+
+}
+
+.stat p{
+
+    font-size:34px;
+    font-weight:bold;
+    color:#c77dcb;
+
+}
+
+/* ================= Content ================= */
+
+.content{
+
+    display:grid;
+    gap:25px;
+
+}
+
+.section{
+
+    background:#fff;
+    border-radius:15px;
+    padding:25px;
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+
+}
+
+.section h2{
+
+    margin-bottom:20px;
+
+}
+
+/* ================= Footer ================= */
+
+.footer{
+
+    margin-top:40px;
+    text-align:center;
+    color:#888;
+    font-size:13px;
+
+}
+
+/* ================= Responsive ================= */
+
+@media(max-width:1100px){
+
+.cards{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+@media(max-width:800px){
+
+.sidebar{
+
+position:relative;
+width:100%;
+
+}
+
+.main{
+
+margin-left:0;
+width:100%;
+
+}
+
+.cards{
+
+grid-template-columns:1fr;
+
+}
+
+.header{
+
+flex-direction:column;
+align-items:flex-start;
+gap:15px;
+
+}
+
+}
+/* ==================================================
+   Mobile CRM navigation
+================================================== */
+
+.mobile-menu-button {
+    display: none;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1200;
+    width: 48px;
+    height: 48px;
+    padding: 11px;
+    border: 0;
+    border-radius: 12px;
+    background: #c77dcb;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .18);
+    cursor: pointer;
+}
+
+.mobile-menu-button span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    margin: 5px 0;
+    border-radius: 3px;
+    background: #fff;
+}
+
+.mobile-menu-overlay {
+    display: none;
+}
+
+@media (max-width: 800px) {
+
+    body.menu-open {
+        overflow: hidden;
+    }
+
+    .mobile-menu-button {
+        display: block;
+    }
+
+    .mobile-menu-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 1050;
+        background: rgba(20, 20, 35, .55);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .25s ease, visibility .25s ease;
+    }
+
+    .mobile-menu-overlay.overlay-visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1100;
+        width: min(82vw, 320px);
+        height: 100vh;
+        overflow-y: auto;
+        transform: translateX(-105%);
+        transition: transform .25s ease;
+        box-shadow: 8px 0 24px rgba(0, 0, 0, .2);
+    }
+
+    .sidebar.sidebar-open {
+        transform: translateX(0);
+    }
+
+    .main {
+        width: 100%;
+        margin-left: 0;
+        padding: 82px 16px 24px;
+    }
+
+    .header {
+        margin-bottom: 22px;
+    }
+
+    .header h1 {
+        font-size: 30px;
+    }
+
+    .user {
+        width: 100%;
+    }
+
+    .footer {
+        padding-bottom: 20px;
+    }
+}
+
+/* ==================================================
+   Mobile navigation polish
+================================================== */
+
+.menu-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 26px;
+    width: 26px;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.mobile-menu-button {
+    transition:
+        left .25s ease,
+        transform .25s ease,
+        background-color .25s ease;
+}
+
+.mobile-menu-button span {
+    transition:
+        transform .25s ease,
+        opacity .2s ease;
+}
+
+@media (max-width: 800px) {
+
+    .sidebar .logo {
+        min-height: 138px;
+        padding: 30px 24px;
+    }
+
+    .sidebar .logo h2 {
+        font-size: 28px;
+        line-height: 1.2;
+        white-space: nowrap;
+    }
+
+    .sidebar .logo p {
+        font-size: 14px;
+    }
+
+    .sidebar .menu {
+        padding: 20px;
+    }
+
+    .sidebar .menu a {
+        min-height: 56px;
+        padding: 14px 16px;
+        font-size: 17px;
+    }
+
+    .sidebar .logout a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 52px;
+        padding: 12px 16px;
+    }
+
+    body.menu-open .mobile-menu-button {
+        left: calc(min(82vw, 320px) - 64px);
+        background: #343955;
+    }
+
+    body.menu-open .mobile-menu-button span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    body.menu-open .mobile-menu-button span:nth-child(2) {
+        opacity: 0;
+    }
+
+    body.menu-open .mobile-menu-button span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+}
+
+/* End mobile navigation polish */

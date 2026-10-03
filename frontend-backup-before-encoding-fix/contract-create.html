@@ -1,0 +1,436 @@
+﻿<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Skapa avtal | J&W Quality Hemservice CRM</title>
+
+    <link
+        rel="stylesheet"
+        href="css/dashboard.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/mobile-nav.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/contracts.css"
+    >
+</head>
+
+<body>
+
+<button
+    type="button"
+    class="crm-mobile-menu-button"
+    id="mobileMenuButton"
+    aria-label="Öppna meny"
+    aria-controls="mainSidebar"
+    aria-expanded="false"
+>
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
+<div
+    class="crm-mobile-overlay"
+    id="mobileMenuOverlay"
+></div>
+
+<nav
+    class="sidebar"
+    id="mainSidebar"
+>
+    <div class="logo">
+        <h2>J&W CRM</h2>
+        <p>Quality Hemservice</p>
+    </div>
+
+    <a href="dashboard.html">Dashboard</a>
+    <a href="leads.html">Leads</a>
+    <a href="offers.html">Offerter</a>
+    <a href="customers.html">Kunder</a>
+    <a href="contracts.html">Avtal</a>
+    <a href="settings.html">Inställningar</a>
+
+    <hr>
+
+    <a href="#" id="logout">
+        Logga ut
+    </a>
+</nav>
+
+<main class="main">
+
+<header>
+    <div>
+        <h1>Skapa avtal</h1>
+
+        <p>
+            Avtal om återkommande hemstädning
+        </p>
+    </div>
+
+    <div id="userName"></div>
+</header>
+
+<form
+    id="contractCreateForm"
+    class="contract-create-form"
+>
+
+<section class="contract-form-card">
+
+    <div class="contract-section-heading">
+        <span class="contract-step">1</span>
+
+        <div>
+            <h2>Kunduppgifter</h2>
+            <p>
+                Uppgifter om personen som ska
+                ingå avtalet.
+            </p>
+        </div>
+    </div>
+
+    <div class="contract-form-grid">
+
+        <label>
+            Förnamn *
+            <input
+                id="customerFirstName"
+                name="customerFirstName"
+                type="text"
+                required
+            >
+        </label>
+
+        <label>
+            Efternamn *
+            <input
+                id="customerLastName"
+                name="customerLastName"
+                type="text"
+                required
+            >
+        </label>
+
+        <label>
+            Personnummer
+            <input
+                id="customerPersonnummer"
+                name="customerPersonnummer"
+                type="text"
+                placeholder="ÅÅÅÅMMDD-XXXX"
+            >
+        </label>
+
+        <label>
+            Telefonnummer
+            <input
+                id="customerPhone"
+                name="customerPhone"
+                type="tel"
+                placeholder="+46..."
+            >
+        </label>
+
+        <label class="contract-wide">
+            E-post *
+            <input
+                id="customerEmail"
+                name="customerEmail"
+                type="email"
+                required
+            >
+        </label>
+
+        <label class="contract-wide">
+            Kundens adress
+            <input
+                id="customerAddress"
+                name="customerAddress"
+                type="text"
+            >
+        </label>
+
+        <label>
+            Postnummer
+            <input
+                id="customerPostalCode"
+                name="customerPostalCode"
+                type="text"
+            >
+        </label>
+
+        <label>
+            Ort
+            <input
+                id="customerCity"
+                name="customerCity"
+                type="text"
+            >
+        </label>
+
+    </div>
+
+</section>
+
+<section class="contract-form-card">
+
+    <div class="contract-section-heading">
+        <span class="contract-step">2</span>
+
+        <div>
+            <h2>Städtjänst</h2>
+            <p>
+                Uppgifterna som ska stå i
+                kundens avtal.
+            </p>
+        </div>
+    </div>
+
+    <div class="contract-form-grid">
+
+        <label class="contract-wide">
+            Städadress *
+            <input
+                id="serviceAddress"
+                name="serviceAddress"
+                type="text"
+                required
+            >
+        </label>
+
+        <label>
+            Postnummer
+            <input
+                id="servicePostalCode"
+                name="servicePostalCode"
+                type="text"
+            >
+        </label>
+
+        <label>
+            Ort
+            <input
+                id="serviceCity"
+                name="serviceCity"
+                type="text"
+            >
+        </label>
+
+        <label>
+            Bostadens storlek
+            <div class="contract-input-suffix">
+                <input
+                    id="serviceAreaM2"
+                    name="serviceAreaM2"
+                    type="number"
+                    min="1"
+                    step="1"
+                >
+                <span>m²</span>
+            </div>
+        </label>
+
+        <label>
+            Städintervall
+            <select
+                id="serviceFrequency"
+                name="serviceFrequency"
+            >
+                <option value="">
+                    Välj
+                </option>
+
+                <option value="Varje vecka">
+                    Varje vecka
+                </option>
+
+                <option value="Varannan vecka">
+                    Varannan vecka
+                </option>
+
+                <option value="Var fjärde vecka">
+                    Var fjärde vecka
+                </option>
+            </select>
+        </label>
+
+        <label>
+            Beräknad städtid
+            <div class="contract-input-suffix">
+                <input
+                    id="serviceHours"
+                    name="serviceHours"
+                    type="number"
+                    min="0.5"
+                    step="0.5"
+                >
+                <span>tim</span>
+            </div>
+        </label>
+
+        <label>
+            Veckodag
+            <select
+                id="serviceDay"
+                name="serviceDay"
+            >
+                <option value="">Välj</option>
+                <option>Måndag</option>
+                <option>Tisdag</option>
+                <option>Onsdag</option>
+                <option>Torsdag</option>
+                <option>Fredag</option>
+                <option>Lördag</option>
+                <option>Söndag</option>
+            </select>
+        </label>
+
+        <label>
+            Starttid
+            <input
+                id="serviceTime"
+                name="serviceTime"
+                type="time"
+            >
+        </label>
+
+        <label>
+            Avtalets startdatum *
+            <input
+                id="startDate"
+                name="startDate"
+                type="date"
+                required
+            >
+        </label>
+
+    </div>
+
+</section>
+
+<section class="contract-form-card contract-fixed-terms">
+
+    <div class="contract-section-heading">
+        <span class="contract-step">3</span>
+
+        <div>
+            <h2>Avtalsvillkor</h2>
+            <p>
+                Dessa villkor sätts automatiskt
+                av J&W Quality Hemservice.
+            </p>
+        </div>
+    </div>
+
+    <div class="contract-term-grid">
+
+        <article>
+            <span>Introduktionspris</span>
+            <strong>149 kr/timme</strong>
+            <small>
+                Efter preliminärt RUT-avdrag.
+                Gäller de första 3
+                städtillfällena.
+            </small>
+        </article>
+
+        <article>
+            <span>Ordinarie pris</span>
+            <strong>250 kr/timme</strong>
+            <small>
+                Efter preliminärt RUT-avdrag
+                från städtillfälle 4.
+            </small>
+        </article>
+
+        <article>
+            <span>Bindningstid</span>
+            <strong>12 månader</strong>
+            <small>
+                Räknas från avtalets
+                startdatum.
+            </small>
+        </article>
+
+        <article>
+            <span>Efter bindningstid</span>
+            <strong>30 dagar</strong>
+            <small>
+                Avtalet övergår till
+                tillsvidare med 30 dagars
+                uppsägningstid.
+            </small>
+        </article>
+
+        <article>
+            <span>Ombokning / avbokning</span>
+            <strong>24 timmar</strong>
+            <small>
+                Kostnadsfri ändring enligt
+                avtalets villkor.
+            </small>
+        </article>
+
+        <article>
+            <span>Företagsgodkännande</span>
+            <strong>
+                J&W Quality Hemservice
+            </strong>
+
+            <small>
+                Avtalet är förhandsgodkänt av
+                J&W Quality Hemservice.
+            </small>
+        </article>
+
+    </div>
+
+</section>
+
+<div
+    id="contractFormMessage"
+    class="contract-message"
+></div>
+
+<div class="contract-form-actions">
+
+    <a
+        href="contracts.html"
+        class="contract-secondary-button"
+    >
+        Avbryt
+    </a>
+
+    <button
+        type="submit"
+        id="createContractButton"
+        class="contract-primary-button"
+    >
+        Skapa avtal
+    </button>
+
+</div>
+
+</form>
+
+</main>
+
+<script src="js/contract-create.js"></script>
+<script src="js/mobile-nav.js"></script>
+
+</body>
+</html>
