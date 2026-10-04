@@ -626,16 +626,44 @@ async function sendContract(id, button) {
             );
         }
 
+        const emailStatus =
+            data.delivery?.email?.sent
+                ? "Skickad"
+                : "Misslyckades";
+
+        let smsStatus =
+            "Misslyckades";
+
+        if (data.delivery?.sms?.sent) {
+            smsStatus = "Skickat";
+
+        } else if (
+            data.delivery?.sms?.skipped
+        ) {
+            smsStatus = "Inte skickat";
+
+            if (data.delivery.sms.reason) {
+                smsStatus +=
+                    " (" +
+                    data.delivery.sms.reason +
+                    ")";
+            }
+
+        } else if (
+            data.delivery?.sms?.error
+        ) {
+            smsStatus =
+                "Misslyckades (" +
+                data.delivery.sms.error +
+                ")";
+        }
+
         alert(
-            `Avtalet har skickats.\n\nE-post: ${
-                data.delivery?.email?.sent
-                    ? "Ja"
-                    : "Nej"
-            }\nSMS: ${
-                data.delivery?.sms?.sent
-                    ? "Ja"
-                    : "Nej"
-            }`
+            "Avtalet har behandlats.\n\n" +
+            "E-post: " +
+            emailStatus +
+            "\nSMS: " +
+            smsStatus
         );
 
         await loadContracts();

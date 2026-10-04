@@ -258,6 +258,31 @@ async function sendContractController(req, res) {
             };
         }
 
+        /*
+         * Delivery diagnostics.
+         * No credentials, tokens or signing URL
+         * are written to the log.
+         */
+        log.info(
+            "Contract delivery result: " +
+            JSON.stringify({
+                contractNumber:
+                    contract.contract_number,
+                emailSent: true,
+                smsSent:
+                    !smsResult?.skipped &&
+                    !smsResult?.error,
+                smsSkipped:
+                    Boolean(smsResult?.skipped),
+                smsReason:
+                    smsResult?.reason || null,
+                smsError:
+                    smsResult?.error || null,
+                smsSidPresent:
+                    Boolean(smsResult?.sid)
+            })
+        );
+
         const updatedContract =
             await prepareContractForSending(
                 contract.id,
