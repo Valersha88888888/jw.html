@@ -404,7 +404,7 @@ function buildSignedContractTemplate(
             "name"
         )
         ||
-        "Valier Liudmyla";
+        "-";
 
     const customerPersonnummer =
         pick(
@@ -413,7 +413,7 @@ function buildSignedContractTemplate(
             "personnummer"
         )
         ||
-        "19840911-1260";
+        "-";
 
     const customerPhone =
         pick(
@@ -422,7 +422,7 @@ function buildSignedContractTemplate(
             "phone"
         )
         ||
-        "+46760817077";
+        "-";
 
     const customerEmail =
         pick(
@@ -431,7 +431,7 @@ function buildSignedContractTemplate(
             "email"
         )
         ||
-        "lulululululu1984@gmail.com";
+        "-";
 
     const customerStreet =
         pick(
@@ -440,7 +440,7 @@ function buildSignedContractTemplate(
             "address"
         )
         ||
-        "Vindryvsbacken 13";
+        "-";
 
     const customerPostal =
         pick(
@@ -449,7 +449,7 @@ function buildSignedContractTemplate(
             "postal_code"
         )
         ||
-        "165 60";
+        "-";
 
     const customerCity =
         pick(
@@ -458,7 +458,7 @@ function buildSignedContractTemplate(
             "city"
         )
         ||
-        "Hässelby";
+        "-";
 
     const customerAddress =
         buildAddress(
@@ -474,7 +474,7 @@ function buildSignedContractTemplate(
             "cleaning_address"
         )
         ||
-        "Härstamning";
+        "-";
 
     const servicePostal =
         pick(
@@ -483,7 +483,7 @@ function buildSignedContractTemplate(
             "cleaning_postal_code"
         )
         ||
-        "16560";
+        "-";
 
     const serviceCity =
         pick(
@@ -492,7 +492,7 @@ function buildSignedContractTemplate(
             "cleaning_city"
         )
         ||
-        "Hässelby";
+        "-";
 
     const serviceAddress =
         buildAddress(
@@ -509,7 +509,7 @@ function buildSignedContractTemplate(
             "area"
         )
         ||
-        "55.00";
+        "-";
 
     const frequency =
         pick(
@@ -518,7 +518,7 @@ function buildSignedContractTemplate(
             "frequency"
         )
         ||
-        "Varannan vecka";
+        "-";
 
     const estimatedHours =
         pick(
@@ -528,7 +528,7 @@ function buildSignedContractTemplate(
             "hours"
         )
         ||
-        "4.00";
+        "-";
 
     const weekday =
         pick(
@@ -537,7 +537,7 @@ function buildSignedContractTemplate(
             "weekday"
         )
         ||
-        "Fredag";
+        "-";
 
     const startTime =
         pick(
@@ -546,7 +546,7 @@ function buildSignedContractTemplate(
             "start_time"
         )
         ||
-        "09:00";
+        "-";
 
     const rawStartDate =
         pick(
@@ -558,7 +558,7 @@ function buildSignedContractTemplate(
     const startDate =
         rawStartDate
             ? formatDate(rawStartDate)
-            : "8 augusti 2027";
+            : "-";
 
     const contractNumber =
         pick(
@@ -566,7 +566,7 @@ function buildSignedContractTemplate(
             "contract_number"
         )
         ||
-        "JW-AVTAL-2026-000002";
+        "-";
 
     const signedAt =
         pick(
@@ -577,12 +577,12 @@ function buildSignedContractTemplate(
     const signedDate =
         signedAt
             ? formatDate(signedAt)
-            : "9 augusti 2026";
+            : "-";
 
     const signedDateTime =
         signedAt
             ? formatDateTime(signedAt)
-            : "9 augusti 2026 kl. 20:00";
+            : "-";
 
     const customPrice =
         Number(
@@ -5272,8 +5272,6 @@ body {
 
 
         <!-- =============================================
-             SUMMARY
-        ============================================== -->        <!-- =============================================
              SUMMARY
         ============================================== -->
 

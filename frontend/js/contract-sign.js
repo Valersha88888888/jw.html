@@ -1,6 +1,14 @@
+const hostname = window.location.hostname;
+
+const isLocalEnvironment =
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname.startsWith("192.168.") ||
+    hostname.startsWith("10.");
+
 const API_URL =
-    window.location.hostname === "localhost"
-        ? "http://localhost:3000/api"
+    isLocalEnvironment
+        ? `http://${hostname === "localhost" ? "localhost" : hostname}:3000/api`
         : "https://jw-quality-hemservice-crm.onrender.com/api";
 
 const params =
