@@ -14,6 +14,11 @@ const {
 } = require("../templates/contractTemplate");
 
 const {
+    buildContractHtml:
+        buildCustomContractHtml
+} = require("../templates/customContractTemplate");
+
+const {
     sendContractEmail
 } = require("../services/contractEmailService");
 
@@ -27,7 +32,11 @@ const log = require("../services/logService");
 async function createContractController(req, res) {
     try {
         const contract =
-            await createContract(req.body);
+            await createContract({
+                ...req.body,
+                contractType: "offer",
+                customPrice: null
+            });
 
         log.info(
             `Contract created: ${contract.contract_number}`
@@ -46,6 +55,53 @@ async function createContractController(req, res) {
         console.error(error);
 
         res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+}
+
+
+async function createCustomContractController(req, res) {
+    try {
+        const customPrice =
+            Number(req.body?.customPrice);
+
+        if (
+            !Number.isFinite(customPrice) ||
+            customPrice <= 0
+        ) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Ange ett giltigt pris per timme."
+            });
+        }
+
+        const contract =
+            await createContract({
+                ...req.body,
+                contractType: "custom",
+                customPrice
+            });
+
+        log.info(
+            `Custom contract created: ${contract.contract_number}`
+        );
+
+        return res.status(201).json({
+            success: true,
+            contract
+        });
+
+    } catch (error) {
+        log.error(
+            `Custom contract creation failed: ${error.message}`
+        );
+
+        console.error(error);
+
+        return res.status(500).json({
             success: false,
             message: error.message
         });
@@ -132,7 +188,13 @@ async function sendContractController(req, res) {
          * contract snapshot used for signing.
          */
         const contractText =
-            buildContractHtml(contract);
+            contract.contract_type === "custom"
+                ? buildCustomContractHtml(
+                    contract
+                )
+                : buildContractHtml(
+                    contract
+                );
 
         const contractHash =
             crypto
@@ -148,8 +210,13 @@ async function sendContractController(req, res) {
             "http://localhost:3000"
         ).replace(/\/+$/, "");
 
+        const signPage =
+            contract.contract_type === "custom"
+                ? "contract-sign-custom.html"
+                : "contract-sign.html";
+
         const publicUrl =
-            `${baseUrl}/contract-sign.html?token=` +
+            `${baseUrl}/${signPage}?token=` +
             encodeURIComponent(
                 contract.public_token
             );
@@ -457,6 +524,7 @@ async function getContractPdfController(req, res) {
 
 module.exports = {
     createContractController,
+    createCustomContractController,
     getContractsController,
     getContractController,
     sendContractController,

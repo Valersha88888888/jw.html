@@ -287,6 +287,12 @@ async function getPublicContractController(
                 status:
                     latest.status,
 
+                contractType:
+                    latest.contract_type,
+
+                customPrice:
+                    latest.custom_price,
+
                 customerName:
                     [
                         latest.customer_first_name,

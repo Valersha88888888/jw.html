@@ -140,7 +140,10 @@ async function createContract(data) {
                 token_expires_at,
 
                 company_approved,
-                company_approved_name
+                company_approved_name,
+
+                contract_type,
+                custom_price
             )
             VALUES (
                 $1, $2, $3, $4, $5,
@@ -156,7 +159,8 @@ async function createContract(data) {
                 $30,
                 $31,
                 $32, $33,
-                $34, $35
+                $34, $35,
+                $36, $37
             )
             RETURNING *
             `,
@@ -209,7 +213,15 @@ async function createContract(data) {
                 tokenExpiresAt,
 
                 true,
-                "J&W Quality Hemservice"
+                "J&W Quality Hemservice",
+
+                data.contractType === "custom"
+                    ? "custom"
+                    : "offer",
+
+                data.contractType === "custom"
+                    ? Number(data.customPrice)
+                    : null
             ]
         );
 

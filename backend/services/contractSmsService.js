@@ -30,6 +30,37 @@ function getManagerPhone() {
     ).trim();
 }
 
+
+function buildContractSmsBody(contract, publicUrl) {
+    const customerName =
+        getCustomerName(contract);
+
+    if (contract.contract_type === "custom") {
+        return `Hej${customerName}!
+
+Ditt individuellt anpassade avtal med J&W Quality Hemservice är klart.
+
+Läs igenom avtalet och signera elektroniskt via den säkra länken:
+${publicUrl}
+
+Avtal: ${contract.contract_number}
+
+J&W Quality Hemservice`;
+    }
+
+    return `Hej${customerName}!
+
+Ditt avtal med J&W Quality Hemservice är klart.
+
+Läs avtalet och signera elektroniskt via den säkra länken:
+${publicUrl}
+
+Avtal: ${contract.contract_number}
+
+J&W Quality Hemservice`;
+}
+
+
 async function sendContractSMS(
     contract,
     publicUrl
@@ -53,9 +84,6 @@ async function sendContractSMS(
     const client =
         getClient();
 
-    const customerName =
-        getCustomerName(contract);
-
     return client.messages.create({
         messagingServiceSid:
             process.env.TWILIO_MESSAGING_SERVICE_SID,
@@ -64,18 +92,13 @@ async function sendContractSMS(
             contract.customer_phone,
 
         body:
-`Hej${customerName}!
-
-Ditt avtal med J&W Quality Hemservice är klart.
-
-Läs avtalet och signera elektroniskt via den säkra länken:
-${publicUrl}
-
-Avtal: ${contract.contract_number}
-
-J&W Quality Hemservice`
+            buildContractSmsBody(
+                contract,
+                publicUrl
+            )
     });
 }
+
 
 async function sendSignedContractSMS(
     contract

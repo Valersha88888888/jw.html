@@ -412,6 +412,20 @@ async function initializeDatabase() {
     `);
 
     /*
+     * Custom contract fields.
+     */
+
+    await pool.query(`
+        ALTER TABLE contracts
+        ADD COLUMN IF NOT EXISTS contract_type TEXT
+        NOT NULL DEFAULT 'offer'
+    `);
+
+    await pool.query(`
+        ALTER TABLE contracts
+        ADD COLUMN IF NOT EXISTS custom_price NUMERIC(10,2)
+    `);
+    /*
      * Archive fields.
      */
 

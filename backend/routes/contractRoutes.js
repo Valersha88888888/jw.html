@@ -6,6 +6,7 @@ const auth = require("../middleware/auth");
 
 const {
     createContractController,
+    createCustomContractController,
     getContractsController,
     getContractController,
     sendContractController,
@@ -18,6 +19,12 @@ router.post(
     "/contracts",
     auth,
     createContractController
+);
+
+router.post(
+    "/contracts/custom",
+    auth,
+    createCustomContractController
 );
 
 router.get(

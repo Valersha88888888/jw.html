@@ -9,6 +9,13 @@ const {
     "../templates/signedContractTemplate"
 );
 
+const {
+    buildSignedContractTemplate:
+        buildCustomSignedContractTemplate
+} = require(
+    "../templates/customSignedContractTemplate"
+);
+
 
 async function generateSignedContractPDF(contract) {
 
@@ -59,9 +66,13 @@ async function generateSignedContractPDF(contract) {
 
 
     const html =
-        buildSignedContractTemplate(
-            contract
-        );
+        contract.contract_type === "custom"
+            ? buildCustomSignedContractTemplate(
+                contract
+            )
+            : buildSignedContractTemplate(
+                contract
+            );
 
 
     let browser = null;

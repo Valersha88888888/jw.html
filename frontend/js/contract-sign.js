@@ -1,6 +1,6 @@
 const API_URL =
     window.location.hostname === "localhost"
-        ? "https://jw-quality-hemservice-crm.onrender.com/api"
+        ? "http://localhost:3000/api"
         : "https://jw-quality-hemservice-crm.onrender.com/api";
 
 const params =
@@ -51,6 +51,11 @@ const customerGreeting =
 const legalContract =
     document.getElementById(
         "legalContract"
+    );
+
+const customPriceDisplay =
+    document.getElementById(
+        "customPriceDisplay"
     );
 
 
@@ -525,6 +530,34 @@ async function loadContract() {
 
         currentContract =
             data.contract;
+
+        if (customPriceDisplay) {
+            const customPrice =
+                Number(
+                    currentContract.customPrice
+                );
+
+            if (
+                currentContract.contractType !==
+                    "custom" ||
+                !Number.isFinite(customPrice) ||
+                customPrice <= 0
+            ) {
+                throw new Error(
+                    "Det överenskomna priset kunde inte laddas."
+                );
+            }
+
+            customPriceDisplay.textContent =
+                new Intl.NumberFormat(
+                    "sv-SE",
+                    {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }
+                ).format(customPrice) +
+                " kr/timme";
+        }
 
         contractNumber.textContent =
             `Avtal ${currentContract.contractNumber}`;

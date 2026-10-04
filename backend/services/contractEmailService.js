@@ -17,6 +17,88 @@ function getManagerEmail() {
     );
 }
 
+
+function buildContractSummaryHtml(contract) {
+
+    if (contract.contract_type === "custom") {
+
+        const rawPrice =
+            Number(contract.custom_price);
+
+        if (
+            !Number.isFinite(rawPrice) ||
+            rawPrice <= 0
+        ) {
+            throw new Error(
+                "Ogiltigt individuellt avtalspris."
+            );
+        }
+
+        const price =
+            new Intl.NumberFormat(
+                "sv-SE",
+                {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }
+            ).format(rawPrice);
+
+        return `
+            <div style="
+                background:#fff6f8;
+                border:1px solid #f2d4df;
+                border-radius:12px;
+                padding:18px;
+                margin:24px 0;
+            ">
+                <strong>
+                    Viktiga avtalsvillkor
+                </strong>
+
+                <p style="margin-bottom:0">
+                    Överenskommet pris:
+                    <strong>
+                        ${price} kr/timme
+                    </strong>
+                    efter preliminärt RUT-avdrag.<br>
+
+                    Bindningstid: 12 månader.<br>
+                    Därefter: 30 dagars uppsägningstid.<br>
+                    Ombokning/avbokning:
+                    senast 24 timmar enligt avtalsvillkoren.
+                </p>
+            </div>
+        `;
+    }
+
+    return `
+        <div style="
+            background:#fff6f8;
+            border:1px solid #f2d4df;
+            border-radius:12px;
+            padding:18px;
+            margin:24px 0;
+        ">
+            <strong>
+                Viktiga villkor
+            </strong>
+
+            <p style="margin-bottom:0">
+                149 kr/timme efter preliminärt RUT-avdrag
+                för de första 3 städtillfällena.<br>
+
+                250 kr/timme från och med städtillfälle 4.<br>
+
+                Bindningstid: 12 månader.<br>
+                Därefter: 30 dagars uppsägningstid.<br>
+                Ombokning/avbokning:
+                senast 24 timmar enligt avtalsvillkoren.
+            </p>
+        </div>
+    `;
+}
+
+
 async function sendContractEmail(
     contract,
     publicUrl
@@ -74,29 +156,7 @@ async function sendContractEmail(
                     elektronisk signering.
                 </p>
 
-                <div style="
-                    background:#fff5f8;
-                    border:1px solid #f3c4d3;
-                    border-radius:12px;
-                    padding:18px;
-                    margin:24px 0;
-                ">
-                    <strong>Viktiga villkor</strong>
-
-                    <p style="margin-bottom:0">
-                        149 kr/timme efter preliminärt RUT-avdrag
-                        för de första 3 städtillfällena.<br>
-
-                        250 kr/timme från och med städtillfälle 4.<br>
-
-                        Bindningstid: 12 månader.<br>
-
-                        Därefter: 30 dagars uppsägningstid.<br>
-
-                        Ombokning/avbokning: senast 24 timmar
-                        enligt avtalsvillkoren.
-                    </p>
-                </div>
+                ${buildContractSummaryHtml(contract)}
 
                 <p style="margin:30px 0">
                     <a

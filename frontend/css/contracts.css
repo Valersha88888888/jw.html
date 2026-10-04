@@ -1,4 +1,4 @@
-﻿.contract-toolbar {
+.contract-toolbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -340,4 +340,36 @@
 .contract-send-button:focus-visible {
     outline: 3px solid rgba(239, 142, 174, 0.30);
     outline-offset: 2px;
+}
+
+/* =========================================================
+   CONTRACT CREATE ACTIONS
+========================================================= */
+
+.contract-create-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.contract-custom-button {
+    background: #C47AC0;
+}
+
+.contract-custom-button:hover {
+    filter: brightness(0.95);
+}
+
+@media (max-width: 760px) {
+    .contract-create-actions {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .contract-create-actions .contract-primary-button {
+        flex: 1 1 100%;
+        text-align: center;
+    }
 }
