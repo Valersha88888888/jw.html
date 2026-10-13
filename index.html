@@ -19,6 +19,8 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="css/stylen.css">
+
+  <link rel="stylesheet" href="css/mobile-contact-bar.css">
 </head>
 
 <body id="index">
@@ -486,52 +488,8 @@ document.addEventListener("DOMContentLoaded", function () {
   emailjs.init("kuKF1p7OSrGeG2i_G");
 
 
-  /* =========================
-     CONTACT FORM (INDEX)
-  ========================= */
-  const contactForm = document.getElementById("contactForm");
-  const contactStatus = document.getElementById("contact_status");
+  /* CONTACT FORM: handled by js-contact-crm.js */
 
-  if (contactForm) {
-
-    contactForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      if (contactForm.website && contactForm.website.value !== "") return;
-
-      if (contactStatus) {
-        contactStatus.textContent = "Skickar...";
-        contactStatus.style.color = "#333";
-      }
-
-      emailjs.sendForm(
-        "service_exp9y7q",
-        "template_trofh3q",   /* ← TEMPLATE ДЛЯ INDEX */
-        contactForm
-      )
-      .then(function () {
-
-        if (contactStatus) {
-          contactStatus.textContent = "✅ Tack! Vi kontaktar dig snart.";
-          contactStatus.style.color = "green";
-        }
-
-        contactForm.reset();
-      })
-      .catch(function (error) {
-
-        console.error("EmailJS error:", error);
-
-        if (contactStatus) {
-          contactStatus.textContent = "❌ Något gick fel. Försök igen.";
-          contactStatus.style.color = "red";
-        }
-
-      });
-
-    });
-
-  }
 
 
   /* =========================
@@ -633,8 +591,13 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
+
+  <script src="js-contact-crm.js"></script>
+  <script src="js-mobile-contact-bar.js"></script>
 </body>
 </html>
+
+
 
 
 

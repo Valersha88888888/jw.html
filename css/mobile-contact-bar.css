@@ -1,0 +1,98 @@
+﻿/* J&W Quality Hemservice - Mobile contact bar */
+
+.jw-mobile-contact {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  body {
+    padding-bottom: calc(94px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .jw-mobile-contact {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 9px;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+    background: rgba(255, 247, 251, 0.96);
+    border-top: 1px solid rgba(190, 24, 93, 0.15);
+    box-shadow: 0 -8px 30px rgba(131, 24, 67, 0.12);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .jw-mobile-contact a {
+    min-width: 0;
+    min-height: 58px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    padding: 7px 4px;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #fff, #fce7f3);
+    color: #9d174d;
+    border: 1px solid #f9a8d4;
+    text-decoration: none;
+    font: 700 12px/1.2 system-ui, sans-serif;
+    box-shadow: 0 3px 10px rgba(190, 24, 93, 0.09);
+    transition: transform .2s ease, box-shadow .2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .jw-mobile-contact a svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .jw-mobile-contact a:active {
+    transform: scale(0.95);
+  }
+
+  .jw-mobile-contact a:focus-visible {
+    outline: 3px solid #831843;
+    outline-offset: 2px;
+  }
+
+  .jw-mobile-contact .jw-mobile-offer {
+    color: #fff;
+    background: linear-gradient(125deg, #be185d, #ec4899, #be185d);
+    background-size: 200% 200%;
+    border-color: #be185d;
+    box-shadow: 0 4px 16px rgba(190, 24, 93, 0.3);
+    animation: jwPinkShimmer 5s ease-in-out infinite;
+  }
+
+  @keyframes jwPinkShimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  html {
+    scroll-padding-bottom: 110px;
+  }
+
+  #contactForm {
+    scroll-margin-top: 90px;
+    scroll-margin-bottom: 115px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jw-mobile-contact a,
+  .jw-mobile-contact .jw-mobile-offer {
+    animation: none;
+    transition: none;
+  }
+}
